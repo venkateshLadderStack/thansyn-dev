@@ -12,6 +12,7 @@ import { Helmet } from "react-helmet"
 import Header from "./header"
 import "./layout.css"
 import "./all.css"
+import "./responsive.css"
 import Footer from "./footer/Footer"
 const Layout = ({ children }) => {
   const data = useStaticQuery(graphql`

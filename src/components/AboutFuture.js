@@ -1,9 +1,9 @@
 import React from "react"
-const AboutFuture = ({ data }) => {
+const AboutFuture = ({ data,class1 }) => {
   return (
     <>
       {data.map((item, index) => (
-        <div class="col-lg-6 col-md-6">
+        <div class={`col-lg-6 col-md-6 ${class1}`}>
           <div
             class="about-future"
             data-aos="fade-right"
