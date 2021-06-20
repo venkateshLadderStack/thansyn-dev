@@ -10,41 +10,9 @@ import CommunityBox from '../components/CommunityBox';
 import ConnectWithAnalyst from '../components/ConnectWithAnalyst';
 import { graphql } from 'gatsby';
 import TestimonialSlider from '../components/slider/TestimonialSlider';
+
 const IndexPage = ({ data }) => {
   console.log(data);
-
-  const postData = [
-    {
-      tags: 'AUTOMATION',
-      image: Post1,
-      date: '24 November, 2020',
-      time: '2 Mins',
-      heading: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr,',
-      description:
-        'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna',
-      readBtn: 'READ INSIGHT',
-    },
-    {
-      tags: 'SOCIETY',
-      image: Post2,
-      date: '24 November, 2020',
-      time: '2 Mins',
-      heading: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr,',
-      description:
-        'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna',
-      readBtn: 'READ INSIGHT',
-    },
-    {
-      tags: 'FUTURE OF WORK',
-      image: Post3,
-      date: '24 November, 2020',
-      time: '2 Mins',
-      heading: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr,',
-      description:
-        'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna',
-      readBtn: 'READ INSIGHT',
-    },
-  ];
 
   return (
     <Layout>

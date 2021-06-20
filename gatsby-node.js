@@ -46,10 +46,10 @@ exports.createPages = ({ actions, graphql }) => {
 
       // Call `createPage()` once per WordPress page
       _.each(pages, ({ node: page }) => {
-        if (page.template.templateName === 'about-us.php') {
+        if (page.template.templateName === 'About Page') {
           createPage({
             path: `/${page.slug}/`,
-            component: path.resolve(`./src/templates/aboutUs.js`),
+            component: path.resolve(`./src/templates/aboutus.js`),
             context: {
               id: page.id,
             },

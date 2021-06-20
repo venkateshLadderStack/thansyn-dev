@@ -1,24 +1,25 @@
-import React from "react"
+import React from 'react';
+import styled from 'styled-components';
 
-const AboutCard = ({ heading, description,data }) => {
+const AboutCardWrapper = styled.div`
+  background: ${props => (props.color ? `${props.color}` : null)};
+`;
+
+const AboutCard = ({ data }) => {
   return (
-    <>
-    {data.map((item,index)=>(
     <div
-      class="col-lg-6 col-md-6"
+      className="col-lg-6 col-md-6"
       data-aos="fade-right"
       data-aos-duration="900"
     >
-      <div class="card-item">
-        <div class="card-content">
-          <h4>{item.heading}</h4>
-          <p>{item.description}</p>
+      <AboutCardWrapper className="card-item" color={data.color}>
+        <div className="card-content">
+          <h4>{data.title}</h4>
+          <p>{data.description}</p>
         </div>
-      </div>
-    </div>))
-}
-    </>
-  )
-}
+      </AboutCardWrapper>
+    </div>
+  );
+};
 
-export default AboutCard
+export default AboutCard;
