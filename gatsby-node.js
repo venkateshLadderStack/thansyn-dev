@@ -11,12 +11,14 @@ exports.createPages = ({ actions, graphql }) => {
 
   return graphql(`
     {
-      allWordpressPage {
+      allWpPage {
         edges {
           node {
             slug
             title
-            template
+            template {
+              templateName
+            }
             id
             status
           }
@@ -36,7 +38,7 @@ exports.createPages = ({ actions, graphql }) => {
       // excludes drafts, future posts, etc. They will appear in development,
       // but not in a production build.
 
-      const allPages = result.data.allWordpressPage.edges;
+      const allPages = result.data.allWpPage.edges;
       const pages =
         process.env.NODE_ENV === 'production'
           ? getOnlyPublished(allPages)
@@ -44,7 +46,7 @@ exports.createPages = ({ actions, graphql }) => {
 
       // Call `createPage()` once per WordPress page
       _.each(pages, ({ node: page }) => {
-        if (page.template === 'about-us.php') {
+        if (page.template.templateName === 'about-us.php') {
           createPage({
             path: `/${page.slug}/`,
             component: path.resolve(`./src/templates/aboutUs.js`),
@@ -52,7 +54,7 @@ exports.createPages = ({ actions, graphql }) => {
               id: page.id,
             },
           });
-        } else if (page.template === 'page-peoplebyte.php') {
+        } else if (page.template.templateName === 'page-peoplebyte.php') {
           createPage({
             path: `/${page.slug}/`,
             component: path.resolve(`./src/templates/peopleBytes.js`),
@@ -60,7 +62,7 @@ exports.createPages = ({ actions, graphql }) => {
               id: page.id,
             },
           });
-        } else if (page.template === 'page-kartavya.php') {
+        } else if (page.template.templateName === 'page-kartavya.php') {
           createPage({
             path: `/${page.slug}/`,
             component: path.resolve(
@@ -70,7 +72,7 @@ exports.createPages = ({ actions, graphql }) => {
               id: page.id,
             },
           });
-        } else if (page.template === 'page-benefits.php') {
+        } else if (page.template.templateName === 'page-benefits.php') {
           createPage({
             path: `/${page.slug}/`,
             component: path.resolve(`./src/templates/benefits.js`),
@@ -78,15 +80,15 @@ exports.createPages = ({ actions, graphql }) => {
               id: page.id,
             },
           });
-        } else if (page.template === 'page-home.php') {
+        } else if (page.template.templateName === 'Home Page') {
           createPage({
             path: `/`,
-            component: path.resolve(`./src/templates/home.js`),
+            component: path.resolve(`./src/templates/index.js`),
             context: {
               id: page.id,
             },
           });
-        } else if (page.template === 'page-contact.php') {
+        } else if (page.template.templateName === 'page-contact.php') {
           createPage({
             path: `/${page.slug}/`,
             component: path.resolve(`./src/templates/contact.js`),
@@ -94,7 +96,7 @@ exports.createPages = ({ actions, graphql }) => {
               id: page.id,
             },
           });
-        } else if (page.template === 'page-service.php') {
+        } else if (page.template.templateName === 'page-service.php') {
           createPage({
             path: `/${page.slug}/`,
             component: path.resolve(`./src/templates/serviceListing.js`),
@@ -102,7 +104,7 @@ exports.createPages = ({ actions, graphql }) => {
               id: page.id,
             },
           });
-        } else if (page.template === 'page-partnership.php') {
+        } else if (page.template.templateName === 'page-partnership.php') {
           createPage({
             path: `/${page.slug}/`,
             component: path.resolve(`./src/templates/partnership.js`),
@@ -182,6 +184,7 @@ exports.createPages = ({ actions, graphql }) => {
       // Iterate over the array of posts
       _.each(posts, ({ node: post }) => {
         // Create the Gatsby page for this WordPress post
+
         if (post.template === 'single-sidebar.php') {
           createPage({
             path: `/${post.slug}/`,
