@@ -5,15 +5,15 @@
  * See: https://www.gatsbyjs.com/docs/use-static-query/
  */
 
-import * as React from "react"
-import PropTypes from "prop-types"
-import { useStaticQuery, graphql } from "gatsby"
-import { Helmet } from "react-helmet"
-import Header from "./header"
-import "./layout.css"
-import "./all.css"
-import "./responsive.css"
-import Footer from "./footer/Footer"
+import * as React from 'react';
+import PropTypes from 'prop-types';
+import { useStaticQuery, graphql } from 'gatsby';
+import { Helmet } from 'react-helmet';
+import Header from './header';
+import '../assets/css/style.scss';
+import Footer from './footer/Footer';
+import NavBar from './NavBar/NavBar';
+
 const Layout = ({ children }) => {
   const data = useStaticQuery(graphql`
     query SiteTitleQuery {
@@ -23,11 +23,11 @@ const Layout = ({ children }) => {
         }
       }
     }
-  `)
+  `);
 
   return (
     <>
-    <Helmet>
+      <Helmet>
         <link
           rel="stylesheet"
           href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
@@ -36,6 +36,7 @@ const Layout = ({ children }) => {
         />
       </Helmet>
       <Header siteTitle={data.site.siteMetadata?.title || `Title`} />
+      <NavBar />
       <div
         style={{
           margin: `0 auto`,
@@ -46,11 +47,11 @@ const Layout = ({ children }) => {
       </div>
       <Footer />
     </>
-  )
-}
+  );
+};
 
 Layout.propTypes = {
   children: PropTypes.node.isRequired,
-}
+};
 
-export default Layout
+export default Layout;
