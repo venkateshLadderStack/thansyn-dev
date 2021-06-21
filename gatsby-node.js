@@ -54,84 +54,10 @@ exports.createPages = ({ actions, graphql }) => {
               id: page.id,
             },
           });
-        } else if (page.template.templateName === 'page-peoplebyte.php') {
-          createPage({
-            path: `/${page.slug}/`,
-            component: path.resolve(`./src/templates/peopleBytes.js`),
-            context: {
-              id: page.id,
-            },
-          });
-        } else if (page.template.templateName === 'page-kartavya.php') {
-          createPage({
-            path: `/${page.slug}/`,
-            component: path.resolve(
-              `./src/templates/kartavya-csr-initiative.js`
-            ),
-            context: {
-              id: page.id,
-            },
-          });
-        } else if (page.template.templateName === 'page-benefits.php') {
-          createPage({
-            path: `/${page.slug}/`,
-            component: path.resolve(`./src/templates/benefits.js`),
-            context: {
-              id: page.id,
-            },
-          });
         } else if (page.template.templateName === 'Home Page') {
           createPage({
             path: `/`,
             component: path.resolve(`./src/templates/index.js`),
-            context: {
-              id: page.id,
-            },
-          });
-        } else if (page.template.templateName === 'page-contact.php') {
-          createPage({
-            path: `/${page.slug}/`,
-            component: path.resolve(`./src/templates/contact.js`),
-            context: {
-              id: page.id,
-            },
-          });
-        } else if (page.template.templateName === 'page-service.php') {
-          createPage({
-            path: `/${page.slug}/`,
-            component: path.resolve(`./src/templates/serviceListing.js`),
-            context: {
-              id: page.id,
-            },
-          });
-        } else if (page.template.templateName === 'page-partnership.php') {
-          createPage({
-            path: `/${page.slug}/`,
-            component: path.resolve(`./src/templates/partnership.js`),
-            context: {
-              id: page.id,
-            },
-          });
-        } else if (page.template === 'page-industry.php') {
-          createPage({
-            path: `/${page.slug}/`,
-            component: path.resolve(`./src/templates/industry.js`),
-            context: {
-              id: page.id,
-            },
-          });
-        } else if (page.template === 'mission.php') {
-          createPage({
-            path: `/${page.slug}/`,
-            component: path.resolve(`./src/templates/missionPage.js`),
-            context: {
-              id: page.id,
-            },
-          });
-        } else if (page.template === 'domain.php') {
-          createPage({
-            path: `/${page.slug}/`,
-            component: path.resolve(`./src/templates/domainPage.js`),
             context: {
               id: page.id,
             },
@@ -150,13 +76,15 @@ exports.createPages = ({ actions, graphql }) => {
     .then(() => {
       return graphql(`
         {
-          allWpPage {
+          allWpPosts {
             edges {
               node {
                 id
                 slug
                 status
-                template
+                template {
+                  templateName
+                }
               }
             }
           }
@@ -175,7 +103,7 @@ exports.createPages = ({ actions, graphql }) => {
       );
 
       // In production builds, filter for only published posts.
-      const allPosts = result.data.allWordpressPost.edges;
+      const allPosts = result.data.allWpPosts.edges;
       const posts =
         process.env.NODE_ENV === 'production'
           ? getOnlyPublished(allPosts)
