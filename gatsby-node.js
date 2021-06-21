@@ -76,7 +76,7 @@ exports.createPages = ({ actions, graphql }) => {
     .then(() => {
       return graphql(`
         {
-          allWpPosts {
+          allWpPost {
             edges {
               node {
                 id
@@ -103,17 +103,14 @@ exports.createPages = ({ actions, graphql }) => {
       );
 
       // In production builds, filter for only published posts.
-      const allPosts = result.data.allWpPosts.edges;
-      const posts =
-        process.env.NODE_ENV === 'production'
-          ? getOnlyPublished(allPosts)
-          : allPosts;
+      const allPosts = result.data.allWpPost.edges;
+      const posts = allPosts;
 
       // Iterate over the array of posts
       _.each(posts, ({ node: post }) => {
         // Create the Gatsby page for this WordPress post
 
-        if (post.template === 'single-sidebar.php') {
+        if (post.template.templateName === 'single-sidebar.php') {
           createPage({
             path: `/${post.slug}/`,
             component: postSidebarTemplate,
