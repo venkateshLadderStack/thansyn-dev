@@ -32,7 +32,7 @@ const post = ({ data }) => {
                 <div className="category-social-list d-flex">
                   <ul className="post-info mr-3">
                     <li>
-                      <Img
+                      <img
                         width="50px"
                         src={
                           data.wpPost.author.node.about_author_insights
@@ -71,7 +71,13 @@ const post = ({ data }) => {
                 </div>
               </div>
               <div className="insight-wrapp">
-                <img src={data.featuredImage?.node?.sourceUrl} alt="" />
+                <img
+                  src={
+                    data.featuredImage?.node?.localFile.childImageSharp.fluid
+                      .src
+                  }
+                  alt=""
+                />
                 <div
                   dangerouslySetInnerHTML={{ __html: data.wpPost.content }}
                 />
@@ -89,9 +95,10 @@ const post = ({ data }) => {
           <div className="row">
             <div className="col-lg-12">
               <div className="clint-content d-flex">
-                <Img
-                  fluid={
-                    data.featuredImage?.node.localFile.childImageSharp.fluid.src
+                <img
+                  src={
+                    data.wpPost.author.node.about_author_insights
+                      ?.displayPicture?.sourceUrl
                   }
                   alt=""
                 />
@@ -198,8 +205,8 @@ export const query = graphql`
           sourceUrl
           localFile {
             childImageSharp {
-              fluid {
-                src
+              fluid(quality: 90) {
+                ...GatsbyImageSharpFluid
               }
             }
           }

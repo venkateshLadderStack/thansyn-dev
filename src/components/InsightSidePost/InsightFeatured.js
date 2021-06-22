@@ -64,7 +64,7 @@ const InsightsFeaturedSidePosts = () => {
                       width="40px"
                       src={
                         edge.node.author.node.about_author_insights
-                          ?.displayPicture.sourceUrl
+                          ?.displayPicture?.sourceUrl
                       }
                       alt=""
                     />
