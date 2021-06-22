@@ -85,6 +85,11 @@ exports.createPages = ({ actions, graphql }) => {
                 template {
                   templateName
                 }
+                author {
+                  node {
+                    id
+                  }
+                }
               }
             }
           }
@@ -116,6 +121,7 @@ exports.createPages = ({ actions, graphql }) => {
             component: postSidebarTemplate,
             context: {
               id: post.id,
+              authorId: post.author.node.id,
             },
           });
         } else {

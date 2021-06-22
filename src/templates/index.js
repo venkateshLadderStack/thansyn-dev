@@ -76,7 +76,8 @@ const IndexPage = ({ data }) => {
                 <PostItem
                   tags={item.categories.nodes[0].name}
                   image={
-                    item.featuredImage.node.localFile.childImageSharp.fluid.src
+                    item?.featuredImage?.node?.localFile?.childImageSharp.fluid
+                      .src
                   }
                   date={item.date}
                   time={item.postDuration.readtime}
