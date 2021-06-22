@@ -12,9 +12,7 @@ import PostItem from '../components/PostItem';
 import TopHeading from '../components/TopHeading';
 
 const post = ({ data }) => {
-  const image = getImage(
-    data.featuredImage?.node?.localFile.childImageSharp.fluid.src
-  );
+  console.log(data);
 
   return (
     <Layout>
@@ -24,9 +22,10 @@ const post = ({ data }) => {
             <div className="col-xl-6 col-lg-6 col-md-12">
               <div className="category-text-detiles ">
                 <h2
-                  dangerouslySetInnerHTML={{ __html: data.wpPost.title }}
+                  className="sub-title"
                   data-aos="fade-right"
                   data-aos-duration="500"
+                  dangerouslySetInnerHTML={{ __html: data.wpPost.title }}
                 />
 
                 <div className="category-social-list d-flex">
@@ -36,7 +35,7 @@ const post = ({ data }) => {
                         width="50px"
                         src={
                           data.wpPost.author.node.about_author_insights
-                            ?.displayPicture?.sourceUrl
+                            .displayPicture?.sourceUrl
                         }
                         alt=""
                       />
@@ -44,7 +43,7 @@ const post = ({ data }) => {
                     <li>by</li>
                     <li>
                       <a className="btn-line line-black" href="#">
-                        {data.wpPost.author.node.name}
+                        {data.wpPost.author.node.about_author_insights.name}
                       </a>
                     </li>
                     <li>
@@ -53,9 +52,9 @@ const post = ({ data }) => {
                   </ul>
                   <ul className="social-list d-flex">
                     <li>
-                      <Link to="https://venkylad.netlify.app">
+                      <a href="#">
                         <i className="fab fa-facebook-f facebook"></i>
-                      </Link>
+                      </a>
                     </li>
                     <li>
                       <a href="#">
@@ -72,18 +71,21 @@ const post = ({ data }) => {
               </div>
               <div className="insight-wrapp">
                 <img
+                  data-aos="fade-right"
+                  data-aos-duration="900"
                   src={
-                    data.featuredImage?.node?.localFile.childImageSharp.fluid
-                      .src
+                    data.wpPost.featuredImage?.node.localFile.childImageSharp
+                      .fluid.src
                   }
                   alt=""
                 />
                 <div
+                  className="insight-content"
                   dangerouslySetInnerHTML={{ __html: data.wpPost.content }}
                 />
               </div>
             </div>
-            <div className="col-xl-6 col-lg-6 col-md-12">
+            <div class="col-xl-6 col-lg-6 col-md-12">
               <InsightTabs />
               <InsightTextCard />
             </div>
@@ -97,8 +99,8 @@ const post = ({ data }) => {
               <div className="clint-content d-flex">
                 <img
                   src={
-                    data.wpPost.author.node.about_author_insights
-                      ?.displayPicture?.sourceUrl
+                    data.wpPost.author.node.about_author_insights.displayPicture
+                      ?.sourceUrl
                   }
                   alt=""
                 />
@@ -106,10 +108,12 @@ const post = ({ data }) => {
                   <div className="clint-name">
                     <div className="insight-point">
                       <span>by</span>
-                      <a href="#">{data.wpPost.author.node.name}</a>
+                      <a href="#">
+                        {data.wpPost.author?.node?.about_author_insights?.name}
+                      </a>
                     </div>
                   </div>
-                  <p>{data.wpPost.author.node.description}</p>
+                  <p>{data.wpPost.author?.node?.description}</p>
                 </div>
               </div>
             </div>
@@ -130,7 +134,7 @@ const post = ({ data }) => {
             </div>
           </div>
           <div className="row justify-content-center">
-            {data.allWpPost.nodes.map(item => (
+            {data.allWpPost.nodes.slice(0, 3).map((item, index) => (
               <div
                 className="col-lg-4 col-md-6"
                 data-aos="fade-right"
@@ -140,13 +144,21 @@ const post = ({ data }) => {
                   <div className="whats-top">
                     <span className="tags">AUTOMATION</span>
                     <a href="">
-                      <img src="assets/img/w-1.jpg" alt="" />
+                      <img
+                        src={
+                          item.author.node.posts.nodes[index].featuredImage.node
+                            .localFile.childImageSharp.fluid.src
+                        }
+                        alt=""
+                      />
                     </a>
                   </div>
                   <div className="whats-bottom">
                     <ul className="post-info">
                       <li>
-                        <a href="">24 November, 2020</a>
+                        <a href="">
+                          {item.author.node.posts.nodes[index].date}
+                        </a>
                       </li>
                       <li>
                         <a href="">
@@ -156,13 +168,14 @@ const post = ({ data }) => {
                     </ul>
                     <div className="whats-text">
                       <a href="">
-                        <h4>{item.author.node.posts.nodes.title}</h4>
+                        <h4>{item.author.node.posts.nodes[index].title}</h4>
                       </a>
-                      <p>
-                        Lorem ipsum dolor sit amet, consetetur sadipscing elitr,
-                        sed diam nonumy eirmod tempor invidunt ut labore et
-                        dolore magna{' '}
-                      </p>
+                      <p
+                        dangerouslySetInnerHTML={{
+                          __html: item.author.node.posts.nodes[index].excerpt,
+                        }}
+                      />
+
                       <a className="btn-line line-black" href="">
                         READ INSIGHT
                       </a>
@@ -182,51 +195,51 @@ const post = ({ data }) => {
 export default post;
 
 export const query = graphql`
-  query Post($id: String!) {
+  query Post($id: String!, $authorId: String!) {
     wpPost(id: { eq: $id }) {
-      author {
-        node {
-          name
-          description
-          about_author_insights {
-            name
-            displayPicture {
-              sourceUrl
-            }
-          }
-        }
-      }
       title
-      date(formatString: "DD MMMM yyyy")
-      slug
+      id
       content
+      slug
+      date(formatString: "DD MMMM yyyy")
       featuredImage {
         node {
-          sourceUrl
           localFile {
             childImageSharp {
-              fluid(quality: 90) {
+              fluid {
                 ...GatsbyImageSharpFluid
               }
             }
           }
         }
       }
-    }
-    imageSharp {
-      fixed {
-        src
+      author {
+        node {
+          about_author_insights {
+            name
+
+            displayPicture {
+              sourceUrl
+              localFile {
+                childrenImageSharp {
+                  fluid {
+                    ...GatsbyImageSharpFluid
+                  }
+                }
+              }
+            }
+          }
+          description
+        }
       }
-      fluid {
-        src
-      }
     }
-    allWpPost(filter: { authorId: { eq: "dXNlcjoz" } }) {
+    allWpPost(filter: { author: { node: { id: { eq: $authorId } } } }) {
       nodes {
         author {
           node {
             name
             about_author_insights {
+              name
               displayPicture {
                 sourceUrl
               }
@@ -234,13 +247,14 @@ export const query = graphql`
             posts {
               nodes {
                 title
+                excerpt
                 date(formatString: "DD MMM yyyy")
                 featuredImage {
                   node {
                     localFile {
                       childImageSharp {
-                        fluid {
-                          src
+                        fluid(quality: 90) {
+                          ...GatsbyImageSharpFluid
                         }
                       }
                     }

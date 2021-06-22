@@ -76,6 +76,41 @@ exports.createPages = ({ actions, graphql }) => {
     .then(() => {
       return graphql(`
         {
+          allWpCategory {
+            edges {
+              node {
+                id
+                name
+                slug
+              }
+            }
+          }
+        }
+      `);
+    })
+    .then(result => {
+      if (result.errors) {
+        result.errors.forEach(e => console.error(e.toString()));
+        return Promise.reject(result.errors);
+      }
+
+      const categoriesTemplate = path.resolve(`./src/templates/category.js`);
+
+      // Create a Gatsby page for each WordPress Category
+      _.each(result.data.allWpCategory.edges, ({ node: cat }) => {
+        createPage({
+          path: `/categories/${cat.slug}/`,
+          component: categoriesTemplate,
+          context: {
+            name: cat.name,
+            slug: cat.slug,
+          },
+        });
+      });
+    })
+    .then(() => {
+      return graphql(`
+        {
           allWpPost {
             edges {
               node {
@@ -130,6 +165,7 @@ exports.createPages = ({ actions, graphql }) => {
             component: postTemplate,
             context: {
               id: post.id,
+              authorId: post.author.node.id,
             },
           });
         }
@@ -144,41 +180,7 @@ exports.createPages = ({ actions, graphql }) => {
         component: blogTemplate,
       });
     })
-    .then(() => {
-      return graphql(`
-        {
-          allWordpressCategory(filter: { count: { gt: 0 } }) {
-            edges {
-              node {
-                id
-                name
-                slug
-              }
-            }
-          }
-        }
-      `);
-    })
-    .then(result => {
-      if (result.errors) {
-        result.errors.forEach(e => console.error(e.toString()));
-        return Promise.reject(result.errors);
-      }
 
-      const categoriesTemplate = path.resolve(`./src/templates/category.js`);
-
-      // Create a Gatsby page for each WordPress Category
-      _.each(result.data.allWordpressCategory.edges, ({ node: cat }) => {
-        createPage({
-          path: `/categories/${cat.slug}/`,
-          component: categoriesTemplate,
-          context: {
-            name: cat.name,
-            slug: cat.slug,
-          },
-        });
-      });
-    })
     .then(() => {
       return graphql(`
         {
