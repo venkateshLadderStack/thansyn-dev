@@ -37,7 +37,7 @@ const InsightsListing = ({ data }) => {
                     <a href="">
                       <img
                         src={
-                          item.featuredImage.node.localFile.childImageSharp
+                          item?.featuredImage?.node.localFile.childImageSharp
                             .fluid.src
                         }
                         alt=""
@@ -46,9 +46,9 @@ const InsightsListing = ({ data }) => {
                   </div>
                   <div className="whats-bottom info-list">
                     <div className="whats-text">
-                      <a href="#0">
+                      <Link to={`/${item.slug}`}>
                         <h4>{item.title}</h4>
-                      </a>
+                      </Link>
                     </div>
                     <ul className="post-info">
                       <li>

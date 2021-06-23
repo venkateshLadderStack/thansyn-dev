@@ -12,8 +12,10 @@ const InsightsFeaturedSidePosts = () => {
             slug
             author {
               node {
+                slug
                 about_author_insights {
                   name
+
                   displayPicture {
                     sourceUrl
                   }
@@ -70,9 +72,9 @@ const InsightsFeaturedSidePosts = () => {
                     />
                     <div className="insight-point px-2">
                       <span>by</span>
-                      <a href="#">
+                      <Link to={`/author/${edge.node.author.node.slug}`}>
                         {edge.node.author.node.about_author_insights?.name}
-                      </a>
+                      </Link>
                     </div>
                   </div>
                   <div className="insight-data">

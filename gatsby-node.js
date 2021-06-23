@@ -62,6 +62,14 @@ exports.createPages = ({ actions, graphql }) => {
               id: page.id,
             },
           });
+        } else if (page.template.templateName === 'Service Page') {
+          createPage({
+            path: `/service`,
+            component: path.resolve(`./src/templates/service.js`),
+            context: {
+              id: page.id,
+            },
+          });
         } else {
           createPage({
             path: `/${page.slug}/`,
@@ -111,6 +119,38 @@ exports.createPages = ({ actions, graphql }) => {
     .then(() => {
       return graphql(`
         {
+          allWpUser {
+            edges {
+              node {
+                id
+                slug
+              }
+            }
+          }
+        }
+      `);
+    })
+    .then(result => {
+      if (result.errors) {
+        result.errors.forEach(e => console.error(e.toString()));
+        return Promise.reject(result.errors);
+      }
+
+      const authorTemplate = path.resolve(`./src/templates/author.js`);
+
+      _.each(result.data.allWpUser.edges, ({ node: author }) => {
+        createPage({
+          path: `/author/${author.slug}`,
+          component: authorTemplate,
+          context: {
+            id: author.id,
+          },
+        });
+      });
+    })
+    .then(() => {
+      return graphql(`
+        {
           allWpPost {
             edges {
               node {
@@ -150,7 +190,7 @@ exports.createPages = ({ actions, graphql }) => {
       _.each(posts, ({ node: post }) => {
         // Create the Gatsby page for this WordPress post
 
-        if (post.template.templateName === 'single-sidebar.php') {
+        if (post.template.templateName === 'Sidebar Post') {
           createPage({
             path: `/${post.slug}/`,
             component: postSidebarTemplate,
@@ -213,38 +253,6 @@ exports.createPages = ({ actions, graphql }) => {
           context: {
             name: tag.name,
             slug: tag.slug,
-          },
-        });
-      });
-    })
-    .then(() => {
-      return graphql(`
-        {
-          allWpUser {
-            edges {
-              node {
-                id
-                slug
-              }
-            }
-          }
-        }
-      `);
-    })
-    .then(result => {
-      if (result.errors) {
-        result.errors.forEach(e => console.error(e.toString()));
-        return Promise.reject(result.errors);
-      }
-
-      const authorTemplate = path.resolve(`./src/templates/author.js`);
-
-      _.each(result.data.allWordpressWpUsers.edges, ({ node: author }) => {
-        createPage({
-          path: `/author/${author.slug}`,
-          component: authorTemplate,
-          context: {
-            id: author.id,
           },
         });
       });

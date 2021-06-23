@@ -42,9 +42,12 @@ const post = ({ data }) => {
                     </li>
                     <li>by</li>
                     <li>
-                      <a className="btn-line line-black" href="#">
+                      <Link
+                        className="btn-line line-black"
+                        to={`/author/${data.wpPost.author.node.slug}`}
+                      >
                         {data.wpPost.author.node.about_author_insights.name}
-                      </a>
+                      </Link>
                     </li>
                     <li>
                       <a href="#">{data.wpPost.date}</a>
@@ -106,9 +109,9 @@ const post = ({ data }) => {
                   <div className="clint-name pl-4">
                     <div className="insight-point">
                       <span>by</span>
-                      <a href="#">
+                      <Link to={`/author/${data.wpPost.author.node.slug}`}>
                         {data.wpPost.author?.node?.about_author_insights?.name}
-                      </a>
+                      </Link>
                     </div>
                   </div>
                   <p className="pl-4">
@@ -203,7 +206,7 @@ const post = ({ data }) => {
           </div>
         </div>
       </div>
-      <ConnectUs heading={'Connect us'} />
+      <ConnectUs heading={'Connect with us'} />
     </Layout>
   );
 };
@@ -231,6 +234,7 @@ export const query = graphql`
       }
       author {
         node {
+          slug
           about_author_insights {
             name
 
