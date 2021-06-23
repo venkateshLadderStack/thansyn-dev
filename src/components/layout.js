@@ -9,10 +9,17 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import { useStaticQuery, graphql } from 'gatsby';
 import { Helmet } from 'react-helmet';
-import Header from './header';
+import Header from './Header/Header';
 import '../assets/css/style.scss';
 import Footer from './footer/Footer';
 import NavBar from './NavBar/NavBar';
+
+import 'bootstrap/dist/css/bootstrap.min.css';
+import '../assets/css/all.min.css';
+import '../assets/css/fontawesome.css';
+import '../assets/css/nice-select.css';
+import '../assets/css/style.scss';
+import '../assets/css/helper.css';
 
 const Layout = ({ children }) => {
   const data = useStaticQuery(graphql`
@@ -35,8 +42,7 @@ const Layout = ({ children }) => {
           crossOrigin="anonymous"
         />
       </Helmet>
-      <Header siteTitle={data.site.siteMetadata?.title || `Title`} />
-      <NavBar />
+      <Header />
       <div
         style={{
           margin: `0 auto`,
