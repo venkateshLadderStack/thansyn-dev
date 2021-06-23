@@ -139,7 +139,7 @@ exports.createPages = ({ actions, graphql }) => {
 
       const postTemplate = path.resolve(`./src/templates/post.js`);
       const postSidebarTemplate = path.resolve(
-        `./src/templates/postSidebar.js`
+        `./src/templates/post-sidebar.js`
       );
 
       // In production builds, filter for only published posts.

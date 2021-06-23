@@ -34,6 +34,7 @@ const InsightsLatestSidePosts = () => {
 
   return (
     <div>
+      {console.log(data)}
       {data.allWpPost.edges.slice(0, 3).map((edge, index) => (
         <>
           <div className="row" key={edge.node.id}>
@@ -59,16 +60,18 @@ const InsightsLatestSidePosts = () => {
                   <div className="insight-list-item d-flex align-items-center">
                     <img
                       className="mr-3"
-                      width="40px"
+                      width="60px"
                       src={
                         edge.node?.author?.node?.about_author_insights
                           ?.displayPicture?.sourceUrl
                       }
                       alt=""
                     />
-                    <div className="insight-point">
+                    <div className="insight-point px-2">
                       <span>by</span>
-                      <a href="#">{edge.node.author.node.name}</a>
+                      <a href="#">
+                        {edge.node.author.node.about_author_insights?.name}
+                      </a>
                     </div>
                   </div>
                   <div className="insight-data">

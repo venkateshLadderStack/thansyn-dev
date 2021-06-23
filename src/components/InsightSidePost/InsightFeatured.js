@@ -61,14 +61,14 @@ const InsightsFeaturedSidePosts = () => {
                   <div className="insight-list-item d-flex align-items-center">
                     <img
                       className="mr-3"
-                      width="40px"
+                      width="60px"
                       src={
                         edge.node.author.node.about_author_insights
                           ?.displayPicture?.sourceUrl
                       }
                       alt=""
                     />
-                    <div className="insight-point">
+                    <div className="insight-point px-2">
                       <span>by</span>
                       <a href="#">
                         {edge.node.author.node.about_author_insights?.name}

@@ -19,7 +19,7 @@ const post = ({ data }) => {
       <div className="insight-detail-area pt_55 overflow-hidden">
         <div className="container">
           <div className="row">
-            <div className="col-xl-6 col-lg-6 col-md-12">
+            <div className="col-xl-12 col-lg-12 col-md-12 p-4">
               <div className="category-text-detiles ">
                 <h2
                   className="sub-title"
@@ -85,10 +85,6 @@ const post = ({ data }) => {
                 />
               </div>
             </div>
-            <div class="col-xl-6 col-lg-6 col-md-12">
-              <InsightTabs />
-              <InsightTextCard />
-            </div>
           </div>
         </div>
       </div>
@@ -98,14 +94,16 @@ const post = ({ data }) => {
             <div className="col-lg-12">
               <div className="clint-content d-flex">
                 <img
+                  style={{ borderRadius: '25%' }}
+                  className="px-4"
                   src={
                     data.wpPost.author.node.about_author_insights.displayPicture
                       ?.sourceUrl
                   }
                   alt=""
                 />
-                <div className="clint-ditiels">
-                  <div className="clint-name">
+                <div className="clint-ditiels pl-4">
+                  <div className="clint-name pl-4">
                     <div className="insight-point">
                       <span>by</span>
                       <a href="#">
@@ -113,7 +111,9 @@ const post = ({ data }) => {
                       </a>
                     </div>
                   </div>
-                  <p>{data.wpPost.author?.node?.description}</p>
+                  <p className="pl-4">
+                    {data.wpPost.author?.node?.description}
+                  </p>
                 </div>
               </div>
             </div>
@@ -140,9 +140,22 @@ const post = ({ data }) => {
                 data-aos="fade-right"
                 data-aos-duration="1000"
               >
+                {console.log(item, 'from insights')}
+                {console.log(
+                  item.author.node.posts.nodes[0].featuredImage.node.localFile
+                    .childImageSharp.fluid.src
+                )}
                 <div className="what-new-item">
                   <div className="whats-top">
-                    <span className="tags">AUTOMATION</span>
+                    <Link
+                      to={`/categories/${item.author.node.posts.nodes[index].categories.nodes[0].slug}`}
+                    >
+                      <span className="tags">
+                        {item.author.node.posts.nodes[
+                          index
+                        ].categories.nodes[0].name.toUpperCase()}
+                      </span>
+                    </Link>
                     <a href="">
                       <img
                         src={
@@ -167,18 +180,21 @@ const post = ({ data }) => {
                       </li>
                     </ul>
                     <div className="whats-text">
-                      <a href="">
+                      <Link to={`/${item.author.node.posts.nodes[index].slug}`}>
                         <h4>{item.author.node.posts.nodes[index].title}</h4>
-                      </a>
+                      </Link>
                       <p
                         dangerouslySetInnerHTML={{
                           __html: item.author.node.posts.nodes[index].excerpt,
                         }}
                       />
 
-                      <a className="btn-line line-black" href="">
+                      <Link
+                        className="btn-line line-black"
+                        to={`/${item.author.node.posts.nodes[index].slug}`}
+                      >
                         READ INSIGHT
-                      </a>
+                      </Link>
                     </div>
                   </div>
                 </div>
@@ -246,7 +262,14 @@ export const query = graphql`
             }
             posts {
               nodes {
+                categories {
+                  nodes {
+                    name
+                    slug
+                  }
+                }
                 title
+                slug
                 excerpt
                 date(formatString: "DD MMM yyyy")
                 featuredImage {
