@@ -76,72 +76,7 @@ exports.createPages = ({ actions, graphql }) => {
     .then(() => {
       return graphql(`
         {
-          allWpPost {
-            edges {
-              node {
-                id
-                slug
-                status
-                template {
-                  templateName
-                }
-              }
-            }
-          }
-        }
-      `);
-    })
-    .then(result => {
-      if (result.errors) {
-        result.errors.forEach(e => console.error(e.toString()));
-        return Promise.reject(result.errors);
-      }
-
-      const postTemplate = path.resolve(`./src/templates/post.js`);
-      const postSidebarTemplate = path.resolve(
-        `./src/templates/postSidebar.js`
-      );
-
-      // In production builds, filter for only published posts.
-      const allPosts = result.data.allWpPost.edges;
-      const posts = allPosts;
-
-      // Iterate over the array of posts
-      _.each(posts, ({ node: post }) => {
-        // Create the Gatsby page for this WordPress post
-
-        if (post.template.templateName === 'single-sidebar.php') {
-          createPage({
-            path: `/${post.slug}/`,
-            component: postSidebarTemplate,
-            context: {
-              id: post.id,
-            },
-          });
-        } else {
-          createPage({
-            path: `/${post.slug}/`,
-            component: postTemplate,
-            context: {
-              id: post.id,
-            },
-          });
-        }
-      });
-
-      // Create a paginated blog, e.g., /, /page/2, /page/3
-      paginate({
-        createPage,
-        items: posts,
-        itemsPerPage: 10,
-        pathPrefix: ({ pageNumber }) => (pageNumber === 0 ? `/test` : `/page`),
-        component: blogTemplate,
-      });
-    })
-    .then(() => {
-      return graphql(`
-        {
-          allWordpressCategory(filter: { count: { gt: 0 } }) {
+          allWpCategory {
             edges {
               node {
                 id
@@ -162,7 +97,7 @@ exports.createPages = ({ actions, graphql }) => {
       const categoriesTemplate = path.resolve(`./src/templates/category.js`);
 
       // Create a Gatsby page for each WordPress Category
-      _.each(result.data.allWordpressCategory.edges, ({ node: cat }) => {
+      _.each(result.data.allWpCategory.edges, ({ node: cat }) => {
         createPage({
           path: `/categories/${cat.slug}/`,
           component: categoriesTemplate,
@@ -173,6 +108,79 @@ exports.createPages = ({ actions, graphql }) => {
         });
       });
     })
+    .then(() => {
+      return graphql(`
+        {
+          allWpPost {
+            edges {
+              node {
+                id
+                slug
+                status
+                template {
+                  templateName
+                }
+                author {
+                  node {
+                    id
+                  }
+                }
+              }
+            }
+          }
+        }
+      `);
+    })
+    .then(result => {
+      if (result.errors) {
+        result.errors.forEach(e => console.error(e.toString()));
+        return Promise.reject(result.errors);
+      }
+
+      const postTemplate = path.resolve(`./src/templates/post.js`);
+      const postSidebarTemplate = path.resolve(
+        `./src/templates/post-sidebar.js`
+      );
+
+      // In production builds, filter for only published posts.
+      const allPosts = result.data.allWpPost.edges;
+      const posts = allPosts;
+
+      // Iterate over the array of posts
+      _.each(posts, ({ node: post }) => {
+        // Create the Gatsby page for this WordPress post
+
+        if (post.template.templateName === 'single-sidebar.php') {
+          createPage({
+            path: `/${post.slug}/`,
+            component: postSidebarTemplate,
+            context: {
+              id: post.id,
+              authorId: post.author.node.id,
+            },
+          });
+        } else {
+          createPage({
+            path: `/${post.slug}/`,
+            component: postTemplate,
+            context: {
+              id: post.id,
+              authorId: post.author.node.id,
+            },
+          });
+        }
+      });
+
+      // Create a paginated blog, e.g., /, /page/2, /page/3
+      paginate({
+        createPage,
+        items: posts,
+        itemsPerPage: 10,
+        pathPrefix: ({ pageNumber }) => (pageNumber === 0 ? `/test` : `/page`),
+        component: blogTemplate,
+      });
+    })
+
     .then(() => {
       return graphql(`
         {
