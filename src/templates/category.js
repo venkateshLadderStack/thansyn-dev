@@ -14,7 +14,13 @@ const InsightsListing = ({ data }) => {
           <div className="row">
             <div className="col-lg-12">
               <div className="area-title text-center">
-                <h2>{data.allWpPost.nodes[0].categories.nodes[0].name}</h2>
+                <h2>
+                  {
+                    data.allWpPost.nodes[0].categories.nodes[
+                      data.allWpPost.nodes[0].categories.nodes.length - 1
+                    ].name
+                  }
+                </h2>
               </div>
             </div>
           </div>
@@ -24,7 +30,7 @@ const InsightsListing = ({ data }) => {
         <div className="container">
           <div className="row">
             <div className="col-xl-6 col-lg-6 col-md-12">
-              {data.allWpPost.nodes.slice(0, 3).map((item, index) => (
+              {data.allWpPost.nodes.reverse().map((item, index) => (
                 <div
                   className="what-new-item"
                   data-aos="fade-right"
@@ -32,12 +38,14 @@ const InsightsListing = ({ data }) => {
                 >
                   <div className="whats-top">
                     <span className="tags">
-                      {item.categories.nodes[0].name.toUpperCase()}
+                      {item.categories.nodes[
+                        item.categories.nodes.length - 1
+                      ].name.toUpperCase()}
                     </span>
                     <a href="">
                       <img
                         src={
-                          item?.featuredImage?.node.localFile.childImageSharp
+                          item?.featuredImage?.node?.localFile?.childImageSharp
                             .fluid.src
                         }
                         alt=""
@@ -104,6 +112,7 @@ export default InsightsListing;
 export const query = graphql`
   query Posts($slug: String!) {
     allWpPost(
+      limit: 3
       filter: { categories: { nodes: { elemMatch: { slug: { eq: $slug } } } } }
     ) {
       nodes {

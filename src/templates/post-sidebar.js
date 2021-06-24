@@ -138,68 +138,73 @@ const post = ({ data }) => {
             </div>
           </div>
           <div className="row justify-content-center">
-            {data.allWpPost.nodes.slice(0, 3).map((item, index) => (
-              <div
-                className="col-lg-4 col-md-6"
-                data-aos="fade-right"
-                data-aos-duration="1000"
-              >
-                {console.log(item, 'from insights')}
-                {console.log(
-                  item.author.node.posts.nodes[0].featuredImage.node.localFile
-                    .childImageSharp.fluid.src
-                )}
-                <div className="what-new-item">
-                  <div className="whats-top">
-                    <span className="tags">
-                      {item.author.node.posts.nodes[
-                        index
-                      ].categories.nodes[0].name.toUpperCase()}
-                    </span>
-                    <a href="">
-                      <img
-                        src={
-                          item.author.node.posts.nodes[index].featuredImage.node
-                            .localFile.childImageSharp.fluid.src
-                        }
-                        alt=""
-                      />
-                    </a>
-                  </div>
-                  <div className="whats-bottom">
-                    <ul className="post-info">
-                      <li>
-                        <a href="">
-                          {item.author.node.posts.nodes[index].date}
-                        </a>
-                      </li>
-                      <li>
-                        <a href="">
-                          <i className="fal fa-clock"></i>2 Mins
-                        </a>
-                      </li>
-                    </ul>
-                    <div className="whats-text">
+            {data.allWpPost.nodes
+              .reverse()
+              .slice(0, 3)
+              .map((item, index) => (
+                <div
+                  className="col-lg-4 col-md-6"
+                  data-aos="fade-right"
+                  data-aos-duration="1000"
+                >
+                  {console.log(item, 'from insights')}
+                  {console.log(
+                    item.author.node.posts.nodes[0].featuredImage.node.localFile
+                      .childImageSharp.fluid.src
+                  )}
+                  <div className="what-new-item">
+                    <div className="whats-top">
+                      <span className="tags">
+                        {item.author.node.posts.nodes[
+                          index
+                        ].categories.nodes[0].name.toUpperCase()}
+                      </span>
                       <a href="">
-                        <h4>{item.author.node.posts.nodes[index].title}</h4>
+                        <img
+                          src={
+                            item.author.node.posts.nodes[index].featuredImage
+                              .node.localFile.childImageSharp.fluid.src
+                          }
+                          alt=""
+                        />
                       </a>
-                      <p
-                        dangerouslySetInnerHTML={{
-                          __html: item.author.node.posts.nodes[index].excerpt,
-                        }}
-                      />
+                    </div>
+                    <div className="whats-bottom">
+                      <ul className="post-info">
+                        <li>
+                          <a href="">
+                            {item.author.node.posts.nodes[index].date}
+                          </a>
+                        </li>
+                        <li>
+                          <a href="">
+                            <i className="fal fa-clock"></i>2 Mins
+                          </a>
+                        </li>
+                      </ul>
+                      <div className="whats-text">
+                        <Link
+                          to={`/${item.author.node.posts.nodes[index].slug}`}
+                        >
+                          <h4>{item.author.node.posts.nodes[index].title}</h4>
+                        </Link>
+                        <p
+                          dangerouslySetInnerHTML={{
+                            __html: item.author.node.posts.nodes[index].excerpt,
+                          }}
+                        />
 
-                      <Link
-                        className="btn-line line-black"
-                        to={`/${item.author.node.posts.nodes[index].slug}`}
-                      >
-                        READ INSIGHT
-                      </Link>
+                        <Link
+                          className="btn-line line-black"
+                          to={`/${item.author.node.posts.nodes[index].slug}`}
+                        >
+                          READ INSIGHT
+                        </Link>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              ))}
           </div>
         </div>
       </div>

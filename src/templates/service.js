@@ -1,6 +1,7 @@
 import React from 'react';
 import { graphql, Link } from 'gatsby';
 import Layout from '../components/layout';
+import ConnectUs from '../components/ConnectUs';
 
 const service = ({ data }) => {
   console.log(data);
@@ -190,6 +191,7 @@ const service = ({ data }) => {
           </div>
         </div>
       </div>
+      <ConnectUs heading={'contact us'} />
     </Layout>
   );
 };
