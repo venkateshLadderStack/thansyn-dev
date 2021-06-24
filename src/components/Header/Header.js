@@ -1,26 +1,26 @@
-import React, { useState, useEffect } from "react"
-import close from "../../assets/img/close.svg"
-import { Link } from "gatsby"
-import { insights, services, community, events } from "./headerData"
-import HeaderDropdown from "./HeaderDropdown"
-import HeaderListDropdown from "./HeaderListDropdown"
+import React, { useState, useEffect } from 'react';
+import close from '../../assets/img/close.svg';
+import { Link } from 'gatsby';
+import { insights, services, community, events } from './headerData';
+import HeaderDropdown from './HeaderDropdown';
+import HeaderListDropdown from './HeaderListDropdown';
 
 const Header = () => {
-  const [showSidemenu, setShowSideMenu] = useState(false)
+  const [showSidemenu, setShowSideMenu] = useState(false);
 
   const handleShow = e => {
-    e.preventDefault()
-    setShowSideMenu(true)
-  }
+    e.preventDefault();
+    setShowSideMenu(true);
+  };
 
   const handleHide = e => {
-    e.preventDefault()
-    setShowSideMenu(false)
-  }
+    e.preventDefault();
+    setShowSideMenu(false);
+  };
 
   useEffect(() => {
-    setShowSideMenu(false)
-  }, [])
+    setShowSideMenu(false);
+  }, []);
 
   return (
     <>
@@ -82,7 +82,7 @@ const Header = () => {
               </div>
             </div>
             <div className="col-lg-8 col-md-10 col-10">
-              <div className={`mainmenu ${showSidemenu && "show-menu"}`}>
+              <div className={`mainmenu ${showSidemenu && 'show-menu'}`}>
                 <ul>
                   {/* home */}
                   <li>
@@ -107,7 +107,7 @@ const Header = () => {
                   {/* services */}
                   <li className="dropdown drop_main">
                     <Link
-                      to="/home-services"
+                      to="/service"
                       activeClassName="active"
                       className="dropdown-toggle"
                       data-toggle="dropdown"
@@ -162,6 +162,6 @@ const Header = () => {
         </div>
       </div>
     </>
-  )
-}
-export default Header
+  );
+};
+export default Header;

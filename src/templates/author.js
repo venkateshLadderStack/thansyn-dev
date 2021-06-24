@@ -143,7 +143,7 @@ const Author = ({ data }) => {
               >
                 {console.log(item, 'from insights')}
                 {console.log(
-                  item.author.node.posts.nodes[0].featuredImage.node.localFile
+                  item.author.node.posts.nodes[0].featuredImage.node?.localFile
                     .childImageSharp.fluid.src
                 )}
                 <div className="what-new-item">
@@ -161,7 +161,7 @@ const Author = ({ data }) => {
                       <img
                         src={
                           item.author.node.posts.nodes[index].featuredImage.node
-                            .localFile.childImageSharp.fluid.src
+                            ?.localFile.childImageSharp.fluid.src
                         }
                         alt=""
                       />
