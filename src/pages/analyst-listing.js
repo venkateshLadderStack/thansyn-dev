@@ -4,7 +4,7 @@ import Layout from '../components/layout';
 import ConnectUs from '../components/ConnectUs';
 import { graphql, useStaticQuery, Link } from 'gatsby';
 
-const AuthorListing = ({ data }) => {
+const AnalystListing = () => {
   const [showAnalystDetails, setShowAnalystDetails] = useState(null);
 
   const toggleShow = id => {
@@ -12,12 +12,38 @@ const AuthorListing = ({ data }) => {
 
     setShowAnalystDetails(id);
   };
+
+  const data = useStaticQuery(graphql`
+    {
+      allWpUser {
+        nodes {
+          about_author_insights {
+            displayPicture {
+              sourceUrl
+            }
+            name
+            twitterLink
+            wroteInsights {
+              insightName
+            }
+            services {
+              services
+            }
+            facebookLink
+            instagramLink
+          }
+          name
+          description
+          slug
+        }
+      }
+    }
+  `);
   console.log(data);
 
   return (
     <Layout>
-      <h1>{data.slug}</h1>
-      {/* <div className="analyst-listing pt_45 overflow-hidden">
+      <div className="analyst-listing pt_45 overflow-hidden">
         <div className="container">
           <div className="row">
             <div className="col-lg-12">
@@ -44,7 +70,7 @@ const AuthorListing = ({ data }) => {
                   />
                   {showAnalystDetails === index && (
                     <div
-                      className="analust-content mb-2"
+                      className="analust-content"
                       style={{
                         marginTop: '-25px',
                         transition: '1s ease-out',
@@ -101,10 +127,9 @@ const AuthorListing = ({ data }) => {
             ))}
           </div>
         </div>
-      </div> */}
+      </div>
       <ConnectUs heading="Connect with an analyst." />
     </Layout>
   );
 };
-
-export default AuthorListing;
+export default AnalystListing;

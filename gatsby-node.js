@@ -82,62 +82,9 @@ exports.createPages = ({ actions, graphql }) => {
         }
       });
     })
+
     .then(() => {
-      graphql(
-        `
-          {
-            allWpUser {
-              edges {
-                node {
-                  slug
-                  name
-                  description
-                  about_author_insights {
-                    displayPicture {
-                      sourceUrl
-                    }
-                    facebookLink
-                    instagramLink
-                    twitterLink
-                    wroteInsights {
-                      insightName
-                    }
-                    services {
-                      services
-                    }
-                    problemsISolve {
-                      problemISolve
-                    }
-                    name
-                  }
-                  email
-                }
-              }
-            }
-          }
-        `
-      ).then(result => {
-        if (result.errors) {
-          console.log(result.errors);
-          reject(result.errors);
-        }
-        const authorListTemplate = path.resolve(
-          './src/templates/author-list.js'
-        );
-        // We want to create a detailed page for each
-        // post node. We'll just use the WordPress Slug for the slug.
-        // The Post ID is prefixed with 'POST_'
-        _.each(result.data.allWpUser.edges, edge => {
-          createPage({
-            path: `/author/`,
-            component: authorListTemplate,
-            context: edge.node,
-          });
-        });
-      });
-    })
-    .then(() => {
-      return graphql(`
+      graphql(`
         {
           allWpCategory {
             edges {
@@ -145,48 +92,48 @@ exports.createPages = ({ actions, graphql }) => {
                 id
                 name
                 slug
-                children {
+                wpChildren {
                   nodes {
                     name
                     slug
+                    id
                   }
                 }
               }
             }
           }
         }
-      `);
-    })
-    .then(result => {
-      if (result.errors) {
-        result.errors.forEach(e => console.error(e.toString()));
-        return Promise.reject(result.errors);
-      }
-
-      const categoriesTemplate = path.resolve(`./src/templates/category.js`);
-
-      // Create a Gatsby page for each WordPress Category
-      _.each(result.data.allWpCategory.edges, ({ node: cat }) => {
-        createPage({
-          path: `/categories/${cat.slug}/`,
-          component: categoriesTemplate,
-          context: {
-            name: cat.name,
-            slug: cat.slug,
-          },
-        });
-        if (cat.children.nodes.length > 0) {
-          _.each(cat.children.nodes, subCat => {
-            createPage({
-              path: `/categories/${cat.slug}/${subCat.slug}`,
-              component: categoriesTemplate,
-              context: {
-                name: cat.name,
-                slug: cat.slug,
-              },
-            });
-          });
+      `).then(result => {
+        if (result.errors) {
+          result.errors.forEach(e => console.error(e.toString()));
+          return Promise.reject(result.errors);
         }
+        const categoriesTemplate = path.resolve(`./src/templates/category.js`);
+
+        // Create a Gatsby page for each WordPress Category
+        _.each(result.data.allWpCategory.edges, ({ node: cat }) => {
+          createPage({
+            path: `/categories/${cat.slug}/`,
+            component: categoriesTemplate,
+            context: {
+              name: cat.name,
+              slug: cat.slug,
+            },
+          });
+          if (cat.wpChildren.nodes.length > 0) {
+            _.each(cat.wpChildren.nodes, subCat => {
+              createPage({
+                path: `/categories/${cat.slug}/${subCat.slug}`,
+                component: categoriesTemplate,
+                context: {
+                  name: subCat.name,
+                  slug: subCat.slug,
+                  id: subCat.id,
+                },
+              });
+            });
+          }
+        });
       });
     })
     .then(() => {
