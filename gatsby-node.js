@@ -1,5 +1,6 @@
 const _ = require('lodash');
 const path = require('path');
+
 const { createFilePath } = require('gatsby-source-filesystem');
 const { paginate } = require('gatsby-awesome-pagination');
 
@@ -82,6 +83,60 @@ exports.createPages = ({ actions, graphql }) => {
       });
     })
     .then(() => {
+      graphql(
+        `
+          {
+            allWpUser {
+              edges {
+                node {
+                  slug
+                  name
+                  description
+                  about_author_insights {
+                    displayPicture {
+                      sourceUrl
+                    }
+                    facebookLink
+                    instagramLink
+                    twitterLink
+                    wroteInsights {
+                      insightName
+                    }
+                    services {
+                      services
+                    }
+                    problemsISolve {
+                      problemISolve
+                    }
+                    name
+                  }
+                  email
+                }
+              }
+            }
+          }
+        `
+      ).then(result => {
+        if (result.errors) {
+          console.log(result.errors);
+          reject(result.errors);
+        }
+        const authorListTemplate = path.resolve(
+          './src/templates/author-list.js'
+        );
+        // We want to create a detailed page for each
+        // post node. We'll just use the WordPress Slug for the slug.
+        // The Post ID is prefixed with 'POST_'
+        _.each(result.data.allWpUser.edges, edge => {
+          createPage({
+            path: `/author/`,
+            component: authorListTemplate,
+            context: edge.node,
+          });
+        });
+      });
+    })
+    .then(() => {
       return graphql(`
         {
           allWpCategory {
@@ -90,6 +145,12 @@ exports.createPages = ({ actions, graphql }) => {
                 id
                 name
                 slug
+                children {
+                  nodes {
+                    name
+                    slug
+                  }
+                }
               }
             }
           }
@@ -114,6 +175,18 @@ exports.createPages = ({ actions, graphql }) => {
             slug: cat.slug,
           },
         });
+        if (cat.children.nodes.length > 0) {
+          _.each(cat.children.nodes, subCat => {
+            createPage({
+              path: `/categories/${cat.slug}/${subCat.slug}`,
+              component: categoriesTemplate,
+              context: {
+                name: cat.name,
+                slug: cat.slug,
+              },
+            });
+          });
+        }
       });
     })
     .then(() => {
@@ -148,6 +221,7 @@ exports.createPages = ({ actions, graphql }) => {
         });
       });
     })
+
     .then(() => {
       return graphql(`
         {

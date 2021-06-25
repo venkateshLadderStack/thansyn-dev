@@ -33,10 +33,7 @@ const post = ({ data }) => {
                     <li>
                       <img
                         width="50px"
-                        src={
-                          data.wpPost.author.node.about_author_insights
-                            .displayPicture?.sourceUrl
-                        }
+                        src={data.wpPost.author.node.avatar?.url}
                         alt=""
                       />
                     </li>
@@ -98,12 +95,13 @@ const post = ({ data }) => {
             <div className="col-lg-12">
               <div className="clint-content d-flex">
                 <img
-                  style={{ borderRadius: '25%' }}
+                  style={{
+                    height: '250px',
+                    width: '250px',
+                    objectFit: 'cover',
+                  }}
                   className="px-4"
-                  src={
-                    data.wpPost.author.node.about_author_insights.displayPicture
-                      ?.sourceUrl
-                  }
+                  src={data.wpPost.author.node.avatar?.url}
                   alt=""
                 />
                 <div className="clint-ditiels pl-4">
@@ -236,6 +234,11 @@ export const query = graphql`
       }
       author {
         node {
+          avatar {
+            default
+            url
+            width
+          }
           about_author_insights {
             name
 

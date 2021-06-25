@@ -114,7 +114,7 @@ const Header = () => {
                     >
                       Services
                     </Link>
-                    <HeaderDropdown menus={services} />
+                    <HeaderListDropdown menus={services} />
                   </li>
 
                   {/* community */}
@@ -133,7 +133,7 @@ const Header = () => {
                   {/* events */}
                   <li className="dropdown drop_main">
                     <Link
-                      to="/"
+                      to="/upcoming-event"
                       activeClassName="active"
                       className="dropdown-toggle"
                       data-toggle="dropdown"
@@ -145,7 +145,7 @@ const Header = () => {
 
                   {/* about us */}
                   <li>
-                    <Link activeClassName="active" to="/">
+                    <Link activeClassName="active" to="/about">
                       About Us
                     </Link>
                   </li>

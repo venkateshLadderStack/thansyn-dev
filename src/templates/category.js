@@ -62,10 +62,7 @@ const InsightsListing = ({ data }) => {
                       <li>
                         <img
                           width="60px"
-                          src={
-                            item.author.node.about_author_insights
-                              .displayPicture?.sourceUrl
-                          }
+                          src={item.author.node.avatar?.url}
                           alt=""
                         />
                       </li>
@@ -128,6 +125,11 @@ export const query = graphql`
         }
         author {
           node {
+            avatar {
+              default
+              url
+              width
+            }
             about_author_insights {
               name
               displayPicture {

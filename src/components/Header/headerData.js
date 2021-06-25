@@ -53,22 +53,18 @@ export const services = [
   {
     path: '/service',
     title: 'FOR BUSINESS & IT LEADERS',
-    subItems: ['Advisory', 'Insights', 'Strategy', 'CIO/CISO council'],
   },
   {
     path: '/service',
     title: 'FOR TECHNOLOGY & SERVICE PROVIDERS',
-    subItems: ['Breifing', 'Consultation', 'Influencers', 'Sponsorship'],
   },
   {
     path: '/service',
     title: 'FOR ANALYSTS',
-    subItems: ['Brand builiding', 'Contribution', 'Collaboration', 'Community'],
   },
   {
     path: '/service',
     title: 'FOR STRATEGISTS & TECHNOLOGY EVANGELISTS',
-    subItems: ['Collaboration', 'Reasearch', 'Events', 'Influencers'],
   },
 ];
 

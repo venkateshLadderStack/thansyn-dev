@@ -8,7 +8,7 @@ import Post3 from '../components/assets/img/w-3.jpg';
 import TopHeading from '../components/TopHeading';
 import CommunityBox from '../components/CommunityBox';
 import ConnectWithAnalyst from '../components/ConnectWithAnalyst';
-import { graphql } from 'gatsby';
+import { graphql, Link } from 'gatsby';
 import TestimonialSlider from '../components/slider/TestimonialSlider';
 
 const IndexPage = ({ data }) => {
@@ -103,18 +103,21 @@ const IndexPage = ({ data }) => {
                 data-aos-delay="200"
                 key={item.id}
               >
-                <PostItem
-                  eventInfo
-                  tags={'Automation'}
-                  image={
-                    item.featuredImage.node.localFile.childImageSharp.fluid.src
-                  }
-                  date={item.events.startDate}
-                  time={item.events.duration}
-                  registerDate={item.events.endDate}
-                  registerText={item.title}
-                  registerBtn={item.registerBtn}
-                />
+                <Link to="/upcoming-event">
+                  <PostItem
+                    eventInfo
+                    tags={'Automation'}
+                    image={
+                      item.featuredImage.node.localFile.childImageSharp.fluid
+                        .src
+                    }
+                    date={item.events.startDate}
+                    time={item.events.duration}
+                    registerDate={item.events.endDate}
+                    registerText={item.title}
+                    registerBtn={item.registerBtn}
+                  />
+                </Link>
               </div>
             ))}
           </div>
@@ -215,6 +218,7 @@ export const pageQuery = graphql`
       nodes {
         id
         title
+        slug
         content
         date(formatString: "DD MMMM YYYY")
         excerpt
