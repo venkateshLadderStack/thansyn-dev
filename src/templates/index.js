@@ -178,7 +178,6 @@ export const pageQuery = graphql`
         id
         content
         events {
-          duration
           endDate
           fieldGroupName
           startDate
