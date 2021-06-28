@@ -5,7 +5,10 @@ import { useStaticQuery, graphql, Link } from 'gatsby';
 const InsightsFeaturedSidePosts = () => {
   const data = useStaticQuery(graphql`
     {
-      allWpPost(filter: { postDuration: { featured: { eq: "Featured" } } }) {
+      allWpPost(
+        limit: 3
+        filter: { postDuration: { featured: { eq: "Featured" } } }
+      ) {
         edges {
           node {
             id
@@ -13,6 +16,11 @@ const InsightsFeaturedSidePosts = () => {
             author {
               node {
                 slug
+                avatar {
+                  default
+                  url
+                  width
+                }
                 about_author_insights {
                   name
 
@@ -37,7 +45,7 @@ const InsightsFeaturedSidePosts = () => {
 
   return (
     <div>
-      {data.allWpPost.edges.slice(0, 3).map((edge, index) => (
+      {data.allWpPost.edges.map((edge, index) => (
         <>
           {console.log(edge.node.author.node.name)}
           <div className="row" key={edge.node.id}>
@@ -64,10 +72,7 @@ const InsightsFeaturedSidePosts = () => {
                     <img
                       className="mr-3"
                       width="60px"
-                      src={
-                        edge.node.author.node.about_author_insights
-                          ?.displayPicture?.sourceUrl
-                      }
+                      src={edge.node?.author.node?.avatar.url}
                       alt=""
                     />
                     <div className="insight-point px-2">

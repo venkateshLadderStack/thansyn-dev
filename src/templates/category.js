@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Layout from '../components/layout';
 import { graphql, Link } from 'gatsby';
 import InsightTabs from '../components/InsightSidePost/InsightTabs';
@@ -9,6 +9,14 @@ import CategoriesPost from '../components/CategoryPage/categoriesPost';
 
 const InsightsListing = ({ data }) => {
   console.log(data);
+  const [title, setTitle] = useState('');
+
+  useEffect(() => {
+    const pathArray = window.location.pathname.split('/');
+    const lastLevelLocation = pathArray[pathArray.length - 1];
+    setTitle(lastLevelLocation);
+  }, []);
+
   return (
     <Layout>
       <div className="insights-category pt_45">
