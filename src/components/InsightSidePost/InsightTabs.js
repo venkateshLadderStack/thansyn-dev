@@ -22,6 +22,7 @@ const InsightTabs = () => {
             aria-controls="nav-home"
             aria-selected="true"
             onClick={() => setTab('latest')}
+            style={{ cursor: 'pointer' }}
           >
             LATEST
           </div>
@@ -33,6 +34,7 @@ const InsightTabs = () => {
             aria-controls="nav-profile"
             aria-selected="false"
             onClick={() => setTab('featured')}
+            style={{ cursor: 'pointer' }}
           >
             FEATURED
           </div>

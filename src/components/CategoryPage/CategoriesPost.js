@@ -1,7 +1,12 @@
 import React from 'react';
 import { Link } from 'gatsby';
+import Moment from 'moment';
 
-const CategoriesPost = ({ data }) => {
+const CategoriesPost = ({ data, forBadge }) => {
+  const sortedData = data.reverse();
+
+  console.log(sortedData, data);
+
   return (
     <div className="col-xl-6 col-lg-6 col-md-12">
       {data.map((item, index) => (
@@ -11,11 +16,10 @@ const CategoriesPost = ({ data }) => {
           data-aos-duration="500"
         >
           <div className="whats-top">
-            <span className="tags">
-              {item.categories.nodes[
-                item.categories.nodes.length - 1
-              ].name.toUpperCase()}
-            </span>
+            {forBadge.map(item => (
+              <span className="tags"> {item.name.toUpperCase()}</span>
+            ))}
+
             <a href="">
               <img
                 src={
@@ -52,7 +56,7 @@ const CategoriesPost = ({ data }) => {
               />
 
               <Link className="btn-line line-black" to={`/${item.slug}`}>
-                Continue reading
+                Continue Reading
               </Link>
             </div>
           </div>

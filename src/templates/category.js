@@ -17,23 +17,28 @@ const InsightsListing = ({ data }) => {
     setTitle(lastLevelLocation);
   }, []);
 
+  const categoryData = data.allWpPost.nodes[0].categories.nodes.filter(
+    item => item.slug === title
+  );
+
+  console.log(categoryData, 'categoryDATA');
+
   return (
     <Layout>
       <div className="insights-category pt_45">
         <div className="container">
-          <TitleCard>
-            {
-              data.allWpPost.nodes[0].categories.nodes[
-                data.allWpPost.nodes[0].categories.nodes.length - 1
-              ].name
-            }
-          </TitleCard>
+          {categoryData.map(item => (
+            <TitleCard>{item.name}</TitleCard>
+          ))}
         </div>
       </div>
       <div className="category-area pt_20 overflow-hidden">
         <div className="container">
           <div className="row">
-            <CategoriesPost data={data.allWpPost.nodes} />
+            <CategoriesPost
+              data={data.allWpPost.nodes}
+              forBadge={categoryData}
+            />
             <div className="col-xl-6 col-lg-6 col-md-12">
               <InsightTabs />
               <InsightTextCard />
@@ -51,7 +56,6 @@ export default InsightsListing;
 export const query = graphql`
   query Posts($slug: String!) {
     allWpPost(
-      limit: 3
       filter: { categories: { nodes: { elemMatch: { slug: { eq: $slug } } } } }
     ) {
       nodes {
@@ -63,6 +67,7 @@ export const query = graphql`
         categories {
           nodes {
             name
+            slug
           }
         }
         author {

@@ -3,6 +3,7 @@ import { graphql } from 'gatsby';
 import { Link } from 'gatsby';
 import { GatsbyImage, getImage } from 'gatsby-plugin-image';
 import Img from 'gatsby-image';
+import moment from 'moment';
 
 import Layout from '../components/layout';
 import InsightTabs from '../components/InsightSidePost/InsightTabs';
