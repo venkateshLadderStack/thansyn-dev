@@ -1,15 +1,17 @@
 import React from 'react';
 import SliderComponent from '../UI/slider/SliderComponent';
 import styled from 'styled-components';
+import { Link } from 'gatsby';
 
 const TestimonialSlider = ({ data }) => {
   const settings = {
+    dots: true,
     infinite: true,
     slidesToShow: 1,
     slidesToScroll: 1,
-    dots: true,
-    prevArrow: false,
-    nextArrow: false,
+    autoplay: true,
+    autoplaySpeed: 3000,
+    speed: 1000,
     customPaging: i => <div classNameName="slick__dots--custom"></div>,
   };
   return (
@@ -34,9 +36,9 @@ const TestimonialSlider = ({ data }) => {
                   <div className="testmonial-text">
                     <h3>{item.title}</h3>
                     <div dangerouslySetInnerHTML={{ __html: item.content }} />
-                    <a className="btn-line" href="">
+                    <Link className="btn-line" to="/connect-with-an-analyst">
                       CONNECT WITH AN ANALYST
-                    </a>
+                    </Link>
                   </div>
                 </div>
               </div>

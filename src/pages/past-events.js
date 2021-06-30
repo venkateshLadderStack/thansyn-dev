@@ -29,7 +29,10 @@ export default PastEvent;
 
 export const EventsQuery = graphql`
   query events {
-    allWpEvent(filter: { events: { presentPast: { eq: "past" } } }) {
+    allWpEvent(
+      sort: { fields: date, order: DESC }
+      filter: { events: { presentPast: { eq: "past" } } }
+    ) {
       nodes {
         events {
           audeience

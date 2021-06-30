@@ -22,7 +22,7 @@ const EventCard = ({ data }) => {
             <a href="">
               <img
                 src={
-                  data.featuredImage.node?.localFile.childImageSharp.fluid.src
+                  data.featuredImage?.node?.localFile.childImageSharp.fluid.src
                 }
                 alt=""
               />
@@ -62,7 +62,7 @@ const EventCard = ({ data }) => {
             </p>
             <p>Duration: {minutes} Mins</p>
             <p>Speaker: {data.events.speaker}</p>
-            <p>Audience: All business users</p>
+            <p>Audience: {data.events.audeience}</p>
           </div>
         </div>
       </div>

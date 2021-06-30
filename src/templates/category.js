@@ -57,6 +57,7 @@ export const query = graphql`
   query Posts($slug: String!) {
     allWpPost(
       filter: { categories: { nodes: { elemMatch: { slug: { eq: $slug } } } } }
+      sort: { fields: date, order: DESC }
     ) {
       nodes {
         title

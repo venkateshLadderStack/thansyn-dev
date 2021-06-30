@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import Layout from '../components/layout';
 import HeroSlider from '../components/slider/HeroSlider';
 import PostItem from '../components/PostItem';
@@ -14,8 +14,6 @@ import moment from 'moment';
 import FeaturedInsights from '../components/FeaturedInsights';
 
 const IndexPage = ({ data }) => {
-  console.log(data);
-
   return (
     <Layout>
       <div className="home_wrapper postion-relative">
@@ -68,30 +66,27 @@ const IndexPage = ({ data }) => {
             </div>
           </div>
           <div className="row justify-content-center">
-            {data.allWpPost.nodes
-              .reverse()
-              .slice(0, 3)
-              .map(item => (
-                <div
-                  className="col-lg-4 col-md-6"
-                  data-aos="fade-up"
-                  data-aos-delay="200"
-                  key={item.id}
-                >
-                  <PostItem
-                    tags={item.categories.nodes[0].name}
-                    image={
-                      item?.featuredImage?.node?.localFile?.childImageSharp
-                        .fluid.src
-                    }
-                    date={item.date}
-                    time={item.postDuration.readtime}
-                    heading={item.title}
-                    description={item.excerpt}
-                    readBtn={item.slug}
-                  />
-                </div>
-              ))}
+            {data.allWpPost.nodes.map(item => (
+              <div
+                className="col-lg-4 col-md-6"
+                data-aos="fade-up"
+                data-aos-delay="200"
+                key={item.id}
+              >
+                <PostItem
+                  tags={item.categories.nodes[0].name}
+                  image={
+                    item?.featuredImage?.node?.localFile?.childImageSharp.fluid
+                      .src
+                  }
+                  date={item.date}
+                  time={item.postDuration.readtime}
+                  heading={item.title}
+                  description={item.excerpt}
+                  readBtn={item.slug}
+                />
+              </div>
+            ))}
           </div>
         </div>
       </div>
@@ -112,12 +107,13 @@ const IndexPage = ({ data }) => {
                   <div class="what-new-item" key={item.id}>
                     <div class="whats-top">
                       <span class="tags">
-                        {item.categories.nodes[0]?.name?.toUpperCase()}
+                        {item.categories.nodes[0]?.name?.toUpperCase() ||
+                          'INSIGHT'}
                       </span>
                       <Link to="/upcoming-events">
                         <img
                           src={
-                            item.featuredImage.node.localFile.childImageSharp
+                            item.featuredImage?.node.localFile.childImageSharp
                               .fluid.src
                           }
                           alt=""
@@ -127,21 +123,21 @@ const IndexPage = ({ data }) => {
                     <div class="whats-bottom">
                       <ul class="post-info">
                         <li>
-                          <a href="">{item.date}</a>
+                          <Link href="/upcoming-events">{item.date}</Link>
                         </li>
                         <li>
-                          <a href="">
+                          <Link href="/upcoming-events">
                             <i class="fal fa-clock"></i>
                             {moment(
                               `${item.date}`,
                               'DDMMMMYYYY h:MM a'
                             ).fromNow()}{' '}
-                          </a>
+                          </Link>
                         </li>
                       </ul>
                       <div class="event-info">
                         <div class="event-txt">
-                          <h4>{item.events.startDate}</h4>
+                          <h4>{item.events?.startDate}</h4>
                           <span>{item.title}</span>
                         </div>
                         <div class="event-btn">
@@ -207,7 +203,11 @@ export const pageQuery = graphql`
         }
       }
     }
-    allWpEvent(limit: 3) {
+    allWpEvent(
+      limit: 3
+      filter: { events: { presentPast: { eq: "present" } } }
+      sort: { fields: date, order: DESC }
+    ) {
       nodes {
         title
         id
@@ -254,7 +254,7 @@ export const pageQuery = graphql`
         }
       }
     }
-    allWpPost {
+    allWpPost(limit: 3, sort: { fields: date, order: DESC }) {
       nodes {
         id
         title

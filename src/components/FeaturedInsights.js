@@ -5,7 +5,11 @@ import TitleCard from './TitleCard';
 const FeaturedInsights = () => {
   const data = useStaticQuery(graphql`
     {
-      allWpPost(filter: { postDuration: { featured: { eq: "Featured" } } }) {
+      allWpPost(
+        limit: 4
+        filter: { postDuration: { featured: { eq: "Featured" } } }
+        sort: { fields: date, order: DESC }
+      ) {
         edges {
           node {
             id
