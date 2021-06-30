@@ -15,13 +15,16 @@ const HeaderListDropdown = ({ menus }) => {
             <Link to={menu.path}>{menu.title}</Link>
             <i className="fal fa-angle-right"></i>
           </a>
-          <ul className="dropdown-menu">
-            {menu.subItems.map((data, index) => (
-              <li>
-                <a href="#">{data}</a>
-              </li>
-            ))}
-          </ul>
+          {menu.subItems && (
+            <ul className="dropdown-menu">
+              {menu.subItems &&
+                menu.subItems.map((data, index) => (
+                  <li>
+                    <a href="#">{data}</a>
+                  </li>
+                ))}
+            </ul>
+          )}
         </li>
       ))}
     </ul>

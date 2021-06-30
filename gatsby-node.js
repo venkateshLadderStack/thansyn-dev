@@ -1,5 +1,6 @@
 const _ = require('lodash');
 const path = require('path');
+
 const { createFilePath } = require('gatsby-source-filesystem');
 const { paginate } = require('gatsby-awesome-pagination');
 
@@ -81,8 +82,9 @@ exports.createPages = ({ actions, graphql }) => {
         }
       });
     })
+
     .then(() => {
-      return graphql(`
+      graphql(`
         {
           allWpCategory {
             edges {
@@ -90,29 +92,47 @@ exports.createPages = ({ actions, graphql }) => {
                 id
                 name
                 slug
+                wpChildren {
+                  nodes {
+                    name
+                    slug
+                    id
+                  }
+                }
               }
             }
           }
         }
-      `);
-    })
-    .then(result => {
-      if (result.errors) {
-        result.errors.forEach(e => console.error(e.toString()));
-        return Promise.reject(result.errors);
-      }
+      `).then(result => {
+        if (result.errors) {
+          result.errors.forEach(e => console.error(e.toString()));
+          return Promise.reject(result.errors);
+        }
+        const categoriesTemplate = path.resolve(`./src/templates/category.js`);
 
-      const categoriesTemplate = path.resolve(`./src/templates/category.js`);
-
-      // Create a Gatsby page for each WordPress Category
-      _.each(result.data.allWpCategory.edges, ({ node: cat }) => {
-        createPage({
-          path: `/categories/${cat.slug}/`,
-          component: categoriesTemplate,
-          context: {
-            name: cat.name,
-            slug: cat.slug,
-          },
+        // Create a Gatsby page for each WordPress Category
+        _.each(result.data.allWpCategory.edges, ({ node: cat }) => {
+          createPage({
+            path: `/categories/${cat.slug}/`,
+            component: categoriesTemplate,
+            context: {
+              name: cat.name,
+              slug: cat.slug,
+            },
+          });
+          if (cat.wpChildren.nodes.length > 0) {
+            _.each(cat.wpChildren.nodes, subCat => {
+              createPage({
+                path: `/categories/${cat.slug}/${subCat.slug}`,
+                component: categoriesTemplate,
+                context: {
+                  name: subCat.name,
+                  slug: subCat.slug,
+                  id: subCat.id,
+                },
+              });
+            });
+          }
         });
       });
     })
@@ -148,6 +168,7 @@ exports.createPages = ({ actions, graphql }) => {
         });
       });
     })
+
     .then(() => {
       return graphql(`
         {

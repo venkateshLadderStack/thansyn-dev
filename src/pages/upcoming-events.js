@@ -2,7 +2,7 @@ import React from 'react';
 import TopHeading from '../components/TopHeading';
 import Layout from '../components/layout';
 import ConnectUs from '../components/ConnectUs';
-import { graphql } from 'gatsby';
+import { graphql, Link } from 'gatsby';
 import EventCard from '../components/EventCard';
 
 const UpcomingEvent = ({ data }) => {
@@ -19,9 +19,9 @@ const UpcomingEvent = ({ data }) => {
             ))}
           </div>
           <div className="common-btn-enent pt_40" data-aos="fade-left">
-            <a href="/past-events" className="analyst-connect">
+            <Link to="/past-events" className="analyst-connect">
               See past events
-            </a>
+            </Link>
           </div>
         </div>
       </div>
@@ -33,17 +33,19 @@ const UpcomingEvent = ({ data }) => {
 export default UpcomingEvent;
 
 export const EventsQuery = graphql`
-  query events {
-    allWpEvent {
+  query PastEvents {
+    allWpEvent(filter: { events: { presentPast: { eq: "present" } } }) {
       nodes {
         events {
           audeience
-          duration
           endDate
+          presentPast
           register
           speaker
           startDate
-          time
+          startTime
+          endTime
+          timeFormat
         }
         id
         title

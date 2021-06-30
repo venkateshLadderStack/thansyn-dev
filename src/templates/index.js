@@ -8,8 +8,10 @@ import Post3 from '../components/assets/img/w-3.jpg';
 import TopHeading from '../components/TopHeading';
 import CommunityBox from '../components/CommunityBox';
 import ConnectWithAnalyst from '../components/ConnectWithAnalyst';
-import { graphql } from 'gatsby';
+import { graphql, Link } from 'gatsby';
 import TestimonialSlider from '../components/slider/TestimonialSlider';
+import moment from 'moment';
+import FeaturedInsights from '../components/FeaturedInsights';
 
 const IndexPage = ({ data }) => {
   console.log(data);
@@ -66,30 +68,34 @@ const IndexPage = ({ data }) => {
             </div>
           </div>
           <div className="row justify-content-center">
-            {data.allWpPost.nodes.map(item => (
-              <div
-                className="col-lg-4 col-md-6"
-                data-aos="fade-up"
-                data-aos-delay="200"
-                key={item.id}
-              >
-                <PostItem
-                  tags={item.categories.nodes[0].name}
-                  image={
-                    item?.featuredImage?.node?.localFile?.childImageSharp.fluid
-                      .src
-                  }
-                  date={item.date}
-                  time={item.postDuration.readtime}
-                  heading={item.title}
-                  description={item.excerpt}
-                  readBtn={item.slug}
-                />
-              </div>
-            ))}
+            {data.allWpPost.nodes
+              .reverse()
+              .slice(0, 3)
+              .map(item => (
+                <div
+                  className="col-lg-4 col-md-6"
+                  data-aos="fade-up"
+                  data-aos-delay="200"
+                  key={item.id}
+                >
+                  <PostItem
+                    tags={item.categories.nodes[0].name}
+                    image={
+                      item?.featuredImage?.node?.localFile?.childImageSharp
+                        .fluid.src
+                    }
+                    date={item.date}
+                    time={item.postDuration.readtime}
+                    heading={item.title}
+                    description={item.excerpt}
+                    readBtn={item.slug}
+                  />
+                </div>
+              ))}
           </div>
         </div>
       </div>
+      <FeaturedInsights />
       <div className="event-area">
         <div className="container">
           <div className="row">
@@ -97,25 +103,57 @@ const IndexPage = ({ data }) => {
           </div>
           <div className="row justify-content-center">
             {data.allWpEvent.nodes.map((item, index) => (
-              <div
-                className="col-lg-4 col-md-6"
-                data-aos="fade-up"
-                data-aos-delay="200"
-                key={item.id}
-              >
-                <PostItem
-                  eventInfo
-                  tags={'Automation'}
-                  image={
-                    item.featuredImage.node.localFile.childImageSharp.fluid.src
-                  }
-                  date={item.events.startDate}
-                  time={item.events.duration}
-                  registerDate={item.events.endDate}
-                  registerText={item.title}
-                  registerBtn={item.registerBtn}
-                />
-              </div>
+              <>
+                <div
+                  class="col-lg-4 col-md-6"
+                  data-aos="fade-up"
+                  data-aos-delay="200"
+                >
+                  <div class="what-new-item" key={item.id}>
+                    <div class="whats-top">
+                      <span class="tags">
+                        {item.categories.nodes[0]?.name?.toUpperCase()}
+                      </span>
+                      <Link to="/upcoming-events">
+                        <img
+                          src={
+                            item.featuredImage.node.localFile.childImageSharp
+                              .fluid.src
+                          }
+                          alt=""
+                        />
+                      </Link>
+                    </div>
+                    <div class="whats-bottom">
+                      <ul class="post-info">
+                        <li>
+                          <a href="">{item.date}</a>
+                        </li>
+                        <li>
+                          <a href="">
+                            <i class="fal fa-clock"></i>
+                            {moment(
+                              `${item.date}`,
+                              'DDMMMMYYYY h:MM a'
+                            ).fromNow()}{' '}
+                          </a>
+                        </li>
+                      </ul>
+                      <div class="event-info">
+                        <div class="event-txt">
+                          <h4>{item.events.startDate}</h4>
+                          <span>{item.title}</span>
+                        </div>
+                        <div class="event-btn">
+                          <Link class="btn-line" to="/upcoming-events">
+                            REGISTER
+                          </Link>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </>
             ))}
           </div>
         </div>
@@ -174,8 +212,13 @@ export const pageQuery = graphql`
         title
         id
         content
+        categories {
+          nodes {
+            name
+          }
+        }
+        date(formatString: "DD MMMM YYYY")
         events {
-          duration
           endDate
           fieldGroupName
           startDate
@@ -211,10 +254,11 @@ export const pageQuery = graphql`
         }
       }
     }
-    allWpPost(limit: 3) {
+    allWpPost {
       nodes {
         id
         title
+        slug
         content
         date(formatString: "DD MMMM YYYY")
         excerpt

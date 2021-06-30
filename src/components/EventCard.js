@@ -1,7 +1,14 @@
 import React from 'react';
+import moment from 'moment';
 
 const EventCard = ({ data }) => {
   console.log(data);
+
+  const start = moment(`${data.events.startTime}`, 'HH:mm a');
+  const end = moment(`${data.events.endTime}`, 'HH:mm a');
+  const duration = moment.duration(end.diff(start));
+  const minutes = parseInt(duration.asMinutes());
+
   return (
     <React.Fragment>
       <div
@@ -11,7 +18,7 @@ const EventCard = ({ data }) => {
       >
         <div className="what-new-item">
           <div className="whats-top">
-            <span className="tags">WEBINAR, 9 APR 2021</span>
+            <span className="tags">WEBINAR, {data.events.startDate}</span>
             <a href="">
               <img
                 src={
@@ -44,11 +51,16 @@ const EventCard = ({ data }) => {
           />
 
           <div className="event-web-data">
-            <p>Date: {data.events.startDate}</p>
+            <p>Date: {data.events.startDate} </p>
             <p>
-              Time:<strong> {data.events.time}</strong>
+              Time:
+              <strong>
+                {' '}
+                {data.events.startTime} - {data.events.endTime},{' '}
+                {data.events.timeFormat}
+              </strong>
             </p>
-            <p>Duration: {data.events.duration}</p>
+            <p>Duration: {minutes} Mins</p>
             <p>Speaker: {data.events.speaker}</p>
             <p>Audience: All business users</p>
           </div>

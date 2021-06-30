@@ -23,8 +23,8 @@ const TestimonialSlider = ({ data }) => {
                   <div className="testmonial-pro">
                     <img
                       src={
-                        item.featuredImage.node.localFile.childImageSharp.fluid
-                          .src
+                        item.featuredImage?.node?.localFile?.childImageSharp
+                          .fluid.src
                       }
                       alt=""
                     />

@@ -12,6 +12,11 @@ const InsightsLatestSidePosts = () => {
             slug
             author {
               node {
+                avatar {
+                  default
+                  url
+                  width
+                }
                 slug
                 about_author_insights {
                   displayPicture {
@@ -65,10 +70,7 @@ const InsightsLatestSidePosts = () => {
                       <img
                         className="mr-3"
                         width="60px"
-                        src={
-                          edge.node?.author?.node?.about_author_insights
-                            ?.displayPicture?.sourceUrl
-                        }
+                        src={edge.node?.author.node?.avatar.url}
                         alt=""
                       />
                       <div className="insight-point px-2">

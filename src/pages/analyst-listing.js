@@ -1,115 +1,99 @@
-import React from "react"
-import Analyst from "../components/Analyst"
-import Layout from "../components/layout"
-import Analyst1 from "../components/assets/img/analysts listing/1.png"
-import Analyst2 from "../components/assets/img/analysts listing/2.png"
-import Analyst3 from "../components/assets/img/analysts listing/3.png"
-import Analyst4 from "../components/assets/img/analysts listing/4.png"
-import Analyst5 from "../components/assets/img/analysts listing/5.png"
-import Analyst6 from "../components/assets/img/analysts listing/6.png"
-import Analyst7 from "../components/assets/img/analysts listing/7.png"
-import Analyst8 from "../components/assets/img/analysts listing/8.png"
-import Analyst9 from "../components/assets/img/analysts listing/9.png"
-import Analyst10 from "../components/assets/img/analysts listing/10.png"
-import ConnectUs from "../components/ConnectUs"
+import React, { useState } from 'react';
+import Analyst from '../components/Analyst';
+import Layout from '../components/layout';
+import ConnectUs from '../components/ConnectUs';
+import { graphql, useStaticQuery, Link } from 'gatsby';
+import TitleCard from '../components/TitleCard';
+import AnalystDetailsCard from '../components/AnalystPage/AnalystDetailsCard';
+
 const AnalystListing = () => {
-  const topImage = [Analyst2, Analyst3, Analyst4, Analyst5]
-  const listImage = [Analyst6, Analyst7, Analyst8, Analyst9, Analyst10]
+  const [showAnalystDetails, setShowAnalystDetails] = useState(null);
+
+  const toggleShow = id => {
+    if (showAnalystDetails === id) {
+      return setShowAnalystDetails(null);
+    }
+
+    setShowAnalystDetails(id);
+  };
+
+  const data = useStaticQuery(graphql`
+    {
+      allWpUser {
+        nodes {
+          id
+          about_author_insights {
+            displayPicture {
+              sourceUrl
+            }
+            name
+            twitterLink
+            wroteInsights {
+              insightName
+            }
+            services {
+              services
+            }
+            facebookLink
+            instagramLink
+          }
+          name
+          description
+          slug
+        }
+      }
+    }
+  `);
+  console.log(data);
+  const analyst = data.allWpUser.nodes;
+
   return (
     <Layout>
-      <div class="analyst-listing pt_45 overflow-hidden">
-        <div class="container">
-          <div class="row">
-            <div class="col-lg-12">
-              <div class="area-title  text-center ">
-                <h2>Analysts</h2>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-xl-6 col-lg-12 col-md-12">
-              <div class="row mas-grid-wrapper">
-                {topImage.map((item, index) => (
-                  <div
-                    class="col-lg-12 col-md-12"
-                    data-aos="fade-up"
-                    data-aos-delay="200"
-                  >
-                    <Analyst image={item} />
-                  </div>
-                ))}
-              </div>
-            </div>
-            <div
-              class="col-xl-6 col-lg-12 col-md-12 mb-lg-4"
-              data-aos="fade-up"
-              data-aos-delay="400"
-            >
-              <div class="analu-wrapp">
-                <img src={Analyst1} alt="" />
-                <div class="analust-content">
-                  <h2>Jessica Bloom</h2>
-                  <ul class="social-list d-flex">
-                    <li>
-                      <a href="#">
-                        <i class="fab fa-facebook-f facebook"></i>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#">
-                        <i class="fab fa-instagram instagram"></i>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#">
-                        <i class="fab fa-twitter twitter"></i>
-                      </a>
-                    </li>
-                  </ul>
-                  <p>
-                    Tom spent 24 exciting years as major thought leader <br />{" "}
-                    at Gartner, Inc. 2 years as global head of Gartner research.
-                  </p>
-                  <p>16k+ advisory conversations, 900+ publications</p>
-                  <h4>Wrote insights on</h4>
-                  <p>
-                    Artificial Intelligence
-                    <br />
-                    Business value of technology
-                    <br />
-                    Regulation & public policy
-                  </p>
-                  <h4>Services</h4>
-                  <p>
-                    Speaking engagements, Workshops, Podcasts
-                    <br />
-                    Webinars & Fireside Chats
-                  </p>
-                  <div class="anylust-btn d-flex align-items-center justify-content-between mt_55">
-                    <a href="#" class="btn bg-succes btn-group-lg radius-0">
-                      CONNECT
-                    </a>
-                    <a href="" class="btn-line">
-                      VIEW PROFILE
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
-            {listImage.map((item, index) => (
+      <div className="analyst-listing pt_45 overflow-hidden">
+        <div className="container">
+          <TitleCard>Analysts</TitleCard>
+          <div className="row">
+            {analyst.map((item, index) => (
               <div
-                class="col-xl-6 col-lg-12 col-md-12"
+                className="col-xl-6 col-lg-12 col-md-12 mb-lg-4"
                 data-aos="fade-up"
-                data-aos-delay="200"
+                data-aos-delay="400"
               >
-                <Analyst image={item} name="Jessica Bloom" />
+                <div
+                  className="analu-wrapp"
+                  onClick={() => toggleShow(item.id)}
+                >
+                  <div className="row">
+                    <div className="col-12">
+                      <Analyst
+                        image={
+                          item.about_author_insights.displayPicture?.sourceUrl
+                        }
+                        name={
+                          showAnalystDetails !== item.id &&
+                          item.about_author_insights.name
+                        }
+                      />
+                    </div>
+                  </div>
+
+                  {showAnalystDetails === item.id && (
+                    <AnalystDetailsCard
+                      name={item.about_author_insights.name}
+                      description={item.description}
+                      wroteInsights={item.about_author_insights.wroteInsights}
+                      services={item.about_author_insights.services}
+                      slug={item.slug}
+                    />
+                  )}
+                </div>
               </div>
             ))}
           </div>
         </div>
       </div>
-      <ConnectUs heading="Connect with an analyst."/>
+      <ConnectUs heading="Connect with an analyst." />
     </Layout>
-  )
-}
-export default AnalystListing
+  );
+};
+export default AnalystListing;
