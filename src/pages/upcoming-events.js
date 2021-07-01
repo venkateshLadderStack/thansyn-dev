@@ -34,8 +34,12 @@ export default UpcomingEvent;
 
 export const EventsQuery = graphql`
   query PastEvents {
-    allWpEvent(filter: { events: { presentPast: { eq: "present" } } }) {
+    allWpEvent(
+      sort: { fields: date, order: DESC }
+      filter: { events: { presentPast: { eq: "present" } } }
+    ) {
       nodes {
+        date
         events {
           audeience
           endDate
@@ -49,6 +53,7 @@ export const EventsQuery = graphql`
         }
         id
         title
+        date
         content
         featuredImage {
           node {

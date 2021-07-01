@@ -53,29 +53,50 @@ const AnalystListing = () => {
         <div className="container">
           <TitleCard>Analysts</TitleCard>
           <div className="row">
-            {analyst.map((item, index) => (
-              <div
-                className="col-xl-6 col-lg-12 col-md-12 mb-lg-4"
-                data-aos="fade-up"
-                data-aos-delay="400"
-              >
+            <div className="col-6">
+              {analyst
+                .slice(0, Math.round(analyst.length / 2))
+                .map((item, index) => (
+                  <div
+                    className="analu-wrapp"
+                    onClick={() => toggleShow(item.id)}
+                  >
+                    <Analyst
+                      image={
+                        item.about_author_insights.displayPicture?.sourceUrl
+                      }
+                      name={
+                        showAnalystDetails !== item.id &&
+                        item.about_author_insights.name
+                      }
+                    />
+
+                    {showAnalystDetails === item.id && (
+                      <AnalystDetailsCard
+                        name={item.about_author_insights.name}
+                        description={item.description}
+                        wroteInsights={item.about_author_insights.wroteInsights}
+                        services={item.about_author_insights.services}
+                        slug={item.slug}
+                      />
+                    )}
+                  </div>
+                ))}
+            </div>
+
+            <div className="col-6">
+              {analyst.slice(analyst.length - 1 / 2).map((item, index) => (
                 <div
                   className="analu-wrapp"
                   onClick={() => toggleShow(item.id)}
                 >
-                  <div className="row">
-                    <div className="col-12">
-                      <Analyst
-                        image={
-                          item.about_author_insights.displayPicture?.sourceUrl
-                        }
-                        name={
-                          showAnalystDetails !== item.id &&
-                          item.about_author_insights.name
-                        }
-                      />
-                    </div>
-                  </div>
+                  <Analyst
+                    image={item.about_author_insights.displayPicture?.sourceUrl}
+                    name={
+                      showAnalystDetails !== item.id &&
+                      item.about_author_insights.name
+                    }
+                  />
 
                   {showAnalystDetails === item.id && (
                     <AnalystDetailsCard
@@ -87,8 +108,8 @@ const AnalystListing = () => {
                     />
                   )}
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
       </div>

@@ -18,7 +18,7 @@ const PostItem = ({
   return (
     <div className="what-new-item">
       <div className="whats-top">
-        <span className="tags">{tags}</span>
+        <span className="tags">{tags.toUpperCase()}</span>
         <a href="">
           <img src={image} alt="" />
         </a>

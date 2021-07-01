@@ -6,9 +6,9 @@ import image1 from '../components/assets/img/about/1.png';
 import image2 from '../components/assets/img/about/2.png';
 import ConnectUs from '../components/ConnectUs';
 import { graphql } from 'gatsby';
+import TitleCard from '../components/TitleCard';
 
 const AboutUs = ({ data }) => {
-  console.log(data);
   const aboutData = [
     {
       heading: 'Leadership',
@@ -47,16 +47,11 @@ const AboutUs = ({ data }) => {
     <Layout>
       <div className="about-area">
         <div className="container">
-          <div className="row">
-            <div className="col-lg-12">
-              <div className="area-title text-center">
-                <h2>
-                  About <br />
-                  the company
-                </h2>
-              </div>
-            </div>
-          </div>
+          <TitleCard>
+            About <br />
+            the company
+          </TitleCard>
+
           <div className="row">
             {data.wpPage.aboutPage.aboutCompany.map(item => {
               return <AboutCard data={item} key={item.id} />;
@@ -64,18 +59,18 @@ const AboutUs = ({ data }) => {
           </div>
           <div className="row">
             <div className="col-lg-6 col-md-6">
+              {}
               <div
                 className="about-future"
                 data-aos="fade-right"
                 data-aos-duration="900"
               >
                 <h4>Who we are</h4>
-                <p>
-                  Lorem ipsum, or lipsum as it is sometimes known, is dummy text
-                  used in laying out print, graphic or web designs. The passage
-                  is attributed to an unknown typesetter in the 15th century who
-                  is thought to have scrambled.
-                </p>
+                <p
+                  dangerouslySetInnerHTML={{
+                    __html: data.wpPage.aboutPage.whoAreWe[0].whoAreWe1,
+                  }}
+                />
               </div>
               <div
                 className="about-bg"
@@ -115,13 +110,13 @@ const AboutUs = ({ data }) => {
                 <div className="contact-list d-flex ">
                   <i className="fas fa-phone-square"></i>
                   <div className="contact-tab">
-                    <p>+92 312 7524</p>
+                    <p>{data.wpPage.aboutPage.founders[0].contact}</p>
                   </div>
                 </div>
                 <div className="contact-list d-flex">
                   <i className="fas fa-envelope"></i>
                   <div className="contact-tab">
-                    <p>Info@company.com</p>
+                    <p>{data.wpPage.aboutPage.founders[0].mailId}</p>
                   </div>
                 </div>
               </div>
@@ -133,12 +128,11 @@ const AboutUs = ({ data }) => {
                 data-aos-duration="900"
               >
                 <h4>Who we are</h4>
-                <p>
-                  Lorem ipsum, or lipsum as it is sometimes known, is dummy text
-                  used in laying out print, graphic or web designs. The passage
-                  is attributed to an unknown typesetter in the 15th century who
-                  is thought to have scrambled.
-                </p>
+                <p
+                  dangerouslySetInnerHTML={{
+                    __html: data.wpPage.aboutPage.whoAreWe[0].whoAreWe2,
+                  }}
+                />
               </div>
               <div
                 className="about-bg"
@@ -153,7 +147,7 @@ const AboutUs = ({ data }) => {
                   alt="about-us"
                 />
                 <div className="about-bg-content">
-                  <h3>Founder 1</h3>
+                  <h3>{}</h3>
                   <ul className="social-list d-flex">
                     <li>
                       <a href="#">
@@ -178,13 +172,13 @@ const AboutUs = ({ data }) => {
                 <div className="contact-list d-flex ">
                   <i className="fas fa-phone-square"></i>
                   <div className="contact-tab">
-                    <p>+92 312 7524</p>
+                    <p>{data.wpPage.aboutPage.founders[1].contact}</p>
                   </div>
                 </div>
                 <div className="contact-list d-flex">
                   <i className="fas fa-envelope"></i>
                   <div className="contact-tab">
-                    <p>Info@company.com</p>
+                    <p>{data.wpPage.aboutPage.founders[1].mailId}</p>
                   </div>
                 </div>
               </div>
@@ -192,7 +186,7 @@ const AboutUs = ({ data }) => {
           </div>
         </div>
       </div>
-      <ConnectUs />
+      <ConnectUs heading={'Have a query? Get in touch.'} />
     </Layout>
   );
 };
@@ -207,9 +201,15 @@ export const pageQuery = graphql`
           description
           color
         }
+        whoAreWe {
+          whoAreWe1
+          whoAreWe2
+        }
         founders {
           facebook
           insta
+          contact
+          mailId
           name
           image {
             localFile {

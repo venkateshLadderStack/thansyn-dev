@@ -1,5 +1,6 @@
 import React from 'react';
 import moment from 'moment';
+import { Link } from 'gatsby';
 
 const EventCard = ({ data }) => {
   console.log(data);
@@ -22,7 +23,7 @@ const EventCard = ({ data }) => {
             <a href="">
               <img
                 src={
-                  data.featuredImage.node?.localFile.childImageSharp.fluid.src
+                  data.featuredImage?.node?.localFile.childImageSharp.fluid.src
                 }
                 alt=""
               />
@@ -30,10 +31,12 @@ const EventCard = ({ data }) => {
           </div>
           <div className="whats-bottom">
             <div className="event-more-btn text-center">
-              <a href="#">Subscribe to updates </a>
-              <a className="bg-Dark" href="#">
+              <Link to="/subscribe-to-insights-and-events">
+                Subscribe to updates{' '}
+              </Link>
+              <Link className="bg-Dark" to="/contact-us">
                 Register on event website{' '}
-              </a>
+              </Link>
             </div>
           </div>
         </div>
@@ -62,7 +65,7 @@ const EventCard = ({ data }) => {
             </p>
             <p>Duration: {minutes} Mins</p>
             <p>Speaker: {data.events.speaker}</p>
-            <p>Audience: All business users</p>
+            <p>Audience: {data.events.audeience}</p>
           </div>
         </div>
       </div>

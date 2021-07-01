@@ -1,6 +1,7 @@
 import React from 'react';
 import SliderComponent from '../UI/slider/SliderComponent';
 import styled from 'styled-components';
+import { Link } from 'gatsby';
 
 const BGImage = styled.div`
   background-image: url(${props => (props.image ? `${props.image}` : null)});
@@ -9,9 +10,12 @@ const HeroSlider = ({ data }) => {
   const settings = {
     dots: true,
     infinite: true,
-    speed: 1000,
     slidesToShow: 1,
     slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 3000,
+    speed: 1000,
+
     customPaging: i => <div classNameName="slick__dots--custom"></div>,
     responsive: [
       {
@@ -55,10 +59,10 @@ const HeroSlider = ({ data }) => {
                     }}
                   />
                   <div className="hero-btn">
-                    <a className="btn-bg" href={item.slider.viewService}>
+                    <Link className="btn-bg" to={`/service`}>
                       View Service
-                    </a>
-                    <a href={item.slider.ourResearch}>Our Research</a>
+                    </Link>
+                    <Link to="/insights">Our Research</Link>
                   </div>
                 </div>
               </div>

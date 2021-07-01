@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { graphql, Link } from 'gatsby';
 import Layout from '../components/layout';
 import ConnectUs from '../components/ConnectUs';
@@ -6,12 +6,22 @@ import TitleCard from '../components/TitleCard';
 import LeftAlignCard from '../components/ServicePage/LeftAlignCard';
 import RightAlignCard from '../components/ServicePage/RightAlignCard';
 import FounderDetailCard from '../components/ServicePage/FounderDetailCard';
+import DelayPopup from '../components/DelayPopup';
+import ConnectWithAnalyst from '../components/ConnectWithAnalyst';
 
-const service = ({ data }) => {
-  console.log(data);
+const Service = ({ data }) => {
+  const [popupVisibilty, setPopupVisibility] = useState(false);
+
+  useEffect(() => {
+    setTimeout(() => setPopupVisibility(true), 5000);
+  }, []);
+
   return (
     <Layout>
-      <div></div>
+      <DelayPopup
+        visibility={popupVisibilty}
+        hidePopup={() => setPopupVisibility(false)}
+      />
       <div className="home-services overflow-hidden pt_45">
         <div className="container">
           <TitleCard>
@@ -54,12 +64,12 @@ const service = ({ data }) => {
           </div>
         </div>
       </div>
-      <ConnectUs heading={'contact us'} />
+      <ConnectWithAnalyst />
     </Layout>
   );
 };
 
-export default service;
+export default Service;
 
 export const query = graphql`
   query ServicePage($id: String!) {

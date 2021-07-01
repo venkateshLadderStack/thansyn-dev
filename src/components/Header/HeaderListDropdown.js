@@ -6,21 +6,21 @@ const HeaderListDropdown = ({ menus }) => {
     <ul className="dropdown-menu small_menu">
       {menus.map((menu, index) => (
         <li className="dropdown-submenu dropdown">
-          <a
-            href="#"
+          <Link
+            to={`/${menu.path}`}
             className="dropdown-toggle"
             data-toggle="dropdown"
             key={index}
           >
             <Link to={menu.path}>{menu.title}</Link>
-            <i className="fal fa-angle-right"></i>
-          </a>
+            {menu.subItems && <i className="fal fa-angle-right"></i>}
+          </Link>
           {menu.subItems && (
             <ul className="dropdown-menu">
               {menu.subItems &&
                 menu.subItems.map((data, index) => (
-                  <li>
-                    <a href="#">{data}</a>
+                  <li key={index}>
+                    <Link to={`/${data.path}`}>{data.title}</Link>
                   </li>
                 ))}
             </ul>

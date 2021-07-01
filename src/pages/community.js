@@ -10,7 +10,7 @@ import Layout from '../components/layout';
 const Community = () => {
   const data = useStaticQuery(graphql`
     {
-      allWpCommunity {
+      allWpCommunity(sort: { fields: date, order: DESC }) {
         nodes {
           title
           community {

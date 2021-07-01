@@ -2,7 +2,7 @@ import { graphql, Link } from 'gatsby';
 import React from 'react';
 import TitleCard from '../components/TitleCard';
 import Layout from '../components/layout';
-import ConnectUs from '../components/ConnectUs';
+import ConnectWithAnalyst from '../components/ConnectWithAnalyst';
 
 const insights = ({ data }) => {
   const items = data.wpPage.insightPageFields.addInsightsCategories;
@@ -42,7 +42,7 @@ const insights = ({ data }) => {
           </div>
         ))}
       </div>
-      <ConnectUs heading={'Contact Us'} />
+      <ConnectWithAnalyst />
     </Layout>
   );
 };

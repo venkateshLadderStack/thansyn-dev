@@ -6,9 +6,9 @@ import InsightTextCard from '../components/InsightSidePost/InsightTextCard';
 import ConnectUs from '../components/ConnectUs';
 import TitleCard from '../components/TitleCard';
 import CategoriesPost from '../components/CategoryPage/categoriesPost';
+import ConnectWithAnalyst from '../components/ConnectWithAnalyst';
 
 const InsightsListing = ({ data }) => {
-  console.log(data);
   const [title, setTitle] = useState('');
 
   useEffect(() => {
@@ -21,14 +21,14 @@ const InsightsListing = ({ data }) => {
     item => item.slug === title
   );
 
-  console.log(categoryData, 'categoryDATA');
-
   return (
     <Layout>
       <div className="insights-category pt_45">
         <div className="container">
           {categoryData.map(item => (
-            <TitleCard>{item.name}</TitleCard>
+            <TitleCard>
+              {item.name.charAt(0).toUpperCase() + item.name.slice(1)}
+            </TitleCard>
           ))}
         </div>
       </div>
@@ -46,7 +46,7 @@ const InsightsListing = ({ data }) => {
           </div>
         </div>
       </div>
-      <ConnectUs heading={'Connect Us'} />
+      <ConnectWithAnalyst />
     </Layout>
   );
 };
@@ -57,6 +57,7 @@ export const query = graphql`
   query Posts($slug: String!) {
     allWpPost(
       filter: { categories: { nodes: { elemMatch: { slug: { eq: $slug } } } } }
+      sort: { fields: date, order: DESC }
     ) {
       nodes {
         title
