@@ -1,6 +1,6 @@
 import React from 'react';
 import { StaticImage } from 'gatsby-plugin-image';
-
+import { Link } from 'gatsby';
 import CategoryListShapdot from '../../assets/img/category listing/shapdot.png';
 
 const InsightTextCard = () => {
@@ -19,9 +19,12 @@ const InsightTextCard = () => {
           Prediction 2021
         </h4>
         <div className="anylust-btn text-center mt_40">
-          <a href="#" className="btn bule-graa text-whait btn-lg radius-0">
+          <Link
+            to="/categories/predictions"
+            className="btn bule-graa text-whait btn-lg radius-0"
+          >
             READ INSIGHT
-          </a>
+          </Link>
         </div>
       </div>
     </div>

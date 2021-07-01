@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Layout from '../components/layout';
 import HeroSlider from '../components/slider/HeroSlider';
 import PostItem from '../components/PostItem';
@@ -12,10 +12,28 @@ import { graphql, Link } from 'gatsby';
 import TestimonialSlider from '../components/slider/TestimonialSlider';
 import moment from 'moment';
 import FeaturedInsights from '../components/FeaturedInsights';
+import DelayPopup from '../components/DelayPopup';
+import FloatingSubscribeBox from '../components/FloatingSubscribeBox';
 
 const IndexPage = ({ data }) => {
+  const [popupVisibilty, setPopupVisibility] = useState(false);
+  const [subscribeVisibilty, setSubscribeVisibility] = useState(false);
+
+  useEffect(() => {
+    setTimeout(() => setPopupVisibility(true), 10000);
+    setTimeout(() => setSubscribeVisibility(true), 3000);
+  }, []);
+
   return (
     <Layout>
+      <DelayPopup
+        visibility={popupVisibilty}
+        hidePopup={() => setPopupVisibility(false)}
+      />
+      <FloatingSubscribeBox
+        visibility={subscribeVisibilty}
+        hidePopup={() => setSubscribeVisibility(false)}
+      />
       <div className="home_wrapper postion-relative">
         <div className="hero-area">
           <HeroSlider data={data.allWpSlider.nodes} />

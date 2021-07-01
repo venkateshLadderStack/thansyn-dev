@@ -1,4 +1,6 @@
 import React from 'react';
+import { Link } from 'gatsby';
+
 const ConnectUs = ({ heading }) => {
   return (
     <div className="analyst-connect-area">
@@ -15,9 +17,9 @@ const ConnectUs = ({ heading }) => {
                 Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
               </p>
               <br />
-              <a className="common-btn with-bg" href="">
+              <Link className="common-btn with-bg" to="/contact-us">
                 Contact us
-              </a>
+              </Link>
             </div>
           </div>
         </div>

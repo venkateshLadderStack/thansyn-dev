@@ -186,7 +186,7 @@ const AboutUs = ({ data }) => {
           </div>
         </div>
       </div>
-      <ConnectUs />
+      <ConnectUs heading={'Have a query? Get in touch.'} />
     </Layout>
   );
 };
