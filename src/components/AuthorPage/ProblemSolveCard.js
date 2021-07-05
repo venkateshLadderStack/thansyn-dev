@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'gatsby';
 
 const ProblemSolveCard = ({ problems, Phone, Approved }) => {
   return (
@@ -24,10 +25,10 @@ const ProblemSolveCard = ({ problems, Phone, Approved }) => {
         <p className="sub-title">Connect and explore opportunities</p>
 
         <div className="anylust-btn text-center mt_40">
-          <a href="#" className="btn bg-succes btn-lg radius-0">
+          <Link to="/contact-us" className="btn bg-succes btn-lg radius-0">
             <img className="mr-2" src={Phone} alt="" />
             SCHEDULE A CALL
-          </a>
+          </Link>
         </div>
       </div>
     </div>

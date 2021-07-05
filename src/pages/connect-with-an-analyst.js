@@ -78,7 +78,7 @@ const ConnectWithAnAnalyst = () => {
           adviceAndEvaluations: false,
           analysisAndReasearch: false,
           insights: false,
-          email: '',
+          EMAIL: '',
           mobile: '',
           agree: false,
         }}

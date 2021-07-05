@@ -22,8 +22,9 @@ const Author = ({ data }) => {
       <div className="analyst-detail pt_45 overflow-hidden">
         <div className="container">
           <TitleCard
-            LinkedIn={LinkedIn}
-            name={data.wpUser.about_author_insights.name}
+            LinkedIn={data.wpUser.about_author_insights?.linkedIn}
+            LinkedInLogo={LinkedIn}
+            name={data.wpUser.name}
           />
           <div className="row  mas-grid-wrapper">
             <ProfilePic
@@ -49,6 +50,9 @@ const Author = ({ data }) => {
 
             <LinksCard
               linksOfWork={data.wpUser.about_author_insights.linksOfWork}
+              facebook={data.about_author_insights?.facebookLink}
+              twitter={data.about_author_insights?.twitterLink}
+              instagram={data.about_author_insights?.instagramLink}
             />
           </div>
         </div>
@@ -65,8 +69,10 @@ export default Author;
 export const query = graphql`
   query Author($id: String!) {
     wpUser(id: { eq: $id }) {
+      name
       about_author_insights {
         aboutAuthor
+        linkedIn
         background
         credentials {
           credentialsContent

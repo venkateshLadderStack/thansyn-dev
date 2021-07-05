@@ -42,7 +42,7 @@ const CategoriesPost = ({ data, forBadge }) => {
               </li>
               <li>by</li>
               <li>
-                <a>{item.author.node.about_author_insights.name}</a>
+                <a>{item.author.node.name}</a>
               </li>
               <li>
                 <a href="#">{item.date}</a>

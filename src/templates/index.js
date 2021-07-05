@@ -26,10 +26,10 @@ const IndexPage = ({ data }) => {
 
   return (
     <Layout>
-      <DelayPopup
+      {/* <DelayPopup
         visibility={popupVisibilty}
         hidePopup={() => setPopupVisibility(false)}
-      />
+      /> */}
       <FloatingSubscribeBox
         visibility={subscribeVisibilty}
         hidePopup={() => setSubscribeVisibility(false)}

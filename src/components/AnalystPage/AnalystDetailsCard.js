@@ -13,7 +13,7 @@ const AnalystDetailsCard = ({
 }) => {
   return (
     <div
-      className="analust-content"
+      className="analust-content mb-3"
       style={{
         marginTop: '-25px',
         transition: '1s ease-out',
@@ -21,21 +21,27 @@ const AnalystDetailsCard = ({
     >
       <h2>{name}</h2>
       <ul className="social-list d-flex">
-        <li>
-          <a href="#">
-            <i className="fab fa-facebook-f facebook"></i>
-          </a>
-        </li>
-        <li>
-          <a href="#">
-            <i className="fab fa-instagram instagram"></i>
-          </a>
-        </li>
-        <li>
-          <a href="#">
-            <i className="fab fa-twitter twitter"></i>
-          </a>
-        </li>
+        {facebook && (
+          <li>
+            <Link to={facebook}>
+              <i className="fab fa-facebook-f facebook"></i>
+            </Link>
+          </li>
+        )}
+        {instagram && (
+          <li>
+            <Link to={instagram}>
+              <i className="fab fa-instagram instagram"></i>
+            </Link>
+          </li>
+        )}
+        {twitter && (
+          <li>
+            <Link to={twitter}>
+              <i className="fab fa-twitter twitter"></i>
+            </Link>
+          </li>
+        )}
       </ul>
       <p>{description}</p>
       <h4>Wrote insights on</h4>

@@ -15,6 +15,8 @@ const InsightsLatestSidePosts = () => {
             date
             author {
               node {
+                name
+
                 avatar {
                   default
                   url
@@ -75,7 +77,7 @@ const InsightsLatestSidePosts = () => {
                     <div className="insight-point px-2">
                       <span>by</span>
                       <Link to={`/author/${edge.node.author.node.slug}`}>
-                        {edge.node.author.node.about_author_insights?.name}
+                        {edge.node.author.node?.name}
                       </Link>
                     </div>
                   </div>

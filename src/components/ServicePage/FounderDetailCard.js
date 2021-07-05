@@ -1,6 +1,15 @@
 import React from 'react';
+import { Link } from 'gatsby';
 
-const FounderDetailCard = ({ name, imageUrl, title, content }) => {
+const FounderDetailCard = ({
+  name,
+  imageUrl,
+  title,
+  content,
+  twitter,
+  insta,
+  facebook,
+}) => {
   return (
     <div className="col-lg-6 col-md-6">
       <div className="about-future" data-aos="fade-right" data-aos-delay="800">
@@ -13,19 +22,19 @@ const FounderDetailCard = ({ name, imageUrl, title, content }) => {
           <h3>{name}</h3>
           <ul className="social-list d-flex">
             <li>
-              <a href="#">
+              <Link to={facebook}>
                 <i className="fab fa-facebook-f facebook"></i>
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="#">
+              <Link to={insta}>
                 <i className="fab fa-instagram instagram"></i>
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="#">
+              <Link to={twitter}>
                 <i className="fab fa-twitter twitter"></i>
-              </a>
+              </Link>
             </li>
           </ul>
         </div>
