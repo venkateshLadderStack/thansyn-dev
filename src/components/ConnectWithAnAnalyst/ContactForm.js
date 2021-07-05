@@ -3,6 +3,7 @@ import { graphql, useStaticQuery } from 'gatsby';
 import { getImage, GatsbyImage } from 'gatsby-plugin-image';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
+import addToMailchimp from 'gatsby-plugin-mailchimp';
 
 import { convertToBgImage } from 'gbimage-bridge';
 import BackgroundImage from 'gatsby-background-image';

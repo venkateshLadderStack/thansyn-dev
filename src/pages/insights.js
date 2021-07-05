@@ -3,11 +3,13 @@ import React from 'react';
 import TitleCard from '../components/TitleCard';
 import Layout from '../components/layout';
 import ConnectWithAnalyst from '../components/ConnectWithAnalyst';
+import Seo from '../components/seo';
 
 const insights = ({ data }) => {
   const items = data.wpPage.insightPageFields.addInsightsCategories;
   return (
     <Layout>
+      <Seo title="Insights" />
       <TitleCard>Insights</TitleCard>
       <div className="row">
         {items.map((item, index) => (

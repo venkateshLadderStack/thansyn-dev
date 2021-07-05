@@ -4,10 +4,12 @@ import Layout from '../components/layout';
 import ConnectUs from '../components/ConnectUs';
 import { graphql, Link } from 'gatsby';
 import EventCard from '../components/EventCard';
+import Seo from '../components/seo';
 
 const UpcomingEvent = ({ data }) => {
   return (
     <Layout>
+       <Seo title="upcoming events" />
       <div className="upcoming-events pt_45 overflow-hidden">
         <div className="container">
           <div className="row">

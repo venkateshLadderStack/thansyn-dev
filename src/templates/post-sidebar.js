@@ -42,7 +42,7 @@ const post = ({ data }) => {
                     <li>by</li>
                     <li>
                       <a className="btn-line line-black" href="#">
-                        {data.wpPost.author.node.about_author_insights.name}
+                        {data.wpPost.author.node.name}
                       </a>
                     </li>
                     <li>
@@ -121,6 +121,7 @@ export const query = graphql`
       }
       author {
         node {
+          name
           avatar {
             default
             url

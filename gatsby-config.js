@@ -10,6 +10,13 @@ module.exports = {
     `gatsby-plugin-image`,
     `gatsby-plugin-styled-components`,
     {
+      resolve: 'gatsby-plugin-mailchimp',
+      options: {
+        endpoint:
+          'https://us20.list-manage.com/contact-form?u=a9ccacb7a86858499c8014209&form_id=b792ce9ab1332b0a1ae2d1b44311344a', // string; add your MC list endpoint here; see instructions below
+      },
+    },
+    {
       resolve: `gatsby-source-filesystem`,
       options: {
         name: `images`,

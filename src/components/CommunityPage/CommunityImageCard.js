@@ -7,8 +7,8 @@ const CommunityImageCard = ({ imageUrl, label }) => {
       data-aos="fade-right"
       data-aos-duration="1000"
     >
-      <div className="card-images-box mb-4">
-        <img src={imageUrl} alt="" />
+      <div className="card-images-box mb-4" style={{ height: '500px' }}>
+        <img width="100%" src={imageUrl} alt="" />
         <div className="shap"></div>
         <div className="card-body-content">
           <h4>{label}</h4>

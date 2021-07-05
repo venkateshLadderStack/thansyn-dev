@@ -13,12 +13,14 @@ import PostItem from '../components/PostItem';
 import TopHeading from '../components/TopHeading';
 import BottomInsightPosts from '../components/BottomInsightPosts';
 import AuthorDescription from '../components/AnalystPage/AuthorDescription';
+import Seo from '../components/seo';
 
 const post = ({ data }) => {
   console.log(data);
 
   return (
     <Layout>
+      <Seo title="Insights" />
       <div className="insight-detail-area pt_55 overflow-hidden">
         <div className="container">
           <div className="row">
@@ -46,7 +48,7 @@ const post = ({ data }) => {
                         className="btn-line line-black"
                         to={`/author/${data.wpPost.author.node.slug}`}
                       >
-                        {data.wpPost.author.node.about_author_insights.name}
+                        {data.wpPost.author.node.name}
                       </Link>
                     </li>
                     <li>
@@ -122,6 +124,7 @@ export const query = graphql`
       author {
         node {
           slug
+          name
           avatar {
             default
             url

@@ -7,6 +7,7 @@ import ConnectUs from '../components/ConnectUs';
 import TitleCard from '../components/TitleCard';
 import CategoriesPost from '../components/CategoryPage/categoriesPost';
 import ConnectWithAnalyst from '../components/ConnectWithAnalyst';
+import Seo from '../components/seo';
 
 const InsightsListing = ({ data }) => {
   const [title, setTitle] = useState('');
@@ -23,6 +24,7 @@ const InsightsListing = ({ data }) => {
 
   return (
     <Layout>
+      <Seo title="Insights" />
       <div className="insights-category pt_45">
         <div className="container">
           {categoryData.map(item => (
@@ -73,6 +75,7 @@ export const query = graphql`
         }
         author {
           node {
+            name
             avatar {
               default
               url

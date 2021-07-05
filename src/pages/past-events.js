@@ -4,10 +4,12 @@ import Layout from '../components/layout';
 import ConnectUs from '../components/ConnectUs';
 import { graphql } from 'gatsby';
 import EventCard from '../components/EventCard';
+import Seo from '../components/seo';
 
 const PastEvent = ({ data }) => {
   return (
     <Layout>
+       <Seo title="Past events" />
       <div className="upcoming-events pt_45 overflow-hidden">
         <div className="container">
           <div className="row">

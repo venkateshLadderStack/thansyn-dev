@@ -8,6 +8,7 @@ import RightAlignCard from '../components/ServicePage/RightAlignCard';
 import FounderDetailCard from '../components/ServicePage/FounderDetailCard';
 import DelayPopup from '../components/DelayPopup';
 import ConnectWithAnalyst from '../components/ConnectWithAnalyst';
+import Seo from '../components/seo';
 
 const Service = ({ data }) => {
   const [popupVisibilty, setPopupVisibility] = useState(false);
@@ -18,6 +19,7 @@ const Service = ({ data }) => {
 
   return (
     <Layout>
+      <Seo title="services" />
       <DelayPopup
         visibility={popupVisibilty}
         hidePopup={() => setPopupVisibility(false)}
@@ -41,7 +43,7 @@ const Service = ({ data }) => {
             ))}
             <FounderDetailCard
               title="Who we are"
-              content={data.wpPage.servicePageAcf.whoAreWe}
+              content={data.wpPage.servicePageAcf?.aboutWhoAreWe}
               imageUrl={
                 data.wpPage.servicePageAcf.founderData[0]?.foundersImage
                   ?.sourceUrl
@@ -49,10 +51,13 @@ const Service = ({ data }) => {
               name={
                 data.wpPage.servicePageAcf?.founderData[0].name || 'Founder-1'
               }
+              facebook={data.wpPage.servicePageAcf?.founderData[0]?.facebook}
+              twitter={data.wpPage.servicePageAcf?.founderData[0]?.twitter}
+              insta={data.wpPage.servicePageAcf?.founderData[0]?.instagram}
             />
             <FounderDetailCard
               title="The future shift"
-              content={data.wpPage.servicePageAcf.futureShift}
+              content={data.wpPage.servicePageAcf?.futureShift}
               imageUrl={
                 data.wpPage.servicePageAcf?.founderData[1]?.foundersImage
                   ?.sourceUrl
@@ -60,6 +65,9 @@ const Service = ({ data }) => {
               name={
                 data.wpPage.servicePageAcf?.founderData[1].name || 'Founder-2'
               }
+              facebook={data.wpPage.servicePageAcf?.founderData[1]?.facebook}
+              twitter={data.wpPage.servicePageAcf?.founderData[1]?.twitter}
+              insta={data.wpPage.servicePageAcf?.founderData[1]?.instagram}
             />
           </div>
         </div>
@@ -75,10 +83,13 @@ export const query = graphql`
   query ServicePage($id: String!) {
     wpPage(id: { eq: $id }) {
       servicePageAcf {
-        whoAreWe
+        aboutWhoAreWe
         futureShift
         founderData {
           name
+          facebook
+          instagram
+          twitter
           foundersImage {
             sourceUrl
           }

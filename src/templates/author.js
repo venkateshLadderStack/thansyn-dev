@@ -14,16 +14,19 @@ import HighlightsCard from '../components/AuthorPage/HighlightsCard';
 import CredentialsCard from '../components/AuthorPage/CredentialsCard';
 import LinksCard from '../components/AuthorPage/LinksCard';
 import BottomInsightPosts from '../components/BottomInsightPosts';
+import Seo from '../components/seo';
 
 const Author = ({ data }) => {
   console.log(data, 'FROM AUTHOR');
   return (
     <Layout>
+      <Seo title={`${data.wpUser.name}`} />
       <div className="analyst-detail pt_45 overflow-hidden">
         <div className="container">
           <TitleCard
-            LinkedIn={LinkedIn}
-            name={data.wpUser.about_author_insights.name}
+            LinkedIn={data.wpUser.about_author_insights?.linkedIn}
+            LinkedInLogo={LinkedIn}
+            name={data.wpUser.name}
           />
           <div className="row  mas-grid-wrapper">
             <ProfilePic
@@ -49,6 +52,9 @@ const Author = ({ data }) => {
 
             <LinksCard
               linksOfWork={data.wpUser.about_author_insights.linksOfWork}
+              facebook={data.about_author_insights?.facebookLink}
+              twitter={data.about_author_insights?.twitterLink}
+              instagram={data.about_author_insights?.instagramLink}
             />
           </div>
         </div>
@@ -65,8 +71,10 @@ export default Author;
 export const query = graphql`
   query Author($id: String!) {
     wpUser(id: { eq: $id }) {
+      name
       about_author_insights {
         aboutAuthor
+        linkedIn
         background
         credentials {
           credentialsContent

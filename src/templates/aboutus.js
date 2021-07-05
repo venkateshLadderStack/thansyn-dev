@@ -7,44 +7,13 @@ import image2 from '../components/assets/img/about/2.png';
 import ConnectUs from '../components/ConnectUs';
 import { graphql } from 'gatsby';
 import TitleCard from '../components/TitleCard';
+import { Link } from 'gatsby';
+import Seo from '../components/seo';
 
 const AboutUs = ({ data }) => {
-  const aboutData = [
-    {
-      heading: 'Leadership',
-      description:
-        'Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs. The passage is attributed to an unknown typesetter in the 15th century who is thought to have scrambled.',
-    },
-    {
-      heading: 'Leadership',
-      description:
-        'Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs. The passage is attributed to an unknown typesetter in the 15th century who is thought to have scrambled.',
-    },
-  ];
-  const aboutFuture = [
-    {
-      heading: 'Leadership',
-      description:
-        'Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs. The passage is attributed to an unknown typesetter in the 15th century who is thought to have scrambled.',
-      image: image1,
-      founder: 'Founder 1',
-      contactHeading: 'Contacts',
-      contactNo: '+92 312 7524',
-      email: 'Info@company.com',
-    },
-    {
-      heading: 'Leadership',
-      description:
-        'Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs. The passage is attributed to an unknown typesetter in the 15th century who is thought to have scrambled.',
-      image: image2,
-      founder: 'Founder 1',
-      contactHeading: 'Contacts',
-      contactNo: '+92 312 7524',
-      email: 'Info@company.com',
-    },
-  ];
   return (
     <Layout>
+      <Seo title="About us" />
       <div className="about-area">
         <div className="container">
           <TitleCard>
@@ -88,19 +57,23 @@ const AboutUs = ({ data }) => {
                   <h3>Founder 1</h3>
                   <ul className="social-list d-flex">
                     <li>
-                      <a href="#">
+                      <Link
+                        to={`${data.wpPage.aboutPage.founders[0]?.facebook}`}
+                      >
                         <i className="fab fa-facebook-f facebook"></i>
-                      </a>
+                      </Link>
                     </li>
                     <li>
-                      <a href="#">
+                      <Link to={`${data.wpPage.aboutPage.founders[0]?.insta}`}>
                         <i className="fab fa-instagram instagram"></i>
-                      </a>
+                      </Link>
                     </li>
                     <li>
-                      <a href="#">
+                      <Link
+                        to={`${data.wpPage.aboutPage.founders[0]?.twitter}`}
+                      >
                         <i className="fab fa-twitter twitter"></i>
-                      </a>
+                      </Link>
                     </li>
                   </ul>
                 </div>
@@ -110,13 +83,13 @@ const AboutUs = ({ data }) => {
                 <div className="contact-list d-flex ">
                   <i className="fas fa-phone-square"></i>
                   <div className="contact-tab">
-                    <p>{data.wpPage.aboutPage.founders[0].contact}</p>
+                    <p>{data.wpPage.aboutPage.founders[0]?.contact}</p>
                   </div>
                 </div>
                 <div className="contact-list d-flex">
                   <i className="fas fa-envelope"></i>
                   <div className="contact-tab">
-                    <p>{data.wpPage.aboutPage.founders[0].mailId}</p>
+                    <p>{data.wpPage.aboutPage.founders[0]?.mailId}</p>
                   </div>
                 </div>
               </div>
@@ -130,7 +103,7 @@ const AboutUs = ({ data }) => {
                 <h4>Who we are</h4>
                 <p
                   dangerouslySetInnerHTML={{
-                    __html: data.wpPage.aboutPage.whoAreWe[0].whoAreWe2,
+                    __html: data.wpPage.aboutPage.whoAreWe[0]?.whoAreWe2,
                   }}
                 />
               </div>
@@ -141,7 +114,7 @@ const AboutUs = ({ data }) => {
               >
                 <img
                   src={
-                    data.wpPage.aboutPage.founders[1].image.localFile
+                    data.wpPage.aboutPage.founders[1]?.image?.localFile
                       .childImageSharp.fluid.src
                   }
                   alt="about-us"
@@ -150,19 +123,23 @@ const AboutUs = ({ data }) => {
                   <h3>{}</h3>
                   <ul className="social-list d-flex">
                     <li>
-                      <a href="#">
+                      <Link
+                        to={`${data.wpPage.aboutPage.founders[1]?.facebook}`}
+                      >
                         <i className="fab fa-facebook-f facebook"></i>
-                      </a>
+                      </Link>
                     </li>
                     <li>
-                      <a href="#">
+                      <Link to={`${data.wpPage.aboutPage.founders[1]?.insta}`}>
                         <i className="fab fa-instagram instagram"></i>
-                      </a>
+                      </Link>
                     </li>
                     <li>
-                      <a href="#">
+                      <Link
+                        to={`${data.wpPage.aboutPage.founders[1]?.twitter}`}
+                      >
                         <i className="fab fa-twitter twitter"></i>
-                      </a>
+                      </Link>
                     </li>
                   </ul>
                 </div>
@@ -208,6 +185,7 @@ export const pageQuery = graphql`
         founders {
           facebook
           insta
+          twitter
           contact
           mailId
           name

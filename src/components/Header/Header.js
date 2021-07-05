@@ -120,7 +120,7 @@ const Header = () => {
                   {/* community */}
                   <li className="dropdown drop_main">
                     <Link
-                      to="/community"
+                      to="/cxo-community"
                       activeClassName="active"
                       className="dropdown-toggle"
                       data-toggle="dropdown"
