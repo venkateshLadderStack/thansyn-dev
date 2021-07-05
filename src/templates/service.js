@@ -8,6 +8,7 @@ import RightAlignCard from '../components/ServicePage/RightAlignCard';
 import FounderDetailCard from '../components/ServicePage/FounderDetailCard';
 import DelayPopup from '../components/DelayPopup';
 import ConnectWithAnalyst from '../components/ConnectWithAnalyst';
+import Seo from '../components/seo';
 
 const Service = ({ data }) => {
   const [popupVisibilty, setPopupVisibility] = useState(false);
@@ -18,6 +19,7 @@ const Service = ({ data }) => {
 
   return (
     <Layout>
+      <Seo title="services" />
       <DelayPopup
         visibility={popupVisibilty}
         hidePopup={() => setPopupVisibility(false)}

@@ -8,10 +8,12 @@ import ConnectUs from '../components/ConnectUs';
 import { graphql } from 'gatsby';
 import TitleCard from '../components/TitleCard';
 import { Link } from 'gatsby';
+import Seo from '../components/seo';
 
 const AboutUs = ({ data }) => {
   return (
     <Layout>
+      <Seo title="About us" />
       <div className="about-area">
         <div className="container">
           <TitleCard>

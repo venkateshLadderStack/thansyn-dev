@@ -46,12 +46,12 @@ const options = [
 const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
 
 const validationSchema = Yup.object({
-  mobile: Yup.string()
+  MOBILE: Yup.string()
     .max(10, 'mobile number should be 10 digit')
     .matches(phoneRegExp, 'Phone number is not valid')
     .required('phone number is required'),
-  email: Yup.string().email('invalid email').required('email is required'),
-  textareaQuestions: Yup.string()
+  EMAIL: Yup.string().email('invalid email').required('email is required'),
+  MESSAGE: Yup.string()
     .max(1000, 'Question is too long !')
     .optional(),
 });
@@ -60,22 +60,8 @@ const ContactUs = () => {
   return (
     <Layout>
       <SEO title="Contact Us" />
-
-      {/* <ContactForm
-        options={options}
-        buttonLabel="Submit"
-        title="Contact us"
-        textareaVisibilty={true}
-        initialValues={{
-          type: '',
-          email: '',
-          mobile: '',
-          textareaQuestions: '',
-        }}
-        validationSchema={validationSchema}
-      /> */}
       <div
-        class="consult-form-area"
+        className="consult-form-area"
         style={{ backgroundImage: `url(${BgImg})` }}
       >
         <div className="container">
@@ -86,9 +72,10 @@ const ContactUs = () => {
                 initialValues={{
                   EMAIL: '',
                   MOBILE: '',
-                  FNAME: '',
-                  LNAME: '',
+                  OPTIONS:"",
+                  MESSAGE: "",
                 }}
+                validationSchema={validationSchema}
                 onSubmit={(values, { setSubmitting, resetForm }) => {
                   setSubmitting(true);
                   addToMailchimp('venlad888@gmail.com', {
@@ -109,24 +96,28 @@ const ContactUs = () => {
               >
                 {({ values, setFieldValue, setSubmitting, resetForm }) => (
                   <Form>
+                    <div class="form_group">
+                      <CustomSelect
+                          className="nice-select"
+                          type="select"
+                          name="OPTIONS"
+                          options={options}
+                          onChange={e =>
+                            setFieldValue('OPTIONS', e.target.value)
+                          }
+                          value={values.OPTIONS}
+                        />
+                    </div>
                     <div className="form_group multi-input">
-                      <CustomField
-                        className="mt_20"
-                        type="text"
-                        placeholder="FNAME"
-                        name="FNAME"
-                        value={values.FNAME}
-                        onChange={e => setFieldValue('FNAME', e.target.value)}
-                      />
-
-                      <CustomField
-                        className="mt_20"
-                        type="text"
-                        placeholder="Working from (location)"
-                        name="LNAME"
-                        value={values.LNAME}
-                        onChange={e => setFieldValue('LNAME', e.target.value)}
-                      />
+                    <CustomTextArea
+                          className="mt_20"
+                          placeholder="Ask your question"
+                          name="MESSAGE"
+                          value={values.MESSAGE}
+                          onChange={e =>
+                            setFieldValue('MESSAGE', e.target.value)
+                          }
+                        />
 
                       <CustomField
                         className="mt_20"

@@ -14,6 +14,7 @@ import moment from 'moment';
 import FeaturedInsights from '../components/FeaturedInsights';
 import DelayPopup from '../components/DelayPopup';
 import FloatingSubscribeBox from '../components/FloatingSubscribeBox';
+import Seo from '../components/seo';
 
 const IndexPage = ({ data }) => {
   const [popupVisibilty, setPopupVisibility] = useState(false);
@@ -26,10 +27,11 @@ const IndexPage = ({ data }) => {
 
   return (
     <Layout>
-      {/* <DelayPopup
+      <Seo title="Home" />
+      <DelayPopup
         visibility={popupVisibilty}
         hidePopup={() => setPopupVisibility(false)}
-      /> */}
+      />
       <FloatingSubscribeBox
         visibility={subscribeVisibilty}
         hidePopup={() => setSubscribeVisibility(false)}

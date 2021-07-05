@@ -13,12 +13,14 @@ import PostItem from '../components/PostItem';
 import TopHeading from '../components/TopHeading';
 import BottomInsightPosts from '../components/BottomInsightPosts';
 import AuthorDescription from '../components/AnalystPage/AuthorDescription';
+import Seo from '../components/seo';
 
 const post = ({ data }) => {
   console.log(data);
 
   return (
     <Layout>
+      <Seo title="Insights" />
       <div className="insight-detail-area pt_55 overflow-hidden">
         <div className="container">
           <div className="row">

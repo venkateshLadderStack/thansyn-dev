@@ -5,6 +5,7 @@ import ConnectUs from '../components/ConnectUs';
 import { graphql, useStaticQuery, Link } from 'gatsby';
 import TitleCard from '../components/TitleCard';
 import AnalystDetailsCard from '../components/AnalystPage/AnalystDetailsCard';
+import SEO from '../components/seo';
 
 const AnalystListing = () => {
   const [showAnalystDetails, setShowAnalystDetails] = useState(null);
@@ -57,6 +58,7 @@ const AnalystListing = () => {
 
   return (
     <Layout>
+      <SEO title="Our analysts" />
       <div className="analyst-listing pt_45 overflow-hidden">
         <div className="container">
           <TitleCard>Analysts</TitleCard>

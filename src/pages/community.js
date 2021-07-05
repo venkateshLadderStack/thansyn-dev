@@ -6,10 +6,12 @@ import CommunityTextCard from '../components/CommunityPage/CommunityTextCard';
 import TitleCard from '../components/TitleCard';
 import ConnectUs from '../components/ConnectUs';
 import Layout from '../components/layout';
+import SEO from '../components/seo';
 
 const Community = ({ data }) => {
   return (
     <Layout>
+      <SEO title="CXO Community" />
       <div className="community-wrapp pt_45 overflow-hidden">
         <div className="container">
           <TitleCard>

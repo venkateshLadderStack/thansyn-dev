@@ -14,11 +14,13 @@ import HighlightsCard from '../components/AuthorPage/HighlightsCard';
 import CredentialsCard from '../components/AuthorPage/CredentialsCard';
 import LinksCard from '../components/AuthorPage/LinksCard';
 import BottomInsightPosts from '../components/BottomInsightPosts';
+import Seo from '../components/seo';
 
 const Author = ({ data }) => {
   console.log(data, 'FROM AUTHOR');
   return (
     <Layout>
+      <Seo title={`${data.wpUser.name}`} />
       <div className="analyst-detail pt_45 overflow-hidden">
         <div className="container">
           <TitleCard

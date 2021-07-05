@@ -4,10 +4,12 @@ import Layout from '../components/layout';
 import TitleCard from '../components/TitleCard';
 import CommunityTextCard from '../components/CommunityPage/CommunityTextCard';
 import CommunityImageCard from '../components/CommunityPage/CommunityImageCard';
+import Seo from '../components/seo';
 
 const CxoCommunity = ({ data }) => {
   return (
     <Layout>
+      <Seo title="cxo community" />
       <div className="community-wrapp pt_45 overflow-hidden">
         <div className="container">
           <TitleCard>
