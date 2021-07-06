@@ -47,10 +47,12 @@ const options = [
 const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
 
 const validationSchema = Yup.object({
-  MOBILE: Yup.string()
+  PHONE: Yup.string()
     .max(10, 'mobile number should be 10 digit')
     .matches(phoneRegExp, 'Phone number is not valid')
     .required('phone number is required'),
+    FNAME: Yup.string()
+    .required('phone number is required'),  
   EMAIL: Yup.string().email('invalid email').required('email is required'),
   MESSAGE: Yup.string()
     .max(1000, 'Question is too long !')
@@ -102,8 +104,9 @@ const ContactUs = () => {
                   PHONE: '',
                   OPTIONS:"",
                   MESSAGE: "",
+                  FNAME: ""
                 }}
-
+                validationSchema={validationSchema}
                 onSubmit={(values, actions) => {
                   actions.setSubmitting(true)
                   // here we created a FormData field for each form field
@@ -112,6 +115,7 @@ const ContactUs = () => {
                   bodyFormData.set('your-message', values.MESSAGE)
                   bodyFormData.set('your-options', values.OPTIONS)
                   bodyFormData.set('your-phone', values.PHONE)
+                  bodyFormData.set('your-name', values.FNAME)
                   console.log(bodyFormData)
                   
           
@@ -173,6 +177,14 @@ const ContactUs = () => {
                         name="EMAIL"
                         value={values.EMAIL}
                         onChange={e => setFieldValue('EMAIL', e.target.value)}
+                      />
+                      <CustomField
+                        className="mt_20"
+                        type="text"
+                        placeholder="Your Name"
+                        name="FNAME"
+                        value={values.FNAME}
+                        onChange={e => setFieldValue('FNAME', e.target.value)}
                       />
                       <CustomField
                         className="mt_20"
