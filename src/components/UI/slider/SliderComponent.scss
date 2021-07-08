@@ -1,0 +1,31 @@
+@mixin slick-dot-props(
+  $height: 8px,
+  $width: 50px,
+  $background-color: #91C499,
+  $opacity:0.6
+) {
+  height: $height;
+  width: $width;
+  background-color: $background-color;
+  position: relative;
+  bottom: 30px;
+  opacity: $opacity;
+}
+
+/* Custom Slick Dots */
+.slick-dots li {
+  width: 50px !important;
+  margin: 0px 10px !important;
+}
+.slick__dots--custom {
+  @include slick-dot-props();
+}
+.slick-active .slick__dots--custom {
+  @include slick-dot-props($background-color: rgb(145, 196, 153),$opacity:1);
+}
+.slick-slide {
+  padding: 0 12px;
+}
+.meet_people .slick__dots--custom {
+  margin-top: 110px;
+}
