@@ -9,16 +9,7 @@ module.exports = {
     `gatsby-plugin-react-helmet`,
     `gatsby-plugin-image`,
     `gatsby-plugin-styled-components`,
-    {
-      resolve: "gatsby-source-wordpress-menus",
-      options: {
-        wordpressUrl: "https://your-wordpress-site.com",
-        languages: ["de", "en"],
-        enableWpml: true,
-        allowCache: true,
-        maxCacheDurationSeconds: 60 * 60 * 24
-      },
-    },
+
     {
       resolve: 'gatsby-plugin-mailchimp',
       options: {
