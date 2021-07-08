@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'gatsby';
 
 const CommunityCard = ({ badge, imageUrl, title, slug }) => {
   return (
@@ -10,18 +11,18 @@ const CommunityCard = ({ badge, imageUrl, title, slug }) => {
       <div className="what-new-item">
         <div className="whats-top">
           <span className="tags">{badge}</span>
-          <a href="">
+          <Link to="/contact-us">
             <img src={imageUrl} alt="" />
-          </a>
+          </Link>
         </div>
         <div className="whats-bottom">
           <div className="whats-text">
-            <a href="">
+            <div>
               <h4>{title}</h4>
-            </a>
-            <a className="btn-line line-black" href="">
+            </div>
+            <Link className="btn-line line-black" to="/contact-us">
               REQUEST TO JOIN
-            </a>
+            </Link>
           </div>
         </div>
       </div>

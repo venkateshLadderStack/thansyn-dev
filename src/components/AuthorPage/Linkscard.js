@@ -31,7 +31,7 @@ const Linkscard = ({ linksOfWork, facebook, twitter, instagram }) => {
             )}
           </ul>
         </div>
-        {linksOfWork.map(item => (
+        {linksOfWork?.map(item => (
           <div className="detail-link">
             <p>{item.nameOfInsight}:</p>
             <Link to={item.link1}>{item.link1}</Link>

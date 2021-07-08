@@ -69,7 +69,7 @@ const validationSchema = Yup.object({
     .max(10, 'mobile number should be 10 digit')
     .matches(phoneRegExp, 'Phone number is not valid')
     .required('phone number is required'),
-  EMAIL: Yup.string().email('invalid email').required('email is required')
+  EMAIL: Yup.string().email('invalid email').required('email is required'),
 });
 
 const ConnectWithAnAnalyst1 = () => {
@@ -83,14 +83,16 @@ const ConnectWithAnAnalyst1 = () => {
         <div className="container">
           <div className="row justify-content-center mt_50">
             <div className="col-md-11 col-lg-8 col-xl-6">
-              <h3 className="form-title text-center">Become a contributor</h3>
+              <h3 className="form-title text-center">
+                Connect with an analyst
+              </h3>
               <Formik
                 initialValues={{
                   EMAIL: '',
                   MOBILE: '',
-                  OPTIONS:"",
-                  LOCATION: "",
-                  LOOKINGFOR:""
+                  OPTIONS: '',
+                  LOCATION: '',
+                  LOOKINGFOR: '',
                 }}
                 validationSchema={validationSchema}
                 onSubmit={(values, { setSubmitting, resetForm }) => {
@@ -100,7 +102,6 @@ const ConnectWithAnAnalyst1 = () => {
                     LOCATION: 'kat',
                     PHONE: '9785463120',
                     OPTIONS: 'TEXT',
-                    
                   })
                     .then(data => {
                       setSubmitting(true);
@@ -116,44 +117,44 @@ const ConnectWithAnAnalyst1 = () => {
                   <Form>
                     <div className="form_group">
                       <CustomSelect
-                          className="nice-select"
-                          type="select"
-                          name="OPTIONS"
-                          options={options}
-                          onChange={e =>
-                            setFieldValue('OPTIONS', e.target.value)
-                          }
-                          value={values.OPTIONS}
-                        />
+                        className="nice-select"
+                        type="select"
+                        name="OPTIONS"
+                        options={options}
+                        onChange={e => setFieldValue('OPTIONS', e.target.value)}
+                        value={values.OPTIONS}
+                      />
                     </div>
                     <div className="form_group mt_20 check-box-area">
-                        <p className="mb_5">Looking for</p>
-                        {checkBoxes.map((checkBox, index) => {
-                          const { name, label } = checkBox;
-                          return (
-                            <div className="check-group" key={index}>
-                              <CustomCheckBox
-                                id={name}
-                                type="checkbox"
-                                name={name}
-                                checked={values.name}
-                                onChange={() =>
-                                  setFieldValue(`${name}`, !values.name)
-                                }
-                              />
-                              <label htmlFor={name}>{label}</label>
-                            </div>
-                          );
-                        })}
-                      </div>
+                      <p className="mb_5">Looking for</p>
+                      {checkBoxes.map((checkBox, index) => {
+                        const { name, label } = checkBox;
+                        return (
+                          <div className="check-group" key={index}>
+                            <CustomCheckBox
+                              id={name}
+                              type="checkbox"
+                              name={name}
+                              checked={values.name}
+                              onChange={() =>
+                                setFieldValue(`${name}`, !values.name)
+                              }
+                            />
+                            <label htmlFor={name}>{label}</label>
+                          </div>
+                        );
+                      })}
+                    </div>
                     <div className="form_group multi-input">
-                    <CustomField
+                      <CustomField
                         className="mt_20"
                         type="text"
                         placeholder="Working from location"
                         name="LOCATION"
                         value={values.LOCATION}
-                        onChange={e => setFieldValue('LOCATION', e.target.value)}
+                        onChange={e =>
+                          setFieldValue('LOCATION', e.target.value)
+                        }
                       />
 
                       <CustomField
@@ -173,7 +174,6 @@ const ConnectWithAnAnalyst1 = () => {
                         onChange={e => setFieldValue('MOBILE', e.target.value)}
                       />
                     </div>
-                   
 
                     <div className="form-submit-btn mt_50 text-center">
                       <button type="submit">Join us</button>
