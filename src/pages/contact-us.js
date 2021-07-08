@@ -1,4 +1,5 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
+import axios from 'axios'
 import { Formik, Form } from 'formik';
 import ContactForm from '../components/ConnectWithAnAnalyst/ContactForm';
 import Layout from '../components/layout';
@@ -46,10 +47,12 @@ const options = [
 const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
 
 const validationSchema = Yup.object({
-  MOBILE: Yup.string()
+  PHONE: Yup.string()
     .max(10, 'mobile number should be 10 digit')
     .matches(phoneRegExp, 'Phone number is not valid')
     .required('phone number is required'),
+    FNAME: Yup.string()
+    .required('phone number is required'),  
   EMAIL: Yup.string().email('invalid email').required('email is required'),
   MESSAGE: Yup.string()
     .max(1000, 'Question is too long !')
@@ -57,6 +60,33 @@ const validationSchema = Yup.object({
 });
 
 const ContactUs = () => {
+
+
+    const WEBSITE_URL = "http://www.ladderstack.team/thansyn"
+    const FORM_ID = '523' //Form id that provides Contact Form 7
+    const [token, setToken] = useState('') // store token
+    const [isSuccessMessage, setIsSuccessMessage] = useState(false) // manage is success message state
+    const [messageSent, setMessageSent] = useState(false) // manage sent message state
+  
+    useEffect(() => {
+      axios({
+        method: 'post',
+        url: `${WEBSITE_URL}/wp-json/jwt-auth/v1/token`,
+        data: {
+          username: "rishabh90", // provide a user credential with subscriber role
+          password: "Test1234@"
+        },
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+        .then(response => {
+          setToken(response.data.token)
+        })
+        .catch(error => console.error('Error', error))
+    }, [])
+  
+
   return (
     <Layout>
       <SEO title="Contact Us" />
@@ -71,27 +101,48 @@ const ContactUs = () => {
               <Formik
                 initialValues={{
                   EMAIL: '',
-                  MOBILE: '',
+                  PHONE: '',
                   OPTIONS:"",
                   MESSAGE: "",
+                  FNAME: ""
                 }}
                 validationSchema={validationSchema}
-                onSubmit={(values, { setSubmitting, resetForm }) => {
-                  setSubmitting(true);
-                  addToMailchimp('venlad888@gmail.com', {
-                    FNAME: 'ven',
-                    LOCATION: 'kat',
-                    PHONE: '9785463120',
-                    OPTIONS: 'TEXT',
+                onSubmit={(values, actions) => {
+                  actions.setSubmitting(true)
+                  // here we created a FormData field for each form field
+                  const bodyFormData = new FormData()
+                  bodyFormData.set('your-email', values.EMAIL)
+                  bodyFormData.set('your-message', values.MESSAGE)
+                  bodyFormData.set('your-options', values.OPTIONS)
+                  bodyFormData.set('your-phone', values.PHONE)
+                  bodyFormData.set('your-name', values.FNAME)
+                  console.log(bodyFormData)
+                  
+          
+                  // here we sent
+                  axios({
+                    method: 'post',
+                    url: `${WEBSITE_URL}/wp-json/contact-form-7/v1/contact-forms/${FORM_ID}/feedback`,
+                    data: bodyFormData,
+                    headers: {
+                      Authorization: `Bearer ${token}`,
+                      'Content-Type': 'multipart/form-data',
+                    },
                   })
-                    .then(data => {
-                      setSubmitting(true);
-                      alert('success');
-                      resetForm();
+                    .then(response => {
+                      // actions taken when submission goes OK
+                      actions.resetForm()
+                      actions.setSubmitting(false)
+                      setMessageSent(true)
+                      setIsSuccessMessage(true)
+                      alert("submitted")
                     })
-                    .catch(error => alert(error));
-                  console.log(values.EMAIL);
-                  console.log(JSON.stringify(values));
+                    .catch(error => {
+                      // actions taken when submission goes wrong
+                      actions.setSubmitting(false)
+                      setMessageSent(true)
+                      setIsSuccessMessage(false)
+                    })
                 }}
               >
                 {({ values, setFieldValue, setSubmitting, resetForm }) => (
@@ -130,10 +181,18 @@ const ContactUs = () => {
                       <CustomField
                         className="mt_20"
                         type="text"
+                        placeholder="Your Name"
+                        name="FNAME"
+                        value={values.FNAME}
+                        onChange={e => setFieldValue('FNAME', e.target.value)}
+                      />
+                      <CustomField
+                        className="mt_20"
+                        type="text"
                         placeholder="Primary mobile no"
-                        name="MOBILE"
-                        value={values.mobile}
-                        onChange={e => setFieldValue('MOBILE', e.target.value)}
+                        name="PHONE"
+                        value={values.PHONE}
+                        onChange={e => setFieldValue('PHONE', e.target.value)}
                       />
                     </div>
 
@@ -162,56 +221,4 @@ const ContactUs = () => {
   );
 };
 
-export default ContactUs;
-
-// <!-- Begin Mailchimp Signup Form -->
-// <link href="//cdn-images.mailchimp.com/embedcode/classic-10_7.css" rel="stylesheet" type="text/css">
-// <style type="text/css">
-// 	#mc_embed_signup{background:#fff; clear:left; font:14px Helvetica,Arial,sans-serif; }
-// 	/* Add your own Mailchimp form style overrides in your site stylesheet or in this style block.
-// 	   We recommend moving this block and the preceding CSS link to the HEAD of your HTML file. */
-// </style>
-// <div id="mc_embed_signup">
-// <form action="https://thansyn.us20.list-manage.com/subscribe/post?u=a9ccacb7a86858499c8014209&amp;id=5da6572e1b" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
-//     <div id="mc_embed_signup_scroll">
-// 	<h2>Subscribe</h2>
-// <div class="indicates-required"><span class="asterisk">*</span> indicates required</div>
-// <div class="mc-field-group">
-// 	<label for="mce-EMAIL">Email Address  <span class="asterisk">*</span>
-// </label>
-// 	<input type="email" value="" name="EMAIL" class="required email" id="mce-EMAIL">
-// </div>
-// <div class="mc-field-group">
-// 	<label for="mce-FNAME">First Name  <span class="asterisk">*</span>
-// </label>
-// 	<input type="text" value="" name="FNAME" class="required" id="mce-FNAME">
-// </div>
-// <div class="mc-field-group size1of2">
-// 	<label for="mce-PHONE">Phone Number </label>
-// 	<input type="text" name="PHONE" class="" value="" id="mce-PHONE">
-// </div>
-// <div class="mc-field-group">
-// 	<label for="mce-LOCATION">LOCATION </label>
-// 	<input type="text" value="" name="LOCATION" class="" id="mce-LOCATION">
-// </div>
-// <div class="mc-field-group input-group">
-//     <strong>Topics </strong>
-//     <ul><li><input type="checkbox" value="1" name="group[5501][1]" id="mce-group[5501]-5501-0"><label for="mce-group[5501]-5501-0">Automate and delegate to machines</label></li>
-// <li><input type="checkbox" value="2" name="group[5501][2]" id="mce-group[5501]-5501-1"><label for="mce-group[5501]-5501-1">Protect, preserve and defend</label></li>
-// <li><input type="checkbox" value="4" name="group[5501][4]" id="mce-group[5501]-5501-2"><label for="mce-group[5501]-5501-2">Manage and decide</label></li>
-// <li><input type="checkbox" value="8" name="group[5501][8]" id="mce-group[5501]-5501-3"><label for="mce-group[5501]-5501-3">Sense, connect and share</label></li>
-// <li><input type="checkbox" value="16" name="group[5501][16]" id="mce-group[5501]-5501-4"><label for="mce-group[5501]-5501-4">Engage society</label></li>
-// <li><input type="checkbox" value="32" name="group[5501][32]" id="mce-group[5501]-5501-5"><label for="mce-group[5501]-5501-5">Invest in technology and services</label></li>
-// </ul>
-// </div>
-// 	<div id="mce-responses" class="clear">
-// 		<div class="response" id="mce-error-response" style="display:none"></div>
-// 		<div class="response" id="mce-success-response" style="display:none"></div>
-// 	</div>    <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
-//     <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_a9ccacb7a86858499c8014209_5da6572e1b" tabindex="-1" value=""></div>
-//     <div class="clear"><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
-//     </div>
-// </form>
-// </div>
-
-// <!--End mc_embed_signup--></li>
+export default ContactUs

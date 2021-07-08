@@ -55,9 +55,12 @@ const AnalystDetailsCard = ({
       ))}
 
       <div className="anylust-btn d-flex align-items-center justify-content-between mt_55">
-        <a href="#" className="btn bg-succes btn-group-lg radius-0">
+        <Link
+          to="/connect-with-an-analyst"
+          className="btn bg-succes btn-group-lg radius-0"
+        >
           CONNECT
-        </a>
+        </Link>
         <Link to={`/author/${slug}`} className="btn-line">
           VIEW PROFILE
         </Link>

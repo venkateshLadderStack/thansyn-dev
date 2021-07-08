@@ -20,7 +20,7 @@ const CategoriesPost = ({ data, forBadge }) => {
               <span className="tags"> {item.name.toUpperCase()}</span>
             ))}
 
-            <a href="">
+            <Link to={`/${item.slug}`}>
               <img
                 src={
                   item?.featuredImage?.node?.localFile?.childImageSharp.fluid
@@ -28,7 +28,7 @@ const CategoriesPost = ({ data, forBadge }) => {
                 }
                 alt=""
               />
-            </a>
+            </Link>
           </div>
           <div className="whats-bottom info-list">
             <div className="whats-text">
@@ -42,10 +42,10 @@ const CategoriesPost = ({ data, forBadge }) => {
               </li>
               <li>by</li>
               <li>
-                <a>{item.author.node.name}</a>
+                <div>{item.author.node.name}</div>
               </li>
               <li>
-                <a href="#">{item.date}</a>
+                <div>{item.date}</div>
               </li>
             </ul>
             <div className="whats-text">

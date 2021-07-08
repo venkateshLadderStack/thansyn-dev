@@ -50,7 +50,7 @@ export const community = [
     title: 'Our Analysts',
   },
   {
-    path: 'community',
+    path: 'cxo-community',
     title: 'CXO Community',
   },
 ];
