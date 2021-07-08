@@ -18,8 +18,8 @@ const InsightsListing = ({ data }) => {
     setTitle(lastLevelLocation);
   }, []);
 
-  const categoryData = data.allWpPost.nodes[0].categories.nodes.filter(
-    item => item.slug === title
+  const categoryData = data.allWpPost.nodes[0]?.categories?.nodes?.filter(
+    item => item?.slug === title
   );
 
   return (
@@ -27,9 +27,9 @@ const InsightsListing = ({ data }) => {
       <Seo title="Insights" />
       <div className="insights-category pt_45">
         <div className="container">
-          {categoryData.map(item => (
+          {categoryData?.map(item => (
             <TitleCard>
-              {item.name.charAt(0).toUpperCase() + item.name.slice(1)}
+              {item?.name.charAt(0).toUpperCase() + item.name.slice(1)}
             </TitleCard>
           ))}
         </div>

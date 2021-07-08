@@ -6,13 +6,13 @@ import ConnectWithAnalyst from '../components/ConnectWithAnalyst';
 import Seo from '../components/seo';
 
 const insights = ({ data }) => {
-  const items = data.wpPage.insightPageFields.addInsightsCategories;
+  const items = data?.wpPage?.insightPageFields?.addInsightsCategories;
   return (
     <Layout>
       <Seo title="Insights" />
       <TitleCard>Insights</TitleCard>
       <div className="row">
-        {items.map((item, index) => (
+        {items?.map((item, index) => (
           <div
             class="col-lg-4 col-md-6"
             data-aos="fade-up"
