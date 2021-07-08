@@ -233,19 +233,19 @@ exports.createPages = ({ actions, graphql }) => {
       });
 
       // Create a paginated blog, e.g., /, /page/2, /page/3
-      paginate({
-        createPage,
-        items: posts,
-        itemsPerPage: 10,
-        pathPrefix: ({ pageNumber }) => (pageNumber === 0 ? `/test` : `/page`),
-        component: blogTemplate,
-      });
+      // paginate({
+      //   createPage,
+      //   items: posts,
+      //   itemsPerPage: 10,
+      //   pathPrefix: ({ pageNumber }) => (pageNumber === 0 ? `/test` : `/page`),
+      //   component: 'blogTemplate',
+      // });
     })
 
     .then(() => {
       return graphql(`
         {
-          allWordpressTag(filter: { count: { gt: 0 } }) {
+          allWpTag(filter: { count: { gt: 0 } }) {
             edges {
               node {
                 id
@@ -259,24 +259,22 @@ exports.createPages = ({ actions, graphql }) => {
     })
 
     .then(result => {
-      if (result.errors) {
-        result.errors.forEach(e => console.error(e.toString()));
-        return Promise.reject(result.errors);
-      }
-
-      const tagsTemplate = path.resolve(`./src/templates/tag.js`);
-
-      // Create a Gatsby page for each WordPress tag
-      _.each(result.data.allWordpressTag.edges, ({ node: tag }) => {
-        createPage({
-          path: `/tags/${tag.slug}/`,
-          component: tagsTemplate,
-          context: {
-            name: tag.name,
-            slug: tag.slug,
-          },
-        });
-      });
+      //   if (result.errors) {
+      //     result.errors.forEach(e => console.error(e.toString()));
+      //     return Promise.reject(result.errors);
+      //   }
+      //   const tagsTemplate = path.resolve(`./src/templates/tag.js`);
+      //   // Create a Gatsby page for each WordPress tag
+      //   _.each(result.data.allWordpressTag.edges, ({ node: tag }) => {
+      //     createPage({
+      //       path: `/tags/${tag.slug}/`,
+      //       component: tagsTemplate,
+      //       context: {
+      //         name: tag.name,
+      //         slug: tag.slug,
+      //       },
+      //     });
+      //   });
     });
 };
 
