@@ -5,8 +5,6 @@ import Moment from 'moment';
 const CategoriesPost = ({ data, forBadge }) => {
   const sortedData = data.reverse();
 
-  console.log(sortedData, data);
-
   return (
     <div className="col-xl-6 col-lg-6 col-md-12">
       {data.map((item, index) => (

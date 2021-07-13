@@ -5,6 +5,7 @@ import ContactForm from '../components/ConnectWithAnAnalyst/ContactForm';
 import Layout from '../components/layout';
 import SEO from '../components/seo';
 import * as Yup from 'yup';
+import { toast, ToastContainer } from 'react-toastify';
 
 import { graphql, useStaticQuery } from 'gatsby';
 import addToMailchimp from 'gatsby-plugin-mailchimp';
@@ -134,8 +135,6 @@ const ConnectWithAnAnalyst = () => {
                   bodyFormData.set('your-phone', values.MOBILE);
                   bodyFormData.set('your-location', values.LOCATION);
 
-                  console.log(lookingFor);
-
                   //here we sent
                   axios({
                     method: 'post',
@@ -152,7 +151,7 @@ const ConnectWithAnAnalyst = () => {
                       actions.setSubmitting(false);
                       setMessageSent(true);
                       setIsSuccessMessage(true);
-                      alert('submitted');
+                      toast.info('Submitted');
                     })
                     .catch(error => {
                       // actions taken when submission goes wrong
@@ -254,6 +253,17 @@ const ConnectWithAnAnalyst = () => {
                 )}
               </Formik>
             </div>
+            <ToastContainer
+              position="bottom-right"
+              autoClose={2500}
+              hideProgressBar
+              newestOnTop={false}
+              closeOnClick
+              rtl={false}
+              pauseOnFocusLoss={false}
+              draggable
+              pauseOnHover={false}
+            />
 
             <div className="col-xl-10">
               <p className="mt_50 text-center">

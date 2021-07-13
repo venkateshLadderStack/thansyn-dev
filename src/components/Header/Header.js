@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import close from '../../assets/img/close.svg';
 import { Link } from 'gatsby';
 import { insights, services, community, events } from './headerData';
-import HeaderDropdown from './HeaderDropdown';
+import HeaderDropdown from './HeaderInsightsDropdown';
 import HeaderListDropdown from './HeaderListDropdown';
 
 const Header = () => {
@@ -94,9 +94,8 @@ const Header = () => {
                   {/* insights */}
                   <li className="dropdown drop_main">
                     <Link
-                      to="/insights-categories"
+                      to="/insight-categories"
                       activeClassName="active"
-                      className="dropdown-toggle"
                       data-toggle="dropdown"
                     >
                       Insights
@@ -109,7 +108,6 @@ const Header = () => {
                     <Link
                       to="/service"
                       activeClassName="active"
-                      className="dropdown-toggle"
                       data-toggle="dropdown"
                     >
                       Services
@@ -122,7 +120,6 @@ const Header = () => {
                     <Link
                       to="/community"
                       activeClassName="active"
-                      className="dropdown-toggle"
                       data-toggle="dropdown"
                     >
                       Community
@@ -135,7 +132,6 @@ const Header = () => {
                     <Link
                       to="/upcoming-events"
                       activeClassName="active"
-                      className="dropdown-toggle"
                       data-toggle="dropdown"
                     >
                       Events

@@ -150,6 +150,9 @@ export const query = graphql`
     }
     allWpPost(filter: { author: { node: { id: { eq: $authorId } } } }) {
       nodes {
+        postDuration {
+          readtime
+        }
         author {
           node {
             name

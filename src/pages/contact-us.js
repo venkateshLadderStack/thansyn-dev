@@ -16,6 +16,7 @@ import {
   CustomTextArea,
 } from '../components/CustomFields/CustomFields';
 import BgImg from '../assets/img/bg-shape.png';
+import { toast } from 'react-toastify';
 
 const options = [
   {
@@ -128,7 +129,7 @@ const ContactUs = () => {
                       actions.setSubmitting(false);
                       setMessageSent(true);
                       setIsSuccessMessage(true);
-                      alert('submitted');
+                      toast.info('Submitted');
                     })
                     .catch(error => {
                       // actions taken when submission goes wrong

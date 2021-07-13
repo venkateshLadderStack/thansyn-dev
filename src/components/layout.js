@@ -13,6 +13,7 @@ import Header from './Header/Header';
 import '../assets/css/style.scss';
 import Footer from './footer/Footer';
 import NavBar from './NavBar/NavBar';
+import { ToastContainer } from 'react-toastify';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../assets/css/all.min.css';
@@ -20,6 +21,7 @@ import '../assets/css/fontawesome.css';
 import '../assets/css/nice-select.css';
 import '../assets/css/style.scss';
 import '../assets/css/helper.css';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Layout = ({ children }) => {
   const data = useStaticQuery(graphql`
@@ -49,6 +51,17 @@ const Layout = ({ children }) => {
           padding: `0 1.0875rem 1.45rem`,
         }}
       >
+        <ToastContainer
+          position="bottom-right"
+          autoClose={2500}
+          hideProgressBar
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss={false}
+          draggable
+          pauseOnHover={false}
+        />
         <main>{children}</main>
       </div>
       <Footer />

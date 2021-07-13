@@ -190,7 +190,7 @@ ul {
 
 a:hover {
   text-decoration: none;
-  color: #000;
+  color: grey;
 }
 
 a,
@@ -739,6 +739,11 @@ textarea {
   margin-top: -100px;
   z-index: 99;
   position: relative;
+}
+
+.post-info {
+  display: flex;
+  align-items: center;
 }
 
 .post-info li {

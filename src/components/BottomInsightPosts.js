@@ -39,7 +39,7 @@ const BottomInsightPosts = ({ data }) => {
                       ].categories.nodes[0].name.toUpperCase()}
                     </span>
                   </Link>
-                  <a href="">
+                  <div>
                     <img
                       src={
                         item.author.node.posts.nodes[index].featuredImage.node
@@ -47,7 +47,7 @@ const BottomInsightPosts = ({ data }) => {
                       }
                       alt=""
                     />
-                  </a>
+                  </div>
                 </div>
                 <div className="whats-bottom">
                   <ul className="post-info">
@@ -56,7 +56,8 @@ const BottomInsightPosts = ({ data }) => {
                     </li>
                     <li>
                       <a href="">
-                        <i className="fal fa-clock"></i>2 Mins
+                        <i className="fal fa-clock"></i>
+                        {item?.postDuration?.readtime || 'Un Known'}
                       </a>
                     </li>
                   </ul>
