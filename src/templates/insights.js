@@ -4,7 +4,6 @@ import TitleCard from '../components/TitleCard';
 import Layout from '../components/layout';
 import ConnectWithAnalyst from '../components/ConnectWithAnalyst';
 import Seo from '../components/seo';
-
 const insights = ({ data }) => {
   const items = data?.wpPage?.insightPageFields?.addInsightsCategories;
   return (
@@ -52,15 +51,15 @@ const insights = ({ data }) => {
 export default insights;
 
 export const query = graphql`
-  query Insights {
-    wpPage(id: { eq: "cG9zdDo0MTc=" }) {
+  query InsightOne($id: String!) {
+    wpPage(id: { eq: $id }) {
       insightPageFields {
         addInsightsCategories {
+          enterSlug
           insightCategoryName
           insightCategoryImage {
             sourceUrl
           }
-          enterSlug
         }
       }
     }

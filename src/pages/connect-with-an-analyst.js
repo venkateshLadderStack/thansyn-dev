@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import { Formik, Form } from 'formik';
 import ContactForm from '../components/ConnectWithAnAnalyst/ContactForm';
 import Layout from '../components/layout';
 import SEO from '../components/seo';
 import * as Yup from 'yup';
+import { toast, ToastContainer } from 'react-toastify';
 
 import { graphql, useStaticQuery } from 'gatsby';
 import addToMailchimp from 'gatsby-plugin-mailchimp';
@@ -45,11 +47,11 @@ const options = [
 
 const checkBoxes = [
   {
-    name: 'adviceAndEvaluations',
+    name: 'advice-and-evaluations',
     label: 'Advice & evaluations',
   },
   {
-    name: 'analysisAndReasearch',
+    name: 'analysis-and-reasearch',
     label: 'Analysis & research',
   },
   {
@@ -76,11 +78,37 @@ const validationSchema = Yup.object({
 });
 
 const ConnectWithAnAnalyst = () => {
+  const WEBSITE_URL = 'http://www.ladderstack.team/thansyn';
+  const FORM_ID = '534'; //Form id that provides Contact Form 7
+  const [token, setToken] = useState(''); // store token
+  const [isSuccessMessage, setIsSuccessMessage] = useState(false); // manage is success message state
+  const [messageSent, setMessageSent] = useState(false); // manage sent message state
+
+  const [lookingFor, setLookingFor] = useState([]);
+
+  useEffect(() => {
+    axios({
+      method: 'post',
+      url: `${WEBSITE_URL}/wp-json/jwt-auth/v1/token`,
+      data: {
+        username: 'rishabh90', // provide a user credential with subscriber role
+        password: 'Test1234@',
+      },
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then(response => {
+        setToken(response.data.token);
+      })
+      .catch(error => console.error('Error', error));
+  }, []);
+
   return (
     <Layout>
       <SEO title="Connect an analyst" />
       <div
-        class="consult-form-area"
+        className="consult-form-area"
         style={{ backgroundImage: `url(${BgImg})` }}
       >
         <div className="container">
@@ -91,73 +119,91 @@ const ConnectWithAnAnalyst = () => {
                 initialValues={{
                   EMAIL: '',
                   MOBILE: '',
-                  OPTIONS:"",
-                  LOCATION: "",
-                  LOOKINGFOR:"",
-                  AGREE: false
+                  OPTIONS: '',
+                  LOCATION: '',
+                  LOOKINGFOR: '',
+                  AGREE: false,
                 }}
                 validationSchema={validationSchema}
-                onSubmit={(values, { setSubmitting, resetForm }) => {
-                  setSubmitting(true);
-                  addToMailchimp('venlad888@gmail.com', {
-                    FNAME: 'ven',
-                    LOCATION: 'kat',
-                    PHONE: '9785463120',
-                    OPTIONS: 'TEXT',
-                   
+                onSubmit={(values, actions) => {
+                  actions.setSubmitting(true);
+                  // here we created a FormData field for each form field
+                  const bodyFormData = new FormData();
+                  bodyFormData.set('your-email', values.EMAIL);
+                  bodyFormData.set('your-looking', lookingFor);
+                  bodyFormData.set('your-options', values.OPTIONS);
+                  bodyFormData.set('your-phone', values.MOBILE);
+                  bodyFormData.set('your-location', values.LOCATION);
+
+                  //here we sent
+                  axios({
+                    method: 'post',
+                    url: `${WEBSITE_URL}/wp-json/contact-form-7/v1/contact-forms/${FORM_ID}/feedback`,
+                    data: bodyFormData,
+                    headers: {
+                      Authorization: `Bearer ${token}`,
+                      'Content-Type': 'multipart/form-data',
+                    },
                   })
-                    .then(data => {
-                      setSubmitting(true);
-                      alert('success');
-                      resetForm();
+                    .then(response => {
+                      // actions taken when submission goes OK
+                      actions.resetForm();
+                      actions.setSubmitting(false);
+                      setMessageSent(true);
+                      setIsSuccessMessage(true);
+                      toast.info('Submitted');
                     })
-                    .catch(error => alert(error));
-                  console.log(values.EMAIL);
-                  console.log(JSON.stringify(values));
+                    .catch(error => {
+                      // actions taken when submission goes wrong
+                      actions.setSubmitting(false);
+                      setMessageSent(true);
+                      setIsSuccessMessage(false);
+                    });
                 }}
               >
                 {({ values, setFieldValue, setSubmitting, resetForm }) => (
                   <Form>
                     <div className="form_group">
                       <CustomSelect
-                          className="nice-select"
-                          type="select"
-                          name="OPTIONS"
-                          options={options}
-                          onChange={e =>
-                            setFieldValue('OPTIONS', e.target.value)
-                          }
-                          value={values.OPTIONS}
-                        />
+                        className="nice-select"
+                        type="select"
+                        name="OPTIONS"
+                        options={options}
+                        onChange={e => setFieldValue('OPTIONS', e.target.value)}
+                        value={values.OPTIONS}
+                      />
                     </div>
                     <div className="form_group mt_20 check-box-area">
-                        <p className="mb_5">Looking for</p>
-                        {checkBoxes.map((checkBox, index) => {
-                          const { name, label } = checkBox;
-                          return (
-                            <div className="check-group" key={index}>
-                              <CustomCheckBox
-                                id={name}
-                                type="checkbox"
-                                name={name}
-                                checked={values.name}
-                                onChange={() =>
-                                  setFieldValue(`${name}`, !values.name)
-                                }
-                              />
-                              <label htmlFor={name}>{label}</label>
-                            </div>
-                          );
-                        })}
-                      </div>
+                      <p className="mb_5">Looking for</p>
+                      {checkBoxes.map((checkBox, index) => {
+                        const { name, label } = checkBox;
+                        return (
+                          <div className="check-group" key={index}>
+                            <CustomCheckBox
+                              id={name}
+                              type="checkbox"
+                              name={name}
+                              checked={values.name}
+                              onChange={() => {
+                                setFieldValue(`${name}`, !values.name);
+                                setLookingFor([...lookingFor, name && name]);
+                              }}
+                            />
+                            <label htmlFor={name}>{label}</label>
+                          </div>
+                        );
+                      })}
+                    </div>
                     <div className="form_group multi-input">
-                    <CustomField
+                      <CustomField
                         className="mt_20"
                         type="text"
                         placeholder="Working from location"
                         name="LOCATION"
                         value={values.LOCATION}
-                        onChange={e => setFieldValue('LOCATION', e.target.value)}
+                        onChange={e =>
+                          setFieldValue('LOCATION', e.target.value)
+                        }
                       />
 
                       <CustomField
@@ -178,29 +224,27 @@ const ConnectWithAnAnalyst = () => {
                       />
                     </div>
                     <div className="form_group mt_50">
-                        <div className="check-group">
-                          <CustomCheckBox
-                            id="agree"
-                            type="checkbox"
-                            name="AGREE"
-                            checked={values.AGREE}
-                            onChange={() =>
-                              setFieldValue('AGREE', !values.agree)
-                            }
-                          />
+                      <div className="check-group">
+                        <CustomCheckBox
+                          id="agree"
+                          type="checkbox"
+                          name="AGREE"
+                          checked={values.AGREE}
+                          onChange={() => setFieldValue('AGREE', !values.agree)}
+                        />
 
-                          <label htmlFor="agree">
-                            I agree to receive newsletters & other
-                            communications from The Analyst Syndicate
-                          </label>
-                        </div>
-                        <div className="form-btn-group">
-                          <a className="mr_20" href="#">
-                            Privacy policy
-                          </a>
-                          <a href="#">Terms & conditions</a>
-                        </div>
+                        <label htmlFor="agree">
+                          I agree to receive newsletters & other communications
+                          from The Analyst Syndicate
+                        </label>
                       </div>
+                      <div className="form-btn-group">
+                        <a className="mr_20" href="#">
+                          Privacy policy
+                        </a>
+                        <a href="#">Terms & conditions</a>
+                      </div>
+                    </div>
 
                     <div className="form-submit-btn mt_50 text-center">
                       <button type="submit">Connect</button>
@@ -209,6 +253,17 @@ const ConnectWithAnAnalyst = () => {
                 )}
               </Formik>
             </div>
+            <ToastContainer
+              position="bottom-right"
+              autoClose={2500}
+              hideProgressBar
+              newestOnTop={false}
+              closeOnClick
+              rtl={false}
+              pauseOnFocusLoss={false}
+              draggable
+              pauseOnHover={false}
+            />
 
             <div className="col-xl-10">
               <p className="mt_50 text-center">

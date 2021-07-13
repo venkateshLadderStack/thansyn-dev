@@ -79,8 +79,8 @@ const post = ({ data }) => {
                   data-aos="fade-right"
                   data-aos-duration="900"
                   src={
-                    data.wpPost.featuredImage?.node?.localFile.childImageSharp
-                      .fluid.src
+                    data.wpPost.featuredImage.node.localFile?.childImageSharp
+                      ?.fluid.src
                   }
                   alt=""
                 />
@@ -150,6 +150,9 @@ export const query = graphql`
     }
     allWpPost(filter: { author: { node: { id: { eq: $authorId } } } }) {
       nodes {
+        postDuration {
+          readtime
+        }
         author {
           node {
             name

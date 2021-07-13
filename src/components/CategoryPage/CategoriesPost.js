@@ -5,8 +5,6 @@ import Moment from 'moment';
 const CategoriesPost = ({ data, forBadge }) => {
   const sortedData = data.reverse();
 
-  console.log(sortedData, data);
-
   return (
     <div className="col-xl-6 col-lg-6 col-md-12">
       {data.map((item, index) => (
@@ -23,10 +21,11 @@ const CategoriesPost = ({ data, forBadge }) => {
             <Link to={`/${item.slug}`}>
               <img
                 src={
-                  item?.featuredImage?.node?.localFile?.childImageSharp.fluid
-                    .src
+                  item.featuredImage.node.localFile?.childImageSharp?.fluid.src
                 }
                 alt=""
+                // item.author.node.posts.nodes[0].featuredImage.node?.localFile
+                //   .childImageSharp.fluid.src
               />
             </Link>
           </div>

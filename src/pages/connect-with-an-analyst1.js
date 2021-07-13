@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import { Formik, Form } from 'formik';
 import ContactForm from '../components/ConnectWithAnAnalyst/ContactForm';
 import Layout from '../components/layout';
@@ -15,6 +16,7 @@ import {
   CustomTextArea,
 } from '../components/CustomFields/CustomFields';
 import BgImg from '../assets/img/bg-shape.png';
+import { toast } from 'react-toastify';
 
 const options = [
   {
@@ -45,16 +47,16 @@ const options = [
 
 const checkBoxes = [
   {
-    name: 'adviceAndEvaluations',
-    label: 'Advice & evaluations',
+    name: 'brand-building',
+    label: 'Brand Building',
   },
   {
-    name: 'analysisAndReasearch',
-    label: 'Analysis & research',
+    name: 'insight-contribution',
+    label: 'Insight Contribution',
   },
   {
-    name: 'insights',
-    label: 'Insights',
+    name: 'work-contracts',
+    label: 'Work Contracts',
   },
 ];
 
@@ -72,20 +74,44 @@ const validationSchema = Yup.object({
   EMAIL: Yup.string().email('invalid email').required('email is required'),
 });
 
-const ConnectWithAnAnalyst1 = () => {
+const ConnectWithAnAnalyst = () => {
+  const WEBSITE_URL = 'http://www.ladderstack.team/thansyn';
+  const FORM_ID = '609'; //Form id that provides Contact Form 7
+  const [token, setToken] = useState(''); // store token
+  const [isSuccessMessage, setIsSuccessMessage] = useState(false); // manage is success message state
+  const [messageSent, setMessageSent] = useState(false); // manage sent message state
+
+  const [lookingFor, setLookingFor] = useState([]);
+
+  useEffect(() => {
+    axios({
+      method: 'post',
+      url: `${WEBSITE_URL}/wp-json/jwt-auth/v1/token`,
+      data: {
+        username: 'rishabh90', // provide a user credential with subscriber role
+        password: 'Test1234@',
+      },
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then(response => {
+        setToken(response.data.token);
+      })
+      .catch(error => console.error('Error', error));
+  }, []);
+
   return (
     <Layout>
       <SEO title="Connect an analyst" />
       <div
-        class="consult-form-area"
+        className="consult-form-area"
         style={{ backgroundImage: `url(${BgImg})` }}
       >
         <div className="container">
           <div className="row justify-content-center mt_50">
             <div className="col-md-11 col-lg-8 col-xl-6">
-              <h3 className="form-title text-center">
-                Connect with an analyst
-              </h3>
+              <h3 className="form-title text-center">Become a Contributor</h3>
               <Formik
                 initialValues={{
                   EMAIL: '',
@@ -95,22 +121,42 @@ const ConnectWithAnAnalyst1 = () => {
                   LOOKINGFOR: '',
                 }}
                 validationSchema={validationSchema}
-                onSubmit={(values, { setSubmitting, resetForm }) => {
-                  setSubmitting(true);
-                  addToMailchimp('venlad888@gmail.com', {
-                    FNAME: 'ven',
-                    LOCATION: 'kat',
-                    PHONE: '9785463120',
-                    OPTIONS: 'TEXT',
+                onSubmit={(values, actions) => {
+                  actions.setSubmitting(true);
+                  // here we created a FormData field for each form field
+                  const bodyFormData = new FormData();
+                  bodyFormData.set('your-email', values.EMAIL);
+                  bodyFormData.set('your-looking', lookingFor);
+                  bodyFormData.set('your-options', values.OPTIONS);
+                  bodyFormData.set('your-phone', values.MOBILE);
+                  bodyFormData.set('your-location', values.LOCATION);
+
+                  console.log(lookingFor);
+
+                  //here we sent
+                  axios({
+                    method: 'post',
+                    url: `${WEBSITE_URL}/wp-json/contact-form-7/v1/contact-forms/${FORM_ID}/feedback`,
+                    data: bodyFormData,
+                    headers: {
+                      Authorization: `Bearer ${token}`,
+                      'Content-Type': 'multipart/form-data',
+                    },
                   })
-                    .then(data => {
-                      setSubmitting(true);
-                      alert('success');
-                      resetForm();
+                    .then(response => {
+                      // actions taken when submission goes OK
+                      actions.resetForm();
+                      actions.setSubmitting(false);
+                      setMessageSent(true);
+                      setIsSuccessMessage(true);
+                      toast.info('Submitted');
                     })
-                    .catch(error => alert(error));
-                  console.log(values.EMAIL);
-                  console.log(JSON.stringify(values));
+                    .catch(error => {
+                      // actions taken when submission goes wrong
+                      actions.setSubmitting(false);
+                      setMessageSent(true);
+                      setIsSuccessMessage(false);
+                    });
                 }}
               >
                 {({ values, setFieldValue, setSubmitting, resetForm }) => (
@@ -136,9 +182,10 @@ const ConnectWithAnAnalyst1 = () => {
                               type="checkbox"
                               name={name}
                               checked={values.name}
-                              onChange={() =>
-                                setFieldValue(`${name}`, !values.name)
-                              }
+                              onChange={() => {
+                                setFieldValue(`${name}`, !values.name);
+                                setLookingFor([...lookingFor, name && name]);
+                              }}
                             />
                             <label htmlFor={name}>{label}</label>
                           </div>
@@ -176,7 +223,7 @@ const ConnectWithAnAnalyst1 = () => {
                     </div>
 
                     <div className="form-submit-btn mt_50 text-center">
-                      <button type="submit">Join us</button>
+                      <button type="submit">Join Us</button>
                     </div>
                   </Form>
                 )}
@@ -200,4 +247,4 @@ const ConnectWithAnAnalyst1 = () => {
   );
 };
 
-export default ConnectWithAnAnalyst1;
+export default ConnectWithAnAnalyst;

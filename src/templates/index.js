@@ -95,6 +95,7 @@ const IndexPage = ({ data }) => {
               >
                 <PostItem
                   tags={item.categories.nodes[0].name}
+                  category={item.categories.nodes[0].slug}
                   image={
                     item?.featuredImage?.node?.localFile?.childImageSharp.fluid
                       .src
@@ -285,6 +286,7 @@ export const pageQuery = graphql`
         categories {
           nodes {
             name
+            slug
           }
         }
         postDuration {

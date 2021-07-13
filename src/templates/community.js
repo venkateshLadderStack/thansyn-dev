@@ -5,10 +5,9 @@ import TitleCard from '../components/TitleCard';
 import CommunityTextCard from '../components/CommunityPage/CommunityTextCard';
 import CommunityImageCard from '../components/CommunityPage/CommunityImageCard';
 import Seo from '../components/seo';
-
-const CxoCommunity = ({ data }) => {
-  return (
-    <Layout>
+const community = ({data}) => {
+    return (
+            <Layout>
       <Seo title="cxo community" />
       <div className="community-wrapp pt_45 overflow-hidden">
         <div className="container">
@@ -96,14 +95,14 @@ const CxoCommunity = ({ data }) => {
         </div>
       </div>
     </Layout>
-  );
-};
+    )
+}
 
-export default CxoCommunity;
+export default community
 
 export const query = graphql`
-  query communitiesPosts {
-    allWpCommunity(sort: { fields: date, order: DESC }) {
+  query CommunityOne($id: String!){
+      allWpCommunity(sort: { fields: date, order: DESC }) {
       nodes {
         title
         community {
@@ -123,8 +122,8 @@ export const query = graphql`
         }
       }
     }
-    wpPage(id: { eq: "cG9zdDozODA=" }) {
-      title
+    wpPage(id: { eq: $id }) {
+       title
       communityPage {
         communityPageData {
           ourResponsibilities
@@ -143,4 +142,4 @@ export const query = graphql`
       }
     }
   }
-`;
+`

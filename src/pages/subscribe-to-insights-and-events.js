@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Formik, Form } from 'formik';
 import ContactForm from '../components/ConnectWithAnAnalyst/ContactForm';
 import Layout from '../components/layout';
 import SEO from '../components/seo';
 import * as Yup from 'yup';
+import axios from 'axios';
 
 import { graphql, useStaticQuery } from 'gatsby';
 import addToMailchimp from 'gatsby-plugin-mailchimp';
@@ -58,6 +59,30 @@ const validationSchema = Yup.object({
 });
 
 const ConnectWithAnAnalyst1 = () => {
+  const WEBSITE_URL = 'http://www.ladderstack.team/thansyn';
+  const FORM_ID = '535'; //Form id that provides Contact Form 7
+  const [token, setToken] = useState(''); // store token
+  const [isSuccessMessage, setIsSuccessMessage] = useState(false); // manage is success message state
+  const [messageSent, setMessageSent] = useState(false); // manage sent message state
+
+  useEffect(() => {
+    axios({
+      method: 'post',
+      url: `${WEBSITE_URL}/wp-json/jwt-auth/v1/token`,
+      data: {
+        username: 'rishabh90', // provide a user credential with subscriber role
+        password: 'Test1234@',
+      },
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then(response => {
+        setToken(response.data.token);
+      })
+      .catch(error => console.error('Error', error));
+  }, []);
+
   return (
     <Layout>
       <SEO title="Subscribt to insights" />
@@ -68,70 +93,90 @@ const ConnectWithAnAnalyst1 = () => {
         <div className="container">
           <div className="row justify-content-center mt_50">
             <div className="col-md-11 col-lg-8 col-xl-6">
-              <h3 className="form-title text-center">Become a contributor</h3>
+              <h3 className="form-title text-center">
+                Subscribe to events and insights
+              </h3>
               <Formik
                 initialValues={{
                   EMAIL: '',
                   MOBILE: '',
-                  OPTIONS:"",
-                  LOCATION: "",
-                  INSIGHTS_OPTIONS:""
+                  OPTIONS: '',
+                  LOCATION: '',
+                  INSIGHTS_OPTIONS: '',
                 }}
                 validationSchema={validationSchema}
-                onSubmit={(values, { setSubmitting, resetForm }) => {
-                  setSubmitting(true);
-                  addToMailchimp('venlad888@gmail.com', {
-                    FNAME: 'ven',
-                    LOCATION: 'kat',
-                    PHONE: '9785463120',
-                    OPTIONS: 'TEXT',
-                    
+                onSubmit={(values, actions) => {
+                  actions.setSubmitting(true);
+                  // here we created a FormData field for each form field
+                  const bodyFormData = new FormData();
+                  bodyFormData.set('your-email', values.EMAIL);
+                  bodyFormData.set('your-options-1', values.INSIGHTS_OPTIONS);
+                  bodyFormData.set('from', 'From subscribe form');
+                  bodyFormData.set('your-options-2', values.OPTIONS);
+                  bodyFormData.set('your-phone', values.MOBILE);
+                  bodyFormData.set('your-location', values.LOCATION);
+
+                  //here we sent
+                  axios({
+                    method: 'post',
+                    url: `${WEBSITE_URL}/wp-json/contact-form-7/v1/contact-forms/${FORM_ID}/feedback`,
+                    data: bodyFormData,
+                    headers: {
+                      Authorization: `Bearer ${token}`,
+                      'Content-Type': 'multipart/form-data',
+                    },
                   })
-                    .then(data => {
-                      setSubmitting(true);
-                      alert('success');
-                      resetForm();
+                    .then(response => {
+                      // actions taken when submission goes OK
+                      actions.resetForm();
+                      actions.setSubmitting(false);
+                      setMessageSent(true);
+                      setIsSuccessMessage(true);
+                      alert('submitted');
                     })
-                    .catch(error => alert(error));
-                  console.log(values.EMAIL);
-                  console.log(JSON.stringify(values));
+                    .catch(error => {
+                      // actions taken when submission goes wrong
+                      actions.setSubmitting(false);
+                      setMessageSent(true);
+                      setIsSuccessMessage(false);
+                    });
                 }}
               >
                 {({ values, setFieldValue, setSubmitting, resetForm }) => (
                   <Form>
                     <div className="form_group">
                       <CustomSelect
-                          className="nice-select"
-                          type="select"
-                          name="OPTIONS"
-                          options={options}
-                          onChange={e =>
-                            setFieldValue('OPTIONS', e.target.value)
-                          }
-                          value={values.OPTIONS}
-                        />
+                        className="nice-select"
+                        type="select"
+                        name="OPTIONS"
+                        options={options}
+                        onChange={e => setFieldValue('OPTIONS', e.target.value)}
+                        value={values.OPTIONS}
+                      />
                     </div>
                     <div className="form_group mt_20">
                       <CustomSelect
-                          className="nice-select"
-                          type="select"
-                          name="INSIGHTS_OPTIONS"
-                          options={options}
-                          onChange={e =>
-                            setFieldValue('INSIGHTS_OPTIONS', e.target.value)
-                          }
-                          value={values.INSIGHTS_OPTIONS}
-                        />
+                        className="nice-select"
+                        type="select"
+                        name="INSIGHTS_OPTIONS"
+                        options={options}
+                        onChange={e =>
+                          setFieldValue('INSIGHTS_OPTIONS', e.target.value)
+                        }
+                        value={values.INSIGHTS_OPTIONS}
+                      />
                     </div>
-                    
+
                     <div className="form_group multi-input">
-                    <CustomField
+                      <CustomField
                         className="mt_20"
                         type="text"
                         placeholder="Working from location"
                         name="LOCATION"
                         value={values.LOCATION}
-                        onChange={e => setFieldValue('LOCATION', e.target.value)}
+                        onChange={e =>
+                          setFieldValue('LOCATION', e.target.value)
+                        }
                       />
 
                       <CustomField
@@ -151,7 +196,6 @@ const ConnectWithAnAnalyst1 = () => {
                         onChange={e => setFieldValue('MOBILE', e.target.value)}
                       />
                     </div>
-                   
 
                     <div className="form-submit-btn mt_50 text-center">
                       <button type="submit">Subscribe</button>

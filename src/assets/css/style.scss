@@ -59,6 +59,7 @@
   height: 100%;
   width: 100%;
   padding: 30px;
+  margin-left: -20px;
   background-color: #91c499;
   z-index: 999999;
   top: 0;
@@ -189,7 +190,7 @@ ul {
 
 a:hover {
   text-decoration: none;
-  color: #000;
+  color: grey;
 }
 
 a,
@@ -738,6 +739,11 @@ textarea {
   margin-top: -100px;
   z-index: 99;
   position: relative;
+}
+
+.post-info {
+  display: flex;
+  align-items: center;
 }
 
 .post-info li {

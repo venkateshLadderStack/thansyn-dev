@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'gatsby';
 
-const HeaderListDropdown = ({ menus }) => {
+const HeaderInsightsDropdown = ({ menus }) => {
   return (
     <ul className="dropdown-menu small_menu">
       {menus.map((menu, index) => (
@@ -31,4 +31,4 @@ const HeaderListDropdown = ({ menus }) => {
   );
 };
 
-export default HeaderListDropdown;
+export default HeaderInsightsDropdown;

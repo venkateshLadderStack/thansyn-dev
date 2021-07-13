@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import close from '../../assets/img/close.svg';
 import { Link } from 'gatsby';
 import { insights, services, community, events } from './headerData';
-import HeaderDropdown from './HeaderDropdown';
+import HeaderDropdown from './HeaderInsightsDropdown';
 import HeaderListDropdown from './HeaderListDropdown';
 
 const Header = () => {
@@ -94,9 +94,8 @@ const Header = () => {
                   {/* insights */}
                   <li className="dropdown drop_main">
                     <Link
-                      to="/insights"
+                      to="/insight-categories"
                       activeClassName="active"
-                      className="dropdown-toggle"
                       data-toggle="dropdown"
                     >
                       Insights
@@ -109,7 +108,6 @@ const Header = () => {
                     <Link
                       to="/service"
                       activeClassName="active"
-                      className="dropdown-toggle"
                       data-toggle="dropdown"
                     >
                       Services
@@ -120,9 +118,8 @@ const Header = () => {
                   {/* community */}
                   <li className="dropdown drop_main">
                     <Link
-                      to="/cxo-community"
+                      to="/community"
                       activeClassName="active"
-                      className="dropdown-toggle"
                       data-toggle="dropdown"
                     >
                       Community
@@ -135,7 +132,6 @@ const Header = () => {
                     <Link
                       to="/upcoming-events"
                       activeClassName="active"
-                      className="dropdown-toggle"
                       data-toggle="dropdown"
                     >
                       Events
@@ -150,7 +146,7 @@ const Header = () => {
                     </Link>
                   </li>
                   <li className="d-md-none">
-                    <a href="#">Let's Talk</a>
+                    <Link to="/connect-with-an-analyst">Let's Talk</Link>
                   </li>
                 </ul>
                 <div className="close-menu" onClick={handleHide}>

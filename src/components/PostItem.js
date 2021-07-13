@@ -14,11 +14,14 @@ const PostItem = ({
   registerDate,
   registerText,
   registerBtn,
+  category,
 }) => {
   return (
     <div className="what-new-item">
       <div className="whats-top">
-        <span className="tags">{tags.toUpperCase()}</span>
+        <span className="tags">
+          <Link to={`/categories/${category}`}>{tags.toUpperCase()}</Link>
+        </span>
         <a href="">
           <img src={image} alt="" />
         </a>
@@ -26,10 +29,10 @@ const PostItem = ({
       <div className="whats-bottom">
         {event ? (
           <div className="event-more-btn text-center">
-            <a href="#">Subscribe to updates </a>
-            <a className="bg-Dark" href="#">
+            <div>Subscribe to updates </div>
+            <Link className="bg-Dark" to="/subscribe-to-insights-and-events">
               Register on event website{' '}
-            </a>
+            </Link>
           </div>
         ) : (
           <>
@@ -39,8 +42,8 @@ const PostItem = ({
               </li>
               <li>
                 <a href="">
-                  <i className={icon}></i>
-                  {time}
+                  <i className="fal fa-clock"></i>
+                  {time || 'Un Known'}
                 </a>
               </li>
             </ul>
