@@ -23,7 +23,7 @@ const AuthorDescription = ({ data }) => {
                   <div className="insight-point">
                     <span>by</span>
                     <Link to={`/author/${data.node?.slug}`}>
-                      {data?.node?.about_author_insights?.name}
+                      {data?.node?.name}
                     </Link>
                   </div>
                 </div>

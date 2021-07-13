@@ -79,8 +79,8 @@ const post = ({ data }) => {
                   data-aos="fade-right"
                   data-aos-duration="900"
                   src={
-                    data.wpPost.featuredImage?.node?.localFile.childImageSharp
-                      .fluid.src
+                    data.wpPost.featuredImage.node.localFile?.childImageSharp
+                      ?.fluid.src
                   }
                   alt=""
                 />

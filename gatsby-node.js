@@ -71,11 +71,18 @@ exports.createPages = ({ actions, graphql }) => {
               id: page.id,
             },
           });
-        }
-        else if (page.template.templateName === 'Community Page') {
+        } else if (page.template.templateName === 'Community Page') {
           createPage({
             path: `/community`,
             component: path.resolve(`./src/templates/community.js`),
+            context: {
+              id: page.id,
+            },
+          });
+        } else if (page.template.templateName === 'Insight Page') {
+          createPage({
+            path: `/insight-categories`,
+            component: path.resolve(`./src/templates/insights.js`),
             context: {
               id: page.id,
             },

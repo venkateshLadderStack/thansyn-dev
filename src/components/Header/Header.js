@@ -94,7 +94,7 @@ const Header = () => {
                   {/* insights */}
                   <li className="dropdown drop_main">
                     <Link
-                      to="/insights"
+                      to="/insights-categories"
                       activeClassName="active"
                       className="dropdown-toggle"
                       data-toggle="dropdown"
@@ -120,7 +120,7 @@ const Header = () => {
                   {/* community */}
                   <li className="dropdown drop_main">
                     <Link
-                      to="/cxo-community"
+                      to="/community"
                       activeClassName="active"
                       className="dropdown-toggle"
                       data-toggle="dropdown"
@@ -150,7 +150,7 @@ const Header = () => {
                     </Link>
                   </li>
                   <li className="d-md-none">
-                    <a href="#">Let's Talk</a>
+                    <Link to="/connect-with-an-analyst">Let's Talk</Link>
                   </li>
                 </ul>
                 <div className="close-menu" onClick={handleHide}>

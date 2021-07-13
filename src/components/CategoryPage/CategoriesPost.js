@@ -23,10 +23,11 @@ const CategoriesPost = ({ data, forBadge }) => {
             <Link to={`/${item.slug}`}>
               <img
                 src={
-                  item?.featuredImage?.node?.localFile?.childImageSharp.fluid
-                    .src
+                  item.featuredImage.node.localFile?.childImageSharp?.fluid.src
                 }
                 alt=""
+                // item.author.node.posts.nodes[0].featuredImage.node?.localFile
+                //   .childImageSharp.fluid.src
               />
             </Link>
           </div>
