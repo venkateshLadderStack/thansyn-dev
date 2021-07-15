@@ -25,7 +25,7 @@ const BottomInsightPosts = ({ data }) => {
             >
               {console.log(item, 'from insights')}
               {console.log(
-                item.author.node.posts.nodes[0].featuredImage.node?.localFile
+                item.author.node.posts?.nodes[0]?.featuredImage?.node?.localFile
                   .childImageSharp.fluid.src
               )}
               <div className="what-new-item">
@@ -42,8 +42,8 @@ const BottomInsightPosts = ({ data }) => {
                   <div>
                     <img
                       src={
-                        item.author.node.posts.nodes[index].featuredImage.node
-                          ?.localFile.childImageSharp.fluid.src
+                        item.author.node.posts?.nodes[index]?.featuredImage
+                          ?.node?.localFile.childImageSharp.fluid.src
                       }
                       alt=""
                     />

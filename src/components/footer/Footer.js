@@ -103,12 +103,14 @@ const Footer = () => {
               <div className="footer-left pb-5">
                 <h4>THE ANALYST SYNDICATE</h4>
                 <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.{' '}
-                </p>
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                  We want to make your business better, faster, and stronger.
+                  You need to exploit every available opportunity to grow,
+                  adapt, and succeed. The Analyst Syndicate is an organization
+                  of more than 30 independent industry analysts, all with
+                  decades of experience at IDC, Gartner, or Forrester. We have a
+                  better business model: Working as a collective, we challenge,
+                  grow, strengthen each other’s practices and research. You get
+                  the benefits.
                 </p>
                 <div className="social-icon">
                   <ul>

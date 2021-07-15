@@ -15,7 +15,7 @@ const AuthorDescription = ({ data }) => {
                   objectFit: 'cover',
                 }}
                 className="px-4"
-                src={data.node.avatar?.url}
+                src={data.node?.avatar?.url}
                 alt=""
               />
               <div className="clint-ditiels pl-4">

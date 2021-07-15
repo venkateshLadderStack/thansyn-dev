@@ -46,7 +46,7 @@ const InsightsFeaturedSidePosts = () => {
 
   return (
     <div>
-      {data.allWpPost.edges.map((edge, index) => (
+      {data.allWpPost.edges?.map((edge, index) => (
         <>
           <div className="row" key={edge.node.id}>
             <div
@@ -64,21 +64,21 @@ const InsightsFeaturedSidePosts = () => {
               data-aos-duration="800"
             >
               <div className="insight-content-area">
-                <Link to={`/${edge.node.slug}/`}>
-                  <h4>{edge.node.title}</h4>
+                <Link to={`/${edge?.node?.slug}/`}>
+                  <h4>{edge?.node?.title}</h4>
                 </Link>
                 <div className="insight-item d-flex justify-content-between align-items-center">
                   <div className="insight-list-item d-flex align-items-center">
                     <img
                       className="mr-3"
                       width="60px"
-                      src={edge.node?.author.node?.avatar.url}
+                      src={edge.node?.author?.node?.avatar.url}
                       alt=""
                     />
                     <div className="insight-point px-2">
                       <span>by</span>
-                      <Link to={`/author/${edge.node.author.node.slug}`}>
-                        {edge.node.author.node?.name}
+                      <Link to={`/author/${edge?.node?.author?.node.slug}`}>
+                        {edge?.node?.author.node?.name}
                       </Link>
                     </div>
                   </div>

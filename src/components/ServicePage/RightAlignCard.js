@@ -35,9 +35,9 @@ const RightAlignCard = ({ item }) => {
                 style={{
                   background: `${item.buttonColor}`,
                 }}
-                to={`/${item.buttonText.url}`}
+                to={`/${item.buttonText?.url}`}
               >
-                {item.buttonText.title}
+                {item.buttonText?.title}
               </Link>
             </div>
           </div>
