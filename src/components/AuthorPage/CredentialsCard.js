@@ -5,10 +5,10 @@ const CredentialsCard = ({ credentials }) => {
   return (
     <div className="col-lg-6 col-md-12 mb-4 grid-item" data-aos="fade-up">
       <div className="about-future mt-0 mb-4">
-        <h4>{credentials[0]?.credentialsTitle}</h4>
+        <h4>{credentials && credentials[0]?.credentialsTitle}</h4>
         <p
           dangerouslySetInnerHTML={{
-            __html: credentials[0]?.credentialsContent,
+            __html: credentials && credentials[0]?.credentialsContent,
           }}
         />
       </div>

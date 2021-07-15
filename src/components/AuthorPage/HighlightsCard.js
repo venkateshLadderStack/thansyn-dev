@@ -10,12 +10,15 @@ const HighlightsCard = ({ highlights, Mask }) => {
         }}
       >
         <span className="shap-anylise">
-          <img src={highlights[0]?.bgImage?.sourceUrl || Mask} alt="" />
+          <img
+            src={(highlights && highlights[0]?.bgImage?.sourceUrl) || Mask}
+            alt=""
+          />
         </span>
         <h4>Highlights</h4>
         <p
           dangerouslySetInnerHTML={{
-            __html: highlights[0].highlights,
+            __html: highlights && highlights[0].highlights,
           }}
         />
       </div>

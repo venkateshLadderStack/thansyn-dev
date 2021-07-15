@@ -45,13 +45,13 @@ const AnalystDetailsCard = ({
       </ul>
       <p>{description}</p>
       <h4>Wrote insights on</h4>
-      {wroteInsights.map((data, index) => (
-        <p>{data.insightName}</p>
+      {wroteInsights?.map((data, index) => (
+        <p>{data?.insightName}</p>
       ))}
 
       <h4>Services</h4>
-      {services.map((data, index) => (
-        <p>{data.services}</p>
+      {services?.map((data, index) => (
+        <p>{data?.services}</p>
       ))}
 
       <div className="anylust-btn d-flex align-items-center justify-content-between mt_55">

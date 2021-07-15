@@ -4,6 +4,7 @@ import { Link } from 'gatsby';
 import { insights, services, community, events } from './headerData';
 import HeaderDropdown from './HeaderInsightsDropdown';
 import HeaderListDropdown from './HeaderListDropdown';
+import Logo from '../../assets/img/logoANA.png';
 
 const Header = () => {
   const [showSidemenu, setShowSideMenu] = useState(false);
@@ -56,7 +57,7 @@ const Header = () => {
             </div>
             <div className="col-lg-6 col-md-6 col-7">
               <div className="header-top-txt text-center">
-                <h4>THE ANALYST SYNDICATE</h4>
+                <img src={Logo} alt="logo" style={{ height: '60px' }} />
               </div>
             </div>
             <div className="col-2 toggle-position d-md-none">
@@ -100,7 +101,7 @@ const Header = () => {
                     >
                       Insights
                     </Link>
-                    <HeaderListDropdown menus={insights} />
+                    <HeaderDropdown />
                   </li>
 
                   {/* services */}

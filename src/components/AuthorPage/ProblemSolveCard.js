@@ -17,7 +17,7 @@ const ProblemSolveCard = ({ problems, Phone, Approved }) => {
             </div>
             <div className="anylus-problem-content">
               <h4>Problem {index + 1}</h4>
-              <p>{item.problemISolve}</p>
+              <p>{item?.problemISolve}</p>
             </div>
           </div>
         ))}
