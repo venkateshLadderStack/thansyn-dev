@@ -92,7 +92,6 @@ export const query = graphql`
               width
             }
             about_author_insights {
-              name
               displayPicture {
                 sourceUrl
               }

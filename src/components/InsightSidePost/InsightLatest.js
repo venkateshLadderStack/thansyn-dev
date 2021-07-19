@@ -27,7 +27,6 @@ const InsightsLatestSidePosts = () => {
                   displayPicture {
                     sourceUrl
                   }
-                  name
                 }
               }
             }
