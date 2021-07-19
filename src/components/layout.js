@@ -52,7 +52,7 @@ const Layout = ({ children }) => {
         }}
       >
         <ToastContainer
-          position="bottom-right"
+          position="top-center"
           autoClose={2500}
           hideProgressBar
           newestOnTop={false}

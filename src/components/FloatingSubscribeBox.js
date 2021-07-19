@@ -5,6 +5,7 @@ import CloseImg from '../assets/img/close.svg';
 import { CustomField } from './CustomFields/CustomFields';
 import addToMailchimp from 'gatsby-plugin-mailchimp';
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
 const FloatingSubscribeBox = ({ visibility, hidePopup }) => {
   const WEBSITE_URL = 'http://www.ladderstack.team/thansyn';
@@ -70,7 +71,7 @@ const FloatingSubscribeBox = ({ visibility, hidePopup }) => {
               actions.setSubmitting(false);
               setMessageSent(true);
               setIsSuccessMessage(true);
-              alert('submitted');
+              toast.info('Submitted');
             })
             .catch(error => {
               // actions taken when submission goes wrong
