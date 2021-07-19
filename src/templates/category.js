@@ -37,10 +37,20 @@ const InsightsListing = ({ data }) => {
       <div className="category-area pt_20 overflow-hidden">
         <div className="container">
           <div className="row">
-            <CategoriesPost
-              data={data.allWpPost.nodes}
-              forBadge={categoryData}
-            />
+            {data.allWpPost.nodes.length > 0 ? (
+              <CategoriesPost
+                data={data.allWpPost.nodes}
+                forBadge={categoryData}
+              />
+            ) : (
+              <div className="col-6">
+                <h2>
+                  Sorry, <br />
+                  Currently there are no posts for this category.
+                </h2>
+              </div>
+            )}
+
             <div className="col-xl-6 col-lg-6 col-md-12">
               <InsightTabs />
               <InsightTextCard />

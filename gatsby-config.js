@@ -29,7 +29,7 @@ module.exports = {
     {
       resolve: 'gatsby-source-wordpress',
       options: {
-        url: 'http://www.ladderstack.team/thansyn/graphql/',
+        url: 'http://13.232.141.125/graphql/',
         hostingWPCOM: false,
         protocol: 'http',
         useACF: true,

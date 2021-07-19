@@ -163,15 +163,15 @@ export const insights = [
 
 export const services = [
   {
-    path: '/service',
+    path: '/service#for-business',
     title: 'FOR BUSINESS & IT LEADERS',
   },
   {
-    path: '/service',
+    path: '/service#for-technology',
     title: 'FOR TECHNOLOGY & SERVICE PROVIDERS',
   },
   {
-    path: '/service',
+    path: '/service#for-analysts',
     title: 'FOR ANALYSTS',
   },
 ];
