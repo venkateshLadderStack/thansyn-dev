@@ -75,7 +75,7 @@ export const query = graphql`
       about_author_insights {
         aboutAuthor
         linkedIn
-        background
+
         credentials {
           credentialsContent
           credentialsTitle
@@ -100,8 +100,7 @@ export const query = graphql`
           nameOfInsight
           link1
         }
-        name
-        perspective
+
         problemsISolve {
           fieldGroupName
           problemISolve
@@ -111,7 +110,7 @@ export const query = graphql`
           services
         }
         twitterLink
-        whoAreWe
+
         wroteInsights {
           insightName
           fieldGroupName
@@ -124,7 +123,6 @@ export const query = graphql`
           node {
             name
             about_author_insights {
-              name
               displayPicture {
                 sourceUrl
               }

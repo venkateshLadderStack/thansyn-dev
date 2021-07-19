@@ -28,7 +28,7 @@ const AnalystListing = () => {
             displayPicture {
               sourceUrl
             }
-            name
+
             twitterLink
             wroteInsights {
               insightName

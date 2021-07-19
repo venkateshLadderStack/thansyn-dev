@@ -23,12 +23,9 @@ const InsightsFeaturedSidePosts = () => {
                   width
                 }
                 about_author_insights {
-                  name
-
                   displayPicture {
                     sourceUrl
                   }
-                  name
                 }
               }
             }
